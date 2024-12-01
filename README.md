@@ -15,7 +15,7 @@
 ## Технології
 
 - SwiftUI
-- UserDefaults
+- СoreData
 - iOS 16+
 
 ## Ліцензія
