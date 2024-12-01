@@ -7,18 +7,56 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E32A8CEE2CDC029D00B4E405 /* CustomerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A8CED2CDC029D00B4E405 /* CustomerCard.swift */; };
+		E330C31D2CD91B2C001CA7A5 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330C31C2CD91B2C001CA7A5 /* SearchBar.swift */; };
+		E330C3202CD929C9001CA7A5 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330C31F2CD929C9001CA7A5 /* ButtonStyle.swift */; };
+		E330C3222CD9329B001CA7A5 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330C3212CD9329B001CA7A5 /* BottomBar.swift */; };
+		E330C3242CD99693001CA7A5 /* Extension + View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330C3232CD99693001CA7A5 /* Extension + View.swift */; };
+		E376E97C2CFB88390065892D /* ReceiptDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */; };
+		E376E97F2CFBA92D0065892D /* DetailSalesReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */; };
+		E38A43822CDE436B007BEC2B /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A43812CDE436B007BEC2B /* ReceiptView.swift */; };
+		E38A43842CDE43BE007BEC2B /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A43832CDE43BE007BEC2B /* CarouselView.swift */; };
+		E3918EB02CDD411B00BCD8F2 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = E3918EAF2CDD411B00BCD8F2 /* SwiftUIIntrospect */; };
+		E396E9FA2CD651C100930B47 /* DailySalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396E9F92CD651C100930B47 /* DailySalesView.swift */; };
+		E399FFB82CE50E1500BE0F31 /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E399FFB72CE50E1500BE0F31 /* PDFGenerator.swift */; };
+		E399FFBA2CE50EA200BE0F31 /* ReceiptDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E399FFB92CE50EA200BE0F31 /* ReceiptDetailView.swift */; };
+		E3A2BD022CD5597700555B49 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A2BD012CD5597700555B49 /* CoreDataStack.swift */; };
+		E3A2BD042CD559AD00555B49 /* SalesDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A2BD032CD559AC00555B49 /* SalesDatabase.swift */; };
+		E3A2BD062CD5A2A000555B49 /* SalesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A2BD052CD5A2A000555B49 /* SalesViewModel.swift */; };
+		E3E089012CE38CC500DB0DF3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = E3E089002CE38CC500DB0DF3 /* PopupView */; };
+		E3E089032CE39A3400DB0DF3 /* DailySalesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */; };
 		E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02532CD5546300779E5B /* SalesReceiptApp.swift */; };
 		E3FE02562CD5546300779E5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02552CD5546300779E5B /* ContentView.swift */; };
 		E3FE02582CD5546900779E5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3FE02572CD5546900779E5B /* Assets.xcassets */; };
 		E3FE025B2CD5546900779E5B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3FE025A2CD5546900779E5B /* Preview Assets.xcassets */; };
+		E3FE02632CD554BA00779E5B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02622CD554BA00779E5B /* Item.swift */; };
+		E3FE02652CD554FE00779E5B /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02642CD554FE00779E5B /* Receipt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E32A8CED2CDC029D00B4E405 /* CustomerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCard.swift; sourceTree = "<group>"; };
+		E330C31C2CD91B2C001CA7A5 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		E330C31F2CD929C9001CA7A5 /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
+		E330C3212CD9329B001CA7A5 /* BottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
+		E330C3232CD99693001CA7A5 /* Extension + View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + View.swift"; sourceTree = "<group>"; };
+		E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailViewModel.swift; sourceTree = "<group>"; };
+		E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSalesReceipt.swift; sourceTree = "<group>"; };
+		E38A43812CDE436B007BEC2B /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
+		E38A43832CDE43BE007BEC2B /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
+		E396E9F92CD651C100930B47 /* DailySalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesView.swift; sourceTree = "<group>"; };
+		E399FFB72CE50E1500BE0F31 /* PDFGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
+		E399FFB92CE50EA200BE0F31 /* ReceiptDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailView.swift; sourceTree = "<group>"; };
+		E3A2BD012CD5597700555B49 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		E3A2BD032CD559AC00555B49 /* SalesDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesDatabase.swift; sourceTree = "<group>"; };
+		E3A2BD052CD5A2A000555B49 /* SalesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesViewModel.swift; sourceTree = "<group>"; };
+		E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesViewModel.swift; sourceTree = "<group>"; };
 		E3FE02502CD5546300779E5B /* SalesReceipt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesReceipt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FE02532CD5546300779E5B /* SalesReceiptApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesReceiptApp.swift; sourceTree = "<group>"; };
 		E3FE02552CD5546300779E5B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E3FE02572CD5546900779E5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E3FE025A2CD5546900779E5B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E3FE02622CD554BA00779E5B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		E3FE02642CD554FE00779E5B /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,12 +64,98 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3E089012CE38CC500DB0DF3 /* PopupView in Frameworks */,
+				E3918EB02CDD411B00BCD8F2 /* SwiftUIIntrospect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E330C31E2CD92981001CA7A5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E330C31F2CD929C9001CA7A5 /* ButtonStyle.swift */,
+				E330C3232CD99693001CA7A5 /* Extension + View.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E376E97D2CFBA9060065892D /* ReceiptDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				E399FFB92CE50EA200BE0F31 /* ReceiptDetailView.swift */,
+				E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */,
+			);
+			path = ReceiptDetailView;
+			sourceTree = "<group>";
+		};
+		E38A437E2CDE422B007BEC2B /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				E330C31C2CD91B2C001CA7A5 /* SearchBar.swift */,
+			);
+			path = Reusable;
+			sourceTree = "<group>";
+		};
+		E38A437F2CDE4256007BEC2B /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				E3FE02552CD5546300779E5B /* ContentView.swift */,
+				E38A43832CDE43BE007BEC2B /* CarouselView.swift */,
+				E38A43812CDE436B007BEC2B /* ReceiptView.swift */,
+				E330C3212CD9329B001CA7A5 /* BottomBar.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		E38A43802CDE42CF007BEC2B /* DailySalesView */ = {
+			isa = PBXGroup;
+			children = (
+				E396E9F92CD651C100930B47 /* DailySalesView.swift */,
+				E32A8CED2CDC029D00B4E405 /* CustomerCard.swift */,
+			);
+			path = DailySalesView;
+			sourceTree = "<group>";
+		};
+		E396E9F82CD6515400930B47 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E376E97D2CFBA9060065892D /* ReceiptDetailView */,
+				E38A43802CDE42CF007BEC2B /* DailySalesView */,
+				E38A437F2CDE4256007BEC2B /* MainView */,
+				E38A437E2CDE422B007BEC2B /* Reusable */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E396E9FB2CD6539D00930B47 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E3A2BD052CD5A2A000555B49 /* SalesViewModel.swift */,
+				E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */,
+				E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E399FFB62CE50DEF00BE0F31 /* PDFGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				E399FFB72CE50E1500BE0F31 /* PDFGenerator.swift */,
+			);
+			path = PDFGenerator;
+			sourceTree = "<group>";
+		};
+		E3A2BD002CD5594000555B49 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				E3A2BD012CD5597700555B49 /* CoreDataStack.swift */,
+				E3A2BD032CD559AC00555B49 /* SalesDatabase.swift */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
 		E3FE02472CD5546300779E5B = {
 			isa = PBXGroup;
 			children = (
@@ -51,8 +175,13 @@
 		E3FE02522CD5546300779E5B /* SalesReceipt */ = {
 			isa = PBXGroup;
 			children = (
+				E399FFB62CE50DEF00BE0F31 /* PDFGenerator */,
+				E330C31E2CD92981001CA7A5 /* Extensions */,
+				E396E9FB2CD6539D00930B47 /* ViewModels */,
+				E396E9F82CD6515400930B47 /* Views */,
+				E3A2BD002CD5594000555B49 /* DataBase */,
+				E3FE02612CD5549500779E5B /* Models */,
 				E3FE02532CD5546300779E5B /* SalesReceiptApp.swift */,
-				E3FE02552CD5546300779E5B /* ContentView.swift */,
 				E3FE02572CD5546900779E5B /* Assets.xcassets */,
 				E3FE02592CD5546900779E5B /* Preview Content */,
 			);
@@ -65,6 +194,15 @@
 				E3FE025A2CD5546900779E5B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E3FE02612CD5549500779E5B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E3FE02622CD554BA00779E5B /* Item.swift */,
+				E3FE02642CD554FE00779E5B /* Receipt.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +221,10 @@
 			dependencies = (
 			);
 			name = SalesReceipt;
+			packageProductDependencies = (
+				E3918EAF2CDD411B00BCD8F2 /* SwiftUIIntrospect */,
+				E3E089002CE38CC500DB0DF3 /* PopupView */,
+			);
 			productName = SalesReceipt;
 			productReference = E3FE02502CD5546300779E5B /* SalesReceipt.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +253,10 @@
 				Base,
 			);
 			mainGroup = E3FE02472CD5546300779E5B;
+			packageReferences = (
+				E3918EAE2CDD411B00BCD8F2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				E3E088FF2CE38CC500DB0DF3 /* XCRemoteSwiftPackageReference "PopupView" */,
+			);
 			productRefGroup = E3FE02512CD5546300779E5B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,7 +283,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E399FFB82CE50E1500BE0F31 /* PDFGenerator.swift in Sources */,
+				E3A2BD062CD5A2A000555B49 /* SalesViewModel.swift in Sources */,
+				E3A2BD022CD5597700555B49 /* CoreDataStack.swift in Sources */,
+				E3A2BD042CD559AD00555B49 /* SalesDatabase.swift in Sources */,
+				E330C3202CD929C9001CA7A5 /* ButtonStyle.swift in Sources */,
+				E32A8CEE2CDC029D00B4E405 /* CustomerCard.swift in Sources */,
+				E330C3242CD99693001CA7A5 /* Extension + View.swift in Sources */,
+				E3FE02652CD554FE00779E5B /* Receipt.swift in Sources */,
 				E3FE02562CD5546300779E5B /* ContentView.swift in Sources */,
+				E330C31D2CD91B2C001CA7A5 /* SearchBar.swift in Sources */,
+				E376E97C2CFB88390065892D /* ReceiptDetailViewModel.swift in Sources */,
+				E396E9FA2CD651C100930B47 /* DailySalesView.swift in Sources */,
+				E38A43842CDE43BE007BEC2B /* CarouselView.swift in Sources */,
+				E399FFBA2CE50EA200BE0F31 /* ReceiptDetailView.swift in Sources */,
+				E3E089032CE39A3400DB0DF3 /* DailySalesViewModel.swift in Sources */,
+				E330C3222CD9329B001CA7A5 /* BottomBar.swift in Sources */,
+				E38A43822CDE436B007BEC2B /* ReceiptView.swift in Sources */,
+				E3FE02632CD554BA00779E5B /* Item.swift in Sources */,
+				E376E97F2CFBA92D0065892D /* DetailSalesReceipt.swift in Sources */,
 				E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +503,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E3918EAE2CDD411B00BCD8F2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		E3E088FF2CE38CC500DB0DF3 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E3918EAF2CDD411B00BCD8F2 /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E3918EAE2CDD411B00BCD8F2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = SwiftUIIntrospect;
+		};
+		E3E089002CE38CC500DB0DF3 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E3E088FF2CE38CC500DB0DF3 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E3FE02482CD5546300779E5B /* Project object */;
 }
