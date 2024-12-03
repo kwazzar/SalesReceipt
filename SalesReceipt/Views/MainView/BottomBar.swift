@@ -13,7 +13,7 @@ struct BottomBar: View {
     var body: some View {
         VStack {
             HStack {
-                ForEach(TypeButton.allCases, id: \.self) { button in
+                ForEach(BottomBarButtonType.allCases, id: \.self) { button in
                     BottomBarButton(buttonType: button, viewModel: viewModel)
                         .frame(maxWidth: .infinity)
                         .layoutPriority(1)
@@ -46,7 +46,7 @@ struct BottomBar: View {
 
 //MARK: - BottomBarButton
 struct BottomBarButton: View {
-    var buttonType: TypeButton
+    var buttonType: BottomBarButtonType
     @StateObject var viewModel: SalesViewModel
 
     var body: some View {
@@ -68,8 +68,8 @@ struct BottomBarButton: View {
     }
 }
 
-//MARK: - TypeButton
-enum TypeButton: String, CaseIterable {
+//MARK: - BottomBarButtonType
+enum BottomBarButtonType: String, CaseIterable {
     case removeLast
     case clearAll
     case checkout

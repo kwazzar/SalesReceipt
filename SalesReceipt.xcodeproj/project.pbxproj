@@ -20,6 +20,11 @@
 		E396E9FA2CD651C100930B47 /* DailySalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396E9F92CD651C100930B47 /* DailySalesView.swift */; };
 		E399FFB82CE50E1500BE0F31 /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E399FFB72CE50E1500BE0F31 /* PDFGenerator.swift */; };
 		E399FFBA2CE50EA200BE0F31 /* ReceiptDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E399FFB92CE50EA200BE0F31 /* ReceiptDetailView.swift */; };
+		E3A11C972CFFB65900C0A55C /* CustomerNamePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C962CFFB65900C0A55C /* CustomerNamePopup.swift */; };
+		E3A11C992CFFB75B00C0A55C /* ReceiptList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C982CFFB75B00C0A55C /* ReceiptList.swift */; };
+		E3A11C9B2CFFB7D000C0A55C /* DailySalesBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C9A2CFFB7D000C0A55C /* DailySalesBar.swift */; };
+		E3A11C9D2CFFB80A00C0A55C /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C9C2CFFB80A00C0A55C /* CustomDatePickerView.swift */; };
+		E3A11C9F2CFFBF9C00C0A55C /* ReceiptDetailBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C9E2CFFBF9C00C0A55C /* ReceiptDetailBar.swift */; };
 		E3A2BD022CD5597700555B49 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A2BD012CD5597700555B49 /* CoreDataStack.swift */; };
 		E3A2BD042CD559AD00555B49 /* SalesDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A2BD032CD559AC00555B49 /* SalesDatabase.swift */; };
 		E3A2BD062CD5A2A000555B49 /* SalesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A2BD052CD5A2A000555B49 /* SalesViewModel.swift */; };
@@ -46,6 +51,11 @@
 		E396E9F92CD651C100930B47 /* DailySalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesView.swift; sourceTree = "<group>"; };
 		E399FFB72CE50E1500BE0F31 /* PDFGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		E399FFB92CE50EA200BE0F31 /* ReceiptDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailView.swift; sourceTree = "<group>"; };
+		E3A11C962CFFB65900C0A55C /* CustomerNamePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerNamePopup.swift; sourceTree = "<group>"; };
+		E3A11C982CFFB75B00C0A55C /* ReceiptList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptList.swift; sourceTree = "<group>"; };
+		E3A11C9A2CFFB7D000C0A55C /* DailySalesBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesBar.swift; sourceTree = "<group>"; };
+		E3A11C9C2CFFB80A00C0A55C /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
+		E3A11C9E2CFFBF9C00C0A55C /* ReceiptDetailBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailBar.swift; sourceTree = "<group>"; };
 		E3A2BD012CD5597700555B49 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E3A2BD032CD559AC00555B49 /* SalesDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesDatabase.swift; sourceTree = "<group>"; };
 		E3A2BD052CD5A2A000555B49 /* SalesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesViewModel.swift; sourceTree = "<group>"; };
@@ -86,6 +96,7 @@
 			children = (
 				E399FFB92CE50EA200BE0F31 /* ReceiptDetailView.swift */,
 				E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */,
+				E3A11C9E2CFFBF9C00C0A55C /* ReceiptDetailBar.swift */,
 			);
 			path = ReceiptDetailView;
 			sourceTree = "<group>";
@@ -105,6 +116,7 @@
 				E38A43832CDE43BE007BEC2B /* CarouselView.swift */,
 				E38A43812CDE436B007BEC2B /* ReceiptView.swift */,
 				E330C3212CD9329B001CA7A5 /* BottomBar.swift */,
+				E3A11C962CFFB65900C0A55C /* CustomerNamePopup.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -114,6 +126,9 @@
 			children = (
 				E396E9F92CD651C100930B47 /* DailySalesView.swift */,
 				E32A8CED2CDC029D00B4E405 /* CustomerCard.swift */,
+				E3A11C982CFFB75B00C0A55C /* ReceiptList.swift */,
+				E3A11C9A2CFFB7D000C0A55C /* DailySalesBar.swift */,
+				E3A11C9C2CFFB80A00C0A55C /* CustomDatePickerView.swift */,
 			);
 			path = DailySalesView;
 			sourceTree = "<group>";
@@ -286,6 +301,7 @@
 				E399FFB82CE50E1500BE0F31 /* PDFGenerator.swift in Sources */,
 				E3A2BD062CD5A2A000555B49 /* SalesViewModel.swift in Sources */,
 				E3A2BD022CD5597700555B49 /* CoreDataStack.swift in Sources */,
+				E3A11C9B2CFFB7D000C0A55C /* DailySalesBar.swift in Sources */,
 				E3A2BD042CD559AD00555B49 /* SalesDatabase.swift in Sources */,
 				E330C3202CD929C9001CA7A5 /* ButtonStyle.swift in Sources */,
 				E32A8CEE2CDC029D00B4E405 /* CustomerCard.swift in Sources */,
@@ -296,13 +312,17 @@
 				E376E97C2CFB88390065892D /* ReceiptDetailViewModel.swift in Sources */,
 				E396E9FA2CD651C100930B47 /* DailySalesView.swift in Sources */,
 				E38A43842CDE43BE007BEC2B /* CarouselView.swift in Sources */,
+				E3A11C9F2CFFBF9C00C0A55C /* ReceiptDetailBar.swift in Sources */,
 				E399FFBA2CE50EA200BE0F31 /* ReceiptDetailView.swift in Sources */,
 				E3E089032CE39A3400DB0DF3 /* DailySalesViewModel.swift in Sources */,
 				E330C3222CD9329B001CA7A5 /* BottomBar.swift in Sources */,
+				E3A11C992CFFB75B00C0A55C /* ReceiptList.swift in Sources */,
 				E38A43822CDE436B007BEC2B /* ReceiptView.swift in Sources */,
 				E3FE02632CD554BA00779E5B /* Item.swift in Sources */,
 				E376E97F2CFBA92D0065892D /* DetailSalesReceipt.swift in Sources */,
+				E3A11C972CFFB65900C0A55C /* CustomerNamePopup.swift in Sources */,
 				E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */,
+				E3A11C9D2CFFB80A00C0A55C /* CustomDatePickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

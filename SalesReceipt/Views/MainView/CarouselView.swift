@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-#warning("добавление товаров")
+#warning("додавання товарів")
 struct CarouselView: View {
     @StateObject var viewModel: SalesViewModel
     
@@ -28,7 +28,7 @@ struct CarouselView: View {
 }
 
 //MARK: - ItemButton
-#warning("оформить красиво айтем баттон")
+#warning("красиво айтем баттон зробити")
 struct ItemButton: View {
     let item: Item
     let action: () -> Void

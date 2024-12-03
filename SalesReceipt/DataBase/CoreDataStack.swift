@@ -27,7 +27,6 @@ final class ReceiptEntity: NSManagedObject {
     @NSManaged var pdfPath: String?
 }
 
-#warning("интегрувати гибридку файлову систему для сбереження pdf")
 // MARK: - Core Data Setup
 final class CoreDataStack {
     static let shared = CoreDataStack()

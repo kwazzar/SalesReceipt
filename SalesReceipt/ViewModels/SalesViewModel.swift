@@ -17,6 +17,7 @@ final class SalesViewModel: ObservableObject {
     @Published private(set) var currentItems: [Item] = []
     @Published private(set) var total: Price = Price(0)
     @Published var customerName: CustomerName = CustomerName("")
+    @Published var isPopupVisible = false
     
     @Published private(set) var filteredItems: [Item] = []
     @Published private(set) var availableItems: [Item] = [
@@ -31,7 +32,6 @@ final class SalesViewModel: ObservableObject {
     
     @Published var searchText: SearchQuery = SearchQuery(text: "")
     @Published var isSearching = false
-    
     @Published var showingDailySales = false
     
     init() {
@@ -60,22 +60,38 @@ final class SalesViewModel: ObservableObject {
         customerName = CustomerName("")
         calculateTotal()
     }
-    
+
     func checkout() {
-        for item in currentItems {
-            print("Item: \(item.description), Price: \(item.price.value)")
-        }
-        
-        // Create the receipt
+        isPopupVisible = true // Trigger popup
+    }
+
+    func finalizeCheckout(with name: String) {
+        customerName = CustomerName(name)
         let receipt = Receipt(
             id: UUID(),
             date: Date(),
-            customerName: CustomerName(customerName.value),
+            customerName: customerName,
             items: currentItems
         )
         database.saveReceipt(receipt)
         clearAll()
     }
+    
+//    func checkout() {
+//        for item in currentItems {
+//            print("Item: \(item.description), Price: \(item.price.value)")
+//        }
+//
+//        // Create the receipt
+//        let receipt = Receipt(
+//            id: UUID(),
+//            date: Date(),
+//            customerName: CustomerName(customerName.value),
+//            items: currentItems
+//        )
+//        database.saveReceipt(receipt)
+//        clearAll()
+//    }
     
     private func calculateTotal() {
         total = currentItems.reduce(Price(0)) { $0 + $1.price }
