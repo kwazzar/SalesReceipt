@@ -13,10 +13,11 @@ struct SearchQuery {
 }
 
 final class SalesViewModel: ObservableObject {
+    let database = SalesDatabase.shared
     @Published private(set) var currentItems: [Item] = []
     @Published private(set) var total: Price = Price(0)
     @Published var customerName: CustomerName = CustomerName("")
-
+    
     @Published private(set) var filteredItems: [Item] = []
     @Published private(set) var availableItems: [Item] = [
         Item(id: 1, description: "T-Shirt", price: Price(999.0), image: ImageItem("tshirt")),
@@ -27,52 +28,55 @@ final class SalesViewModel: ObservableObject {
         Item(id: 6, description: "Backpack", price: Price(1999.0), image: ImageItem("backpack")),
         Item(id: 7, description: "Sunglasses", price: Price(699.0), image: ImageItem("sunglasses"))
     ]
-
+    
     @Published var searchText: SearchQuery = SearchQuery(text: "")
     @Published var isSearching = false
-
+    
     @Published var showingDailySales = false
-
+    
     init() {
-//        DispatchQueue.main.async { [unowned self] in
-            filteredItems = availableItems
-//        }
+        filteredItems = availableItems
     }
-
+    
     func updateFilteredItems(for query: SearchQuery) {
         filteredItems = query.text.isEmpty
-            ? availableItems
-            : availableItems.filter { $0.description.lowercased().contains(query.text.lowercased()) }
+        ? availableItems
+        : availableItems.filter { $0.description.lowercased().contains(query.text.lowercased()) }
     }
-
+    
     func addItem(_ item: Item) {
         currentItems.append(item)
         calculateTotal()
     }
-
+    
     func removeLastItem() {
         guard !currentItems.isEmpty else { return }
         currentItems.removeLast()
         calculateTotal()
     }
-
+    
     func clearAll() {
         currentItems.removeAll()
         customerName = CustomerName("")
         calculateTotal()
     }
-
+    
     func checkout() {
+        for item in currentItems {
+            print("Item: \(item.description), Price: \(item.price.value)")
+        }
+        
+        // Create the receipt
         let receipt = Receipt(
             id: UUID(),
             date: Date(),
             customerName: CustomerName(customerName.value),
             items: currentItems
         )
-        SalesDatabase.shared.saveReceipt(receipt)
+        database.saveReceipt(receipt)
         clearAll()
     }
-
+    
     private func calculateTotal() {
         total = currentItems.reduce(Price(0)) { $0 + $1.price }
     }

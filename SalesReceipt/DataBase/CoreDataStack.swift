@@ -24,6 +24,7 @@ final class ReceiptEntity: NSManagedObject {
     @NSManaged var date: Date?
     @NSManaged var customerName: String?
     @NSManaged var items: NSSet? // Relationship to multiple ItemEntity objects
+    @NSManaged var pdfPath: String?
 }
 
 #warning("интегрувати гибридку файлову систему для сбереження pdf")
@@ -80,9 +81,14 @@ final class CoreDataStack {
         receiptCustomerName.attributeType = .stringAttributeType
         receiptCustomerName.isOptional = true
 
+         let receiptPdfPath = NSAttributeDescription()
+        receiptPdfPath.name = "pdfPath"
+        receiptPdfPath.attributeType = .stringAttributeType
+        receiptPdfPath.isOptional = true
+
         // Assign attributes to entities
         itemEntity.properties = [itemId, itemDesc, itemPrice, itemImage]
-        receiptEntity.properties = [receiptId, receiptDate, receiptCustomerName]
+        receiptEntity.properties = [receiptId, receiptDate, receiptCustomerName, receiptPdfPath]
 
         // Define relationships
         let itemsRelation = NSRelationshipDescription()
@@ -113,6 +119,14 @@ final class CoreDataStack {
 
         // Инициализируем NSPersistentContainer с использованием созданной модели
         let container = NSPersistentContainer(name: "SalesDatabaseModel", managedObjectModel: model)
+        let description = container.persistentStoreDescriptions.first
+        description?.shouldMigrateStoreAutomatically = true
+        description?.shouldInferMappingModelAutomatically = true
+        container.loadPersistentStores { _, error in
+            if let error = error {
+                fatalError("Failed to load Core Data stack: \(error)")
+            }
+        }
         // Указываем путь для SQLite файла в каталоге документов приложения
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
                fatalError("Failed to locate document directory.")

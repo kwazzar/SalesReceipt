@@ -10,46 +10,48 @@ import SwiftUI
 struct ReceiptDetailView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: ReceiptDetailViewModel
-    
+    @State private var isShareButtonVisible = false
+
     var body: some View {
         VStack {
             DetailBar(title: "ReceiptDetail", isPDFCreated: viewModel.pdfUrlReceipt != nil) {
                 viewModel.generatePDF()
             }
-        actionBack: {
-            presentationMode.wrappedValue.dismiss()
-        }
-            // Анимация кнопки Share PDF
+            actionBack: {
+                presentationMode.wrappedValue.dismiss()
+            }
+
             if let pdfUrlReceipt = viewModel.pdfUrlReceipt {
-                withAnimation(.easeIn(duration: 0.5)) {  // Добавляем анимацию с плавным появлением
+                withAnimation(.easeInOut(duration: 0.5)) {
                     sharePdfButton(pdfUrlReceipt)
                 }
             } else {
                 Text("PDF not created yet")
                     .foregroundColor(.gray)
             }
+
             DetailSalesReceipt(viewModel.receipt)
             Spacer()
         }
-        .onChange(of: viewModel.pdfUrlReceipt) { _ in
-            // Когда PDF создан, меняем состояние isPdfCreated для анимации
+        .onChange(of: viewModel.pdfUrlReceipt) { newValue in
             withAnimation {
-                viewModel.isPdfCreated = viewModel.pdfUrlReceipt != nil
+                isShareButtonVisible = newValue != nil
+                viewModel.isPdfCreated = newValue != nil
+                print("🔄 PDF URL Changed: \(newValue != nil)")
+            }
+        }
+        .onAppear {
+            print("📱 View Appeared for Receipt ID: \(viewModel.receipt.id)")
+            let pdfExists = viewModel.checkPDFExists()
+            print("🕵️ PDF Exists on Appear: \(pdfExists)")
+            isShareButtonVisible = pdfExists
+
+            if pdfExists {
+                viewModel.generatePDF()
             }
         }
     }
-    
-    //    private func sharePdfLogic() {
-    //        if let pdfUrlReceipt = viewModel.pdfUrlReceipt {
-    //            withAnimation(.easeIn(duration: 0.5)) {  // Добавляем анимацию с плавным появлением
-    //                sharePdfButton(pdfUrlReceipt)
-    //            }
-    //        } else {
-    //            Text("PDF not created yet")
-    //                .foregroundColor(.gray)
-    //        }
-    //    }
-    
+
     private func sharePdfButton(_ url: PdfUrlReceipt) -> some View {
         Button(action: {
             viewModel.sharePDF(pdfUrl: url)
@@ -63,8 +65,8 @@ struct ReceiptDetailView: View {
                 .cornerRadius(8)
                 .innerStroke(cornerRadius: 8, lineWidth: 2, color: .black, inset: 4)
                 .padding(.horizontal, 20)
-                .opacity(viewModel.isPdfCreated ? 1 : 0)  // Применяем прозрачность для анимации
-                .scaleEffect(viewModel.isPdfCreated ? 1 : 0.8)  // Применяем масштаб для плавного увеличения
+                .opacity(isShareButtonVisible ? 1 : 0)
+                .scaleEffect(isShareButtonVisible ? 1 : 0.8)
         }
         .buttonStyle(BounceButtonStyle())
     }

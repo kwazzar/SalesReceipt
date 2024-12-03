@@ -157,6 +157,7 @@ struct ReceiptList: View {
     var body: some View {
         ScrollView {
             ForEach(receipts, id: \.id) { receipt in
+            
                 CustomerCard(id: receipt.id,
                              name: receipt.customerName.value,
                              date: receipt.date,

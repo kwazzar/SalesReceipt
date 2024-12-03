@@ -19,23 +19,24 @@ final class DailySalesViewModel: ObservableObject {
     var filteredReceipts: [Receipt] {
         let allReceipts = database.getAllReceipts()
 
-        // Если фильтры не применены, возвращаем все чеки
         if !areFiltersApplied {
             return allReceipts
         }
 
-        // Применяем фильтрацию по дате
         let receiptsWithFilters = allReceipts.filter { receipt in
-            return receipt.date >= startDate && receipt.date <= endDate
+            let isDateMatch = receipt.date >= startDate && receipt.date <= endDate
+            print("Date Filter: \(receipt.date) -> \(isDateMatch)")
+            return isDateMatch
         }
 
-        // Применяем фильтрацию по поисковому тексту
         if searchtext.isEmpty {
             return receiptsWithFilters
         } else {
             return receiptsWithFilters.filter { receipt in
-                let customerName = receipt.customerName.value 
-                return customerName.lowercased().contains(searchtext.lowercased())
+                let customerName = receipt.customerName.value
+                let isTextMatch = customerName.lowercased().contains(searchtext.lowercased())
+                print("Search Filter: \(customerName) -> \(isTextMatch)")
+                return isTextMatch
             }
         }
     }

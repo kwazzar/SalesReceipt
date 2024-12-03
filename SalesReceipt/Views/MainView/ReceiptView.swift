@@ -18,7 +18,7 @@ struct ReceiptView: View {
                 .padding(.top, 10)
             Divider()
 
-            List(items, id: \.id) { item in
+            List(items, id: \.self) { item in
                 HStack {
                     Text(item.description)
                         .font(.body)

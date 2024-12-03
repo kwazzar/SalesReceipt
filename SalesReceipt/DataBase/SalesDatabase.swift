@@ -12,6 +12,7 @@ final class SalesDatabase {
     private let context = CoreDataStack.shared.context
     
     func saveReceipt(_ receipt: Receipt) {
+        print("Saving receipt: \(receipt.id), \(receipt.customerName.value), \(receipt.date)")
         let receiptEntity = ReceiptEntity(context: context)
         receiptEntity.id = receipt.id
         receiptEntity.date = receipt.date
@@ -27,10 +28,9 @@ final class SalesDatabase {
         }
         CoreDataStack.shared.saveContext()
     }
-    
+
     func getAllReceipts() -> [Receipt] {
-        let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity") // Создаем запрос с типом ReceiptEntity
-        
+        let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
         do {
             let results = try context.fetch(request)
             return results.map { entity in
@@ -42,7 +42,7 @@ final class SalesDatabase {
                         image: ImageItem(itemEntity.image)
                     )
                 } ?? []
-                
+
                 return Receipt(
                     id: entity.id ?? UUID(),
                     date: entity.date ?? Date(),
@@ -55,7 +55,7 @@ final class SalesDatabase {
             return []
         }
     }
-    
+
     func clearAllReceipts() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ReceiptEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
@@ -67,4 +67,49 @@ final class SalesDatabase {
             print("Failed to clear receipts: \(error)")
         }
     }
+
+    //MARK: - hybrid
+    func updatePdfPath(for receiptId: UUID, pdfPath: String) throws {
+        let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
+        request.predicate = NSPredicate(format: "id == %@", receiptId as CVarArg)
+
+        do {
+            if let entity = try context.fetch(request).first {
+                entity.pdfPath = pdfPath
+                CoreDataStack.shared.saveContext()
+            } else {
+                throw PdfError.missingURL
+            }
+        } catch {
+            throw PdfError.notCreated
+        }
+    }
 }
+
+//MARK: - extension
+//extension SalesDatabase {
+//    private func mapItems(from entity: ReceiptEntity) -> [Item] {
+//        (entity.items as? Set<ItemEntity>)?.compactMap { itemEntity in
+//            Item(
+//                id: Int(itemEntity.id),
+//                description: itemEntity.desc ?? "",
+//                price: Price(itemEntity.price),
+//                image: ImageItem(itemEntity.image)
+//            )
+//        } ?? []
+//    }
+//
+//    private func mapReceipt(from entity: ReceiptEntity) -> Receipt? {
+//        guard let pdfPathValue = entity.pdfPath else {
+////            print("Warning: Missing PDF path for receipt \(entity.id ?? UUID()).")
+//            return nil
+//        }
+//        return Receipt(
+//            id: entity.id ?? UUID(),
+//            date: entity.date ?? Date(),
+//            customerName: CustomerName(entity.customerName),
+//            items: mapItems(from: entity),
+//            pdfPath: PdfPath(pdfPathValue)
+//        )
+//    }
+//}

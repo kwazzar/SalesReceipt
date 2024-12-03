@@ -42,4 +42,3 @@ struct ImageItem: ItemProtocol {
         self.value = value
     }
 }
-

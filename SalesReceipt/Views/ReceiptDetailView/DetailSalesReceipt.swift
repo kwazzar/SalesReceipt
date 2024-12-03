@@ -39,7 +39,7 @@ struct DetailSalesReceipt: View {
             .padding(.vertical, 5)
             Divider()
             // Список покупок
-            ForEach(receipt.items, id: \.id) { item in
+            ForEach(receipt.items, id: \.self) { item in
                 HStack {
                     Text(item.description)
                     Spacer()
