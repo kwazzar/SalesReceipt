@@ -8,36 +8,36 @@
 import Foundation
 
 final class DailySalesViewModel: ObservableObject {
-    let database = SalesDatabase.shared
     @Published var startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
     @Published var endDate = Date()
     @Published var searchtext = ""
     @Published var showDeletePopup = false
     @Published var areFiltersApplied = false
     @Published var selectedReceipt: Receipt?
-
+    @Published var isShowingReceiptDetail = false
+    
+    private let database: SalesDatabaseProtocol
+    
+    init(database: SalesDatabaseProtocol) {
+        self.database = database
+    }
+    
     var filteredReceipts: [Receipt] {
-        let allReceipts = database.getAllReceipts()
-
-        if !areFiltersApplied {
+        let allReceipts = database.fetchAllReceipts()
+        
+        guard areFiltersApplied else {
             return allReceipts
         }
-
-        let receiptsWithFilters = allReceipts.filter { receipt in
-            let isDateMatch = receipt.date >= startDate && receipt.date <= endDate
-            print("Date Filter: \(receipt.date) -> \(isDateMatch)")
-            return isDateMatch
-        }
-
-        if searchtext.isEmpty {
-            return receiptsWithFilters
-        } else {
-            return receiptsWithFilters.filter { receipt in
-                let customerName = receipt.customerName.value
-                let isTextMatch = customerName.lowercased().contains(searchtext.lowercased())
-                print("Search Filter: \(customerName) -> \(isTextMatch)")
-                return isTextMatch
-            }
-        }
+        
+        return Receipt.filter(
+            to: allReceipts,
+            startDate: startDate,
+            endDate: endDate,
+            searchText: searchtext
+        )
+    }
+    
+    func clearAllReceipts() {
+        database.clearAllReceipts()
     }
 }

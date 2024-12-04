@@ -20,15 +20,15 @@ struct BottomBar: View {
                 }
                 .padding(.horizontal, 2)
             }
-            salesForDayButton()
+            salesButton()
         }
     }
 
-    private func salesForDayButton() -> some View {
+    private func salesButton() -> some View {
         Button(action: {
             viewModel.showingDailySales.toggle()
         }) {
-            Text("Sales for Day")
+            Text("Daily Sales")
                 .frame(maxWidth: .infinity)
                 .font(.custom("New York", size: 20))
                 .foregroundColor(.black)
@@ -38,7 +38,7 @@ struct BottomBar: View {
                 .innerStroke(cornerRadius: 8, lineWidth: 2, color: .black, inset: 4)
                 .padding(.horizontal, 20)
                 .fullScreenCover(isPresented: $viewModel.showingDailySales) {
-                    DailySalesView()
+                    DailySalesView(viewModel: DailySalesViewModel(database: SalesDatabase.shared))
                 }
         }.buttonStyle(BounceButtonStyle())
     }
@@ -56,10 +56,10 @@ struct BottomBarButton: View {
             Text(buttonType.title)
                 .font(.custom("New York", size: 20))
                 .frame(height: 48)
-                .padding(10) // Відступ для тексту, щоб обведення було всередині
+                .padding(10)
                 .background(Color(.systemGray6))
                 .foregroundColor(.black)
-                .cornerRadius(12) // Збільшений радіус фону для кнопки
+                .cornerRadius(12)
                 .innerStroke(cornerRadius: 8, lineWidth: 2, color: .black, inset: 4)
                 .opacity(viewModel.currentItems.isEmpty && buttonType == .checkout ? 0.5 : 1.0)
         }

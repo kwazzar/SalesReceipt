@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-#warning("додавання товарів")
+
 struct CarouselView: View {
     @StateObject var viewModel: SalesViewModel
     
@@ -28,7 +28,6 @@ struct CarouselView: View {
 }
 
 //MARK: - ItemButton
-#warning("красиво айтем баттон зробити")
 struct ItemButton: View {
     let item: Item
     let action: () -> Void
@@ -47,7 +46,7 @@ struct ItemButton: View {
             }
         }
         .padding()
-        .innerStroke(cornerRadius: 8, lineWidth: 2, color: .black, inset: 4)
+        .innerStroke()
         .background(Color.blue.opacity(0.1))
         .cornerRadius(10)
     }

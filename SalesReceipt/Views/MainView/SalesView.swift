@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-#warning("Добавить статистику продаж")
-#warning("добавить моки в превью")
+#warning("Додати статистику продажів")
 
-struct ContentView: View {
-    @StateObject private var viewModel = SalesViewModel()
+struct SalesView: View {
+    @StateObject private var viewModel = SalesViewModel(
+        ReceiptManager(database: SalesDatabase.shared))
 
     var body: some View {
         ZStack {
@@ -45,6 +45,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        SalesView()
     }
 }

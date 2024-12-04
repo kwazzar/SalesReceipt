@@ -7,7 +7,14 @@
 
 import CoreData
 
-final class SalesDatabase {
+protocol SalesDatabaseProtocol {
+    func saveReceipt(_ receipt: Receipt)
+    func fetchAllReceipts() -> [Receipt]
+    func clearAllReceipts()
+    func updatePdfPath(for receiptId: UUID, pdfPath: String) throws
+}
+
+final class SalesDatabase: SalesDatabaseProtocol {
     static let shared = SalesDatabase()
     private let context = CoreDataStack.shared.context
     
@@ -29,26 +36,12 @@ final class SalesDatabase {
         CoreDataStack.shared.saveContext()
     }
 
-    func getAllReceipts() -> [Receipt] {
+    func fetchAllReceipts() -> [Receipt] {
         let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
         do {
             let results = try context.fetch(request)
             return results.map { entity in
-                let items: [Item] = (entity.items as? Set<ItemEntity>)?.compactMap { itemEntity in
-                    Item(
-                        id: Int(itemEntity.id),
-                        description: itemEntity.desc ?? "",
-                        price: Price(itemEntity.price),
-                        image: ImageItem(itemEntity.image)
-                    )
-                } ?? []
-
-                return Receipt(
-                    id: entity.id ?? UUID(),
-                    date: entity.date ?? Date(),
-                    customerName: CustomerName(entity.customerName),
-                    items: items
-                )
+                mapReceipt(from: entity)
             }
         } catch {
             print("Failed to fetch receipts: \(error)")
@@ -68,7 +61,6 @@ final class SalesDatabase {
         }
     }
 
-    //MARK: - hybrid
     func updatePdfPath(for receiptId: UUID, pdfPath: String) throws {
         let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
         request.predicate = NSPredicate(format: "id == %@", receiptId as CVarArg)
@@ -87,29 +79,24 @@ final class SalesDatabase {
 }
 
 //MARK: - extension
-//extension SalesDatabase {
-//    private func mapItems(from entity: ReceiptEntity) -> [Item] {
-//        (entity.items as? Set<ItemEntity>)?.compactMap { itemEntity in
-//            Item(
-//                id: Int(itemEntity.id),
-//                description: itemEntity.desc ?? "",
-//                price: Price(itemEntity.price),
-//                image: ImageItem(itemEntity.image)
-//            )
-//        } ?? []
-//    }
-//
-//    private func mapReceipt(from entity: ReceiptEntity) -> Receipt? {
-//        guard let pdfPathValue = entity.pdfPath else {
-////            print("Warning: Missing PDF path for receipt \(entity.id ?? UUID()).")
-//            return nil
-//        }
-//        return Receipt(
-//            id: entity.id ?? UUID(),
-//            date: entity.date ?? Date(),
-//            customerName: CustomerName(entity.customerName),
-//            items: mapItems(from: entity),
-//            pdfPath: PdfPath(pdfPathValue)
-//        )
-//    }
-//}
+extension SalesDatabase {
+    private func mapItems(from entity: ReceiptEntity) -> [Item] {
+        (entity.items as? Set<ItemEntity>)?.compactMap { itemEntity in
+            Item(
+                id: Int(itemEntity.id),
+                description: itemEntity.desc ?? "",
+                price: Price(itemEntity.price),
+                image: ImageItem(itemEntity.image)
+            )
+        } ?? []
+    }
+
+    private func mapReceipt(from entity: ReceiptEntity) -> Receipt {
+        return Receipt(
+            id: entity.id ?? UUID(),
+            date: entity.date ?? Date(),
+            customerName: CustomerName(entity.customerName),
+            items: mapItems(from: entity)
+        )
+    }
+}

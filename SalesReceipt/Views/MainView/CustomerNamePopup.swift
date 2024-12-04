@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#warning("якщо швидко натискати через кнопки попапа робиться два чека")
 struct CustomerNamePopup: View {
     @StateObject var viewModel: SalesViewModel
     @State private var inputName: String = ""
@@ -61,6 +62,6 @@ struct CustomerNamePopup: View {
 
 struct CustomerNamePopup_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerNamePopup(viewModel: SalesViewModel())
+        CustomerNamePopup(viewModel: SalesViewModel(ReceiptManager(database: SalesDatabase.shared)))
     }
 }

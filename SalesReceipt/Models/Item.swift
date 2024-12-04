@@ -17,6 +17,12 @@ struct Item: Identifiable, Hashable {
     let description: String
     let price: Price
     var image: ImageItem
+
+    static func filter(items: [Item], query: SearchQuery) -> [Item] {
+           return query.text.isEmpty
+               ? items
+               : items.filter { $0.description.lowercased().contains(query.text.lowercased()) }
+       }
 }
 
 struct Price: ItemProtocol {

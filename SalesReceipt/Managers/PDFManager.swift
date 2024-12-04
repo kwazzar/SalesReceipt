@@ -1,20 +1,36 @@
 //
-//  PDFGenerator.swift
+//  PDFManager.swift
 //  SalesReceipt
 //
-//  Created by Quasar on 13.11.2024.
+//  Created by Quasar on 04.12.2024.
 //
 
-import SwiftUI
-import PDFKit
+import Foundation
+import UIKit
 
-protocol PDFGeneratorApi {
-    func drawReceiptContent(_ receipt: Receipt, in context: CGContext)
+protocol PDFAPI {
+    func generatePDF(for receipt: Receipt) -> URL?
+    func checkPDFExists(for receipt: Receipt) -> URL?
     func savePDFToFileSystem(receipt: Receipt) -> URL?
 }
 
-struct PDFGenerator: PDFGeneratorApi {
+final class PDFManager: PDFAPI {
+    func generatePDF(for receipt: Receipt) -> URL? {
+        // Генерація PDF
+        let pdfPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            .first?.appendingPathComponent("Receipts/Receipt_\(receipt.id).pdf")
+        // Логіка збереження PDF...
+        return pdfPath
+    }
 
+    func checkPDFExists(for receipt: Receipt) -> URL? {
+        let pdfPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            .first?.appendingPathComponent("Receipts/Receipt_\(receipt.id).pdf")
+        return FileManager.default.fileExists(atPath: pdfPath?.path ?? "") ? pdfPath : nil
+    }
+}
+
+extension PDFManager {
     func savePDFToFileSystem(receipt: Receipt) -> URL? {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             print("Failed to locate document directory.")
@@ -37,7 +53,7 @@ struct PDFGenerator: PDFGeneratorApi {
         }
     }
 
-    func drawReceiptContent(_ receipt: Receipt, in context: CGContext) {
+    private func drawReceiptContent(_ receipt: Receipt, in context: CGContext) {
         let titleAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.boldSystemFont(ofSize: 24),
             .foregroundColor: UIColor.black

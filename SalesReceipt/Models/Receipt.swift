@@ -16,6 +16,25 @@ struct Receipt: Identifiable {
     var total: Double {
         items.reduce(0) { $0 + $1.price.value }
     }
+
+    static func filter(
+        to receipts: [Receipt],
+        startDate: Date,
+        endDate: Date,
+        searchText: String
+    ) -> [Receipt] {
+        let dateFiltered = receipts.filter { receipt in
+            receipt.date >= startDate && receipt.date <= endDate
+        }
+
+        guard !searchText.isEmpty else {
+            return dateFiltered
+        }
+
+        return dateFiltered.filter { receipt in
+            receipt.customerName.value.lowercased().contains(searchText.lowercased())
+        }
+    }
 }
 
 struct CustomerName: Hashable {

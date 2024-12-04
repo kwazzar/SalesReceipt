@@ -8,19 +8,17 @@
 import SwiftUI
 import SwiftUIIntrospect
 import PopupView
-#warning("Реализовать поиск по имени")
 
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var viewModel = DailySalesViewModel()
-    @State private var isShowingReceiptDetail = false
+    @StateObject var viewModel: DailySalesViewModel
     
     var body: some View {
         VStack {
             DailySalesBar(title: "Daily Sales") {
                 presentationMode.wrappedValue.dismiss()
             } actionFilter: {
-                withAnimation { // Оборачиваем в анимацию
+                withAnimation {
                     viewModel.areFiltersApplied.toggle()
                 }
             } actionDelete:  {
@@ -30,7 +28,6 @@ struct DailySalesView: View {
             if viewModel.areFiltersApplied {
                 filtersSearch()
                     .onDisappear {
-                        // Устанавливаем флаг, если фильтры применены
                         if !viewModel.searchtext.isEmpty || viewModel.startDate != Date() || viewModel.endDate != Date() {
                             viewModel.areFiltersApplied = false
                         }
@@ -38,7 +35,7 @@ struct DailySalesView: View {
             }
             ReceiptList(viewModel.filteredReceipts,  onReceiptTap: { receipt in
                 viewModel.selectedReceipt = receipt
-                isShowingReceiptDetail = true
+                viewModel.isShowingReceiptDetail = true
             })
         }
         .popup(isPresented: $viewModel.showDeletePopup) {
@@ -51,13 +48,17 @@ struct DailySalesView: View {
                 .closeOnTap(false)
                 .backgroundColor(.black.opacity(0.5))
         }
-        .fullScreenCover(isPresented: $isShowingReceiptDetail) {
+        .fullScreenCover(isPresented: Binding(
+            get: { viewModel.isShowingReceiptDetail && viewModel.selectedReceipt != nil },
+            set: { viewModel.isShowingReceiptDetail = $0 }
+        )) {
             ReceiptDetailView(viewModel: ReceiptDetailViewModel(
                 receipt: viewModel.selectedReceipt!,
-                pdfGenerator: PDFGenerator()
+                pdfManager: PDFManager(),
+                databaseManager: ReceiptManager(database: SalesDatabase.shared)
             ))
             .onDisappear {
-                isShowingReceiptDetail = false
+                viewModel.isShowingReceiptDetail = false
             }
         }
     }
@@ -85,7 +86,7 @@ struct DailySalesView: View {
                 }
                 
                 Button(action: {
-                    viewModel.database.clearAllReceipts()
+                    viewModel.clearAllReceipts()
                     viewModel.showDeletePopup = false
                 }) {
                     Text("Delete")
@@ -117,8 +118,8 @@ struct DailySalesView: View {
             }
             .padding(.horizontal, 2)
         }
-        .transition(.move(edge: .top).combined(with: .opacity)) // Анимация появления сверху с изменением прозрачности
-        .animation(.easeInOut(duration: 0.3), value: viewModel.areFiltersApplied) // Настройка анимации
+        .transition(.move(edge: .top).combined(with: .opacity))
+        .animation(.easeInOut(duration: 0.3), value: viewModel.areFiltersApplied)
     }
     
     //MARK: - customDatePicker
@@ -144,6 +145,6 @@ struct DailySalesView: View {
 
 struct DailySalesView_Previews: PreviewProvider {
     static var previews: some View {
-        DailySalesView()
+        DailySalesView(viewModel: DailySalesViewModel(database: SalesDatabase.shared))
     }
 }

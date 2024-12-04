@@ -41,7 +41,6 @@ struct CustomerCard: View {
                     }
                     HStack {
                         VStack(alignment: .leading, spacing: 8) {
-                            #warning("не ставится аноним якщо немаж імені")
                             Text("\(name)")
                                 .font(.headline)
                                 .lineLimit(1)
