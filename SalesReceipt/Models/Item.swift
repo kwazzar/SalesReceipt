@@ -7,11 +7,9 @@
 
 import SwiftUI
 
-protocol ItemProtocol: Hashable {
-    associatedtype ItemType
-    var value: ItemType {get}
-}
 
+
+#warning("id change to uuid")
 struct Item: Identifiable, Hashable {
     let id: Int
     let description: String
@@ -23,6 +21,21 @@ struct Item: Identifiable, Hashable {
                ? items
                : items.filter { $0.description.lowercased().contains(query.text.lowercased()) }
        }
+
+    static func calculateTotal(_ items: [Item]) -> Price {
+        return items.reduce(Price(0)) { $0 + $1.price }
+    }
+
+    static func removeLastItem(from items: inout [Item]) {
+        guard !items.isEmpty else { return }
+        items.removeLast()
+    }
+}
+
+//MARK: - Item properties
+protocol ItemProtocol: Hashable {
+    associatedtype ItemType
+    var value: ItemType {get}
 }
 
 struct Price: ItemProtocol {

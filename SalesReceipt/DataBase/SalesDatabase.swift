@@ -8,7 +8,7 @@
 import CoreData
 
 protocol SalesDatabaseProtocol {
-    func saveReceipt(_ receipt: Receipt)
+    func saveReceiptToDatabase(_ receipt: Receipt)
     func fetchAllReceipts() -> [Receipt]
     func clearAllReceipts()
     func updatePdfPath(for receiptId: UUID, pdfPath: String) throws
@@ -18,7 +18,7 @@ final class SalesDatabase: SalesDatabaseProtocol {
     static let shared = SalesDatabase()
     private let context = CoreDataStack.shared.context
     
-    func saveReceipt(_ receipt: Receipt) {
+    func saveReceiptToDatabase(_ receipt: Receipt) {
         print("Saving receipt: \(receipt.id), \(receipt.customerName.value), \(receipt.date)")
         let receiptEntity = ReceiptEntity(context: context)
         receiptEntity.id = receipt.id

@@ -28,7 +28,7 @@ final class ReceiptManager: ReceiptDatabaseAPI {
             customerName: customerName,
             items: items
         )
-        database.saveReceipt(receipt)
+        database.saveReceiptToDatabase(receipt)
     }
 
     func updatePDFPath(for receiptID: UUID, path: String) throws {

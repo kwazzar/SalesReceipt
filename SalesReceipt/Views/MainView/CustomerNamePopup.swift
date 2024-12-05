@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-#warning("якщо швидко натискати через кнопки попапа робиться два чека")
 struct CustomerNamePopup: View {
     @StateObject var viewModel: SalesViewModel
     @State private var inputName: String = ""
