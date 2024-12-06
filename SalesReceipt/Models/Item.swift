@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-
-
-
 #warning("id change to uuid")
 struct Item: Identifiable, Hashable {
     let id: Int
@@ -36,6 +33,19 @@ struct Item: Identifiable, Hashable {
 protocol ItemProtocol: Hashable {
     associatedtype ItemType
     var value: ItemType {get}
+}
+
+#warning("Description")
+struct Description: ItemProtocol {
+    let value: String
+
+    init(_ value: String? = nil) {
+        guard let safeValue = value, !safeValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            self.value = "no Description"
+            return
+        }
+        self.value = safeValue
+    }
 }
 
 struct Price: ItemProtocol {

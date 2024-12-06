@@ -9,11 +9,11 @@ import SwiftUI
 
 struct DetailSalesReceipt: View {
     let receipt: Receipt
-
+    
     init(_ receipt: Receipt) {
         self.receipt = receipt
     }
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // Чек заголовок
@@ -22,14 +22,14 @@ struct DetailSalesReceipt: View {
                 .bold()
             Text("\(receipt.id)")
                 .padding(.bottom, 10)
-
+            
             // Информация о покупателе и дате
             Text("Customer: \(receipt.customerName.value)")
                 .font(.headline)
             Text("Date: \(formattedDate(receipt.date))")
                 .font(.subheadline)
             Divider()
-
+            
             // Заголовки таблицы
             HStack {
                 Text("Item").bold()
@@ -63,7 +63,7 @@ struct DetailSalesReceipt: View {
         .shadow(radius: 5)
         .innerStroke(inset: 2)
     }
-
+    
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium

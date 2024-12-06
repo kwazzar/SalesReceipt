@@ -10,14 +10,14 @@ import SwiftUI
 struct ReceiptView: View {
     let items: [Item]
     let total: Double
-
+    
     var body: some View {
         VStack(spacing: 10) {
             Text("Receipt")
                 .font(.headline)
                 .padding(.top, 10)
             Divider()
-
+            
             List(items, id: \.id) { item in
                 HStack {
                     Text(item.description)
@@ -30,7 +30,7 @@ struct ReceiptView: View {
                 .padding(.vertical, 5)
             }
             .listStyle(PlainListStyle())
-
+            
             Divider()
             HStack {
                 Text("Total:")

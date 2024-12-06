@@ -13,7 +13,7 @@ struct SearchBar: View {
     var titleSearch: String
     var searchText: Binding<String>
     var actionClose: () -> Void
-
+    
     var body: some View {
         VStack {
             HStack {
@@ -27,7 +27,7 @@ struct SearchBar: View {
                     .onTapGesture {
                         isSearching = true
                     }
-
+                
                 if isTextFieldFocused {
                     Button(action: {
                         isTextFieldFocused = false

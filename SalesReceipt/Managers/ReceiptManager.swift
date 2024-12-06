@@ -10,8 +10,7 @@ import Foundation
 protocol ReceiptDatabaseAPI {
     func saveReceipt(customerName: CustomerName, items: [Item])
     func updatePDFPath(for receiptID: UUID, path: String) throws
-    func fetchReceipt(by id: UUID) -> Receipt?
-
+    func fetchReceipt(by id: UUID) throws -> Receipt?
 }
 
 final class ReceiptManager: ReceiptDatabaseAPI {
@@ -35,7 +34,7 @@ final class ReceiptManager: ReceiptDatabaseAPI {
         try database.updatePdfPath(for: receiptID, pdfPath: path)
     }
 
-    func fetchReceipt(by id: UUID) -> Receipt? {
-        return database.fetchAllReceipts().first(where: { $0.id == id })
+    func fetchReceipt(by id: UUID) throws -> Receipt? {
+        try database.fetchAllReceipts().first(where: { $0.id == id })
     }
 }

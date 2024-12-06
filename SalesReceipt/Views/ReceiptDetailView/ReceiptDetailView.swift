@@ -36,15 +36,11 @@ struct ReceiptDetailView: View {
             withAnimation {
                 viewModel.isShareButtonVisible = newValue != nil
                 viewModel.isPdfCreated = newValue != nil
-                print("🔄 PDF URL Changed: \(newValue != nil)")
             }
         }
         .onAppear {
-            print("📱 View Appeared for Receipt ID: \(viewModel.receipt.id)")
             let pdfExists = viewModel.checkPDFExists()
-            print("🕵️ PDF Exists on Appear: \(pdfExists)")
             viewModel.isShareButtonVisible = pdfExists
-            
             if pdfExists {
                 viewModel.generatePDF()
             }

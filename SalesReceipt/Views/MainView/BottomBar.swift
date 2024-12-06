@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BottomBar: View {
     @StateObject var viewModel: SalesViewModel
-
+    
     var body: some View {
         VStack {
             HStack {
@@ -23,7 +23,7 @@ struct BottomBar: View {
             salesButton()
         }
     }
-
+    
     private func salesButton() -> some View {
         Button(action: {
             viewModel.showingDailySales.toggle()
@@ -48,7 +48,7 @@ struct BottomBar: View {
 struct BottomBarButton: View {
     var buttonType: BottomBarButtonType
     @StateObject var viewModel: SalesViewModel
-
+    
     var body: some View {
         Button(action: {
             buttonType.action(viewModel: viewModel)
@@ -73,7 +73,7 @@ enum BottomBarButtonType: String, CaseIterable {
     case removeLast
     case clearAll
     case checkout
-
+    
     var title: String {
         rawValue
             .enumerated()
@@ -83,7 +83,7 @@ enum BottomBarButtonType: String, CaseIterable {
             .joined()
             .capitalized
     }
-
+    
     var buttonColor: Color {
         switch self {
         case .removeLast:
@@ -94,7 +94,7 @@ enum BottomBarButtonType: String, CaseIterable {
             return Color.clear
         }
     }
-
+    
     func action(viewModel: SalesViewModel) {
         switch self {
         case .removeLast:

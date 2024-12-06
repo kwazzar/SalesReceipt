@@ -10,19 +10,19 @@ import SwiftUI
 struct CustomerNamePopup: View {
     @StateObject var viewModel: SalesViewModel
     @State private var inputName: String = ""
-
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Enter Customer Name")
                 .font(.headline)
-
+            
             TextField("Full name", text: $inputName)
                 .textFieldStyle(.roundedBorder)
                 .frame(height: 45)
                 .background(Color.gray.opacity(0.1))
                 .innerStroke(inset: 1)
                 .padding(5)
-
+            
             HStack {
                 Button("Anonymous") {
                     viewModel.finalizeCheckout(with: "")
@@ -36,7 +36,7 @@ struct CustomerNamePopup: View {
                 .cornerRadius(8)
                 .innerStroke(inset: 1)
                 Spacer()
-
+                
                 Button("Save Name") {
                     viewModel.finalizeCheckout(with: inputName)
                     viewModel.isPopupVisible = false

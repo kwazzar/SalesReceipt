@@ -10,13 +10,13 @@ import SwiftUI
 struct CustomDatePickerView: View {
     let title: String
     @Binding var selectedDate: Date
-
+    
     var body: some View {
         HStack {
             Text(title)
                 .font(.caption)
                 .foregroundColor(.gray)
-
+            
             DatePicker("", selection: $selectedDate, displayedComponents: .date)
                 .datePickerStyle(CompactDatePickerStyle())
                 .labelsHidden()

@@ -12,7 +12,7 @@ import SwiftUI
 struct SalesView: View {
     @StateObject private var viewModel = SalesViewModel(
         ReceiptManager(database: SalesDatabase.shared))
-
+    
     var body: some View {
         ZStack {
             VStack(spacing: 5) {
@@ -28,7 +28,7 @@ struct SalesView: View {
                 BottomBar(viewModel: viewModel)
             }
             .blur(radius: viewModel.isPopupVisible ? 3 : 0)
-
+            
             if viewModel.isPopupVisible {
                 Color.black.opacity(0.4)
                     .edgesIgnoringSafeArea(.all)

@@ -51,7 +51,7 @@ struct CustomerName: Hashable {
 
 struct PdfPath: Hashable {
     let value: String
-
+    
     init?(_ value: String?) {
         guard let value = value, !value.isEmpty else {
             return nil

@@ -12,7 +12,7 @@ struct ReceiptDetailBar: View {
     var isPDFCreated: Bool
     var onGeneratePDF: () -> Void
     var actionBack: () -> Void
-
+    
     var body: some View {
         HStack {
             Button(action: actionBack) {
@@ -24,13 +24,13 @@ struct ReceiptDetailBar: View {
                     .contentShape(Rectangle())
             }
             .buttonStyle(BorderlessButtonStyle())
-
+            
             Text(title)
                 .font(.system(size: 34, weight: .bold))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .lineLimit(1)
-
+            
             Button(action: {
                 if !isPDFCreated {
                     onGeneratePDF()

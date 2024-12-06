@@ -6,27 +6,6 @@
 //
 
 import CoreData
-
-// MARK: - ItemEntity
-@objc(ItemEntity)
-final class ItemEntity: NSManagedObject {
-    @NSManaged var id: Int32
-    @NSManaged var desc: String?
-    @NSManaged var price: Double
-    @NSManaged var image: String?
-    @NSManaged var receipt: ReceiptEntity? // Relationship to ReceiptEntity
-}
-
-// MARK: - ReceiptEntity
-@objc(ReceiptEntity)
-final class ReceiptEntity: NSManagedObject {
-    @NSManaged var id: UUID?
-    @NSManaged var date: Date?
-    @NSManaged var customerName: String?
-    @NSManaged var items: NSSet? // Relationship to multiple ItemEntity objects
-    @NSManaged var pdfPath: String?
-}
-
 // MARK: - Core Data Setup
 final class CoreDataStack {
     static let shared = CoreDataStack()
@@ -132,8 +111,6 @@ final class CoreDataStack {
            }
            let storeURL = documentDirectory.appendingPathComponent("SalesDatabaseModel.sqlite")
            container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: storeURL)]
-//        let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("SalesDatabaseModel.sqlite")
-//        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: storeURL)]
 
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {

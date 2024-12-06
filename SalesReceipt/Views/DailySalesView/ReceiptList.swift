@@ -10,17 +10,17 @@ import SwiftUI
 struct ReceiptList: View {
     var receipts: [Receipt]
     var onReceiptTap: (Receipt) -> Void
-
+    
     init(_ receipts: [Receipt],
          onReceiptTap: @escaping (Receipt) -> Void) {
         self.receipts = receipts.sorted { $0.date > $1.date }
         self.onReceiptTap = onReceiptTap
     }
-
+    
     var body: some View {
         ScrollView {
             ForEach(receipts, id: \.id) { receipt in
-
+                
                 CustomerCard(id: receipt.id,
                              name: receipt.customerName.value,
                              date: receipt.date,

@@ -9,74 +9,131 @@ import CoreData
 
 protocol SalesDatabaseProtocol {
     func saveReceiptToDatabase(_ receipt: Receipt)
-    func fetchAllReceipts() -> [Receipt]
-    func clearAllReceipts()
+    func fetchAllReceipts() throws -> [Receipt]
+    func clearAllReceipts() throws
     func updatePdfPath(for receiptId: UUID, pdfPath: String) throws
 }
 
 final class SalesDatabase: SalesDatabaseProtocol {
     static let shared = SalesDatabase()
     private let context = CoreDataStack.shared.context
-    
-    func saveReceiptToDatabase(_ receipt: Receipt) {
-        print("Saving receipt: \(receipt.id), \(receipt.customerName.value), \(receipt.date)")
-        let receiptEntity = ReceiptEntity(context: context)
-        receiptEntity.id = receipt.id
-        receiptEntity.date = receipt.date
-        receiptEntity.customerName = receipt.customerName.value
-        
-        for item in receipt.items {
-            let itemEntity = ItemEntity(context: context)
-            itemEntity.id = Int32(item.id)
-            itemEntity.desc = item.description
-            itemEntity.price = item.price.value
-            itemEntity.image = item.image.value
-            itemEntity.receipt = receiptEntity
-        }
-        CoreDataStack.shared.saveContext()
-    }
 
-    func fetchAllReceipts() -> [Receipt] {
+    func saveReceiptToDatabase(_ receipt: Receipt) {
+            let receiptEntity = ReceiptEntity(context: context)
+            receiptEntity.id = receipt.id
+            receiptEntity.date = receipt.date
+            receiptEntity.customerName = receipt.customerName.value
+
+            for item in receipt.items {
+                let itemEntity = ItemEntity(context: context)
+                itemEntity.id = Int32(item.id)
+                itemEntity.desc = item.description
+                itemEntity.price = item.price.value
+                itemEntity.image = item.image.value
+                itemEntity.receipt = receiptEntity
+            }
+            CoreDataStack.shared.saveContext()
+        }
+
+    func fetchAllReceipts() throws -> [Receipt] {
         let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
         do {
             let results = try context.fetch(request)
-            return results.map { entity in
-                mapReceipt(from: entity)
-            }
+            return results.map { mapReceipt(from: $0) }
         } catch {
-            print("Failed to fetch receipts: \(error)")
-            return []
+            throw DatabaseError.fetchReceiptsFailed(underlyingError: error)
         }
     }
 
-    func clearAllReceipts() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ReceiptEntity.fetchRequest()
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
-        do {
-            try context.execute(deleteRequest)
-            CoreDataStack.shared.saveContext()
-        } catch {
-            print("Failed to clear receipts: \(error)")
-        }
-    }
+        func clearAllReceipts() throws {
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ReceiptEntity.fetchRequest()
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
-    func updatePdfPath(for receiptId: UUID, pdfPath: String) throws {
-        let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
-        request.predicate = NSPredicate(format: "id == %@", receiptId as CVarArg)
-
-        do {
-            if let entity = try context.fetch(request).first {
-                entity.pdfPath = pdfPath
+            do {
+                try context.execute(deleteRequest)
                 CoreDataStack.shared.saveContext()
-            } else {
-                throw PdfError.missingURL
+            } catch {
+                throw DatabaseError.clearReceiptsFailed(underlyingError: error)
             }
-        } catch {
-            throw PdfError.notCreated
+        }
+
+        func updatePdfPath(for receiptId: UUID, pdfPath: String) throws {
+            let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
+            request.predicate = NSPredicate(format: "id == %@", receiptId as CVarArg)
+
+            guard let entity = try context.fetch(request).first else {
+                throw DatabaseError.updatePDFPathFailed(reason: .receiptNotFound)
+            }
+
+            entity.pdfPath = pdfPath
+            CoreDataStack.shared.saveContext()
         }
     }
-}
+
+//final class SalesDatabase: SalesDatabaseProtocol {
+//    static let shared = SalesDatabase()
+//    private let context = CoreDataStack.shared.context
+//
+//    func saveReceiptToDatabase(_ receipt: Receipt) {
+//        print("Saving receipt: \(receipt.id), \(receipt.customerName.value), \(receipt.date)")
+//        let receiptEntity = ReceiptEntity(context: context)
+//        receiptEntity.id = receipt.id
+//        receiptEntity.date = receipt.date
+//        receiptEntity.customerName = receipt.customerName.value
+//
+//        for item in receipt.items {
+//            let itemEntity = ItemEntity(context: context)
+//            itemEntity.id = Int32(item.id)
+//            itemEntity.desc = item.description
+//            itemEntity.price = item.price.value
+//            itemEntity.image = item.image.value
+//            itemEntity.receipt = receiptEntity
+//        }
+//        CoreDataStack.shared.saveContext()
+//    }
+//
+//    func fetchAllReceipts() throws -> [Receipt] {
+//        let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
+//        do {
+//            let results = try context.fetch(request)
+//            return results.map { entity in
+//                mapReceipt(from: entity)
+//            }
+//        } catch {
+//            throw CoreDataError.fetchFailed(underlyingError: error)
+////            print("Failed to fetch receipts: \(error)")
+////            return []
+//        }
+//    }
+//
+//    func clearAllReceipts() {
+//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ReceiptEntity.fetchRequest()
+//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//
+//        do {
+//            try context.execute(deleteRequest)
+//            CoreDataStack.shared.saveContext()
+//        } catch {
+//            print("Failed to clear receipts: \(error)")
+//        }
+//    }
+//
+//    func updatePdfPath(for receiptId: UUID, pdfPath: String) throws {
+//        let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
+//        request.predicate = NSPredicate(format: "id == %@", receiptId as CVarArg)
+//
+//        do {
+//            if let entity = try context.fetch(request).first {
+//                entity.pdfPath = pdfPath
+//                CoreDataStack.shared.saveContext()
+//            } else {
+//                throw PDFError.missingURL
+//            }
+//        } catch {
+//            throw PDFError
+//        }
+//    }
+//}
 
 //MARK: - extension
 extension SalesDatabase {

@@ -23,7 +23,7 @@ final class DailySalesViewModel: ObservableObject {
     }
     
     var filteredReceipts: [Receipt] {
-        let allReceipts = database.fetchAllReceipts()
+        let allReceipts = (try? database.fetchAllReceipts()) ?? []
         
         guard areFiltersApplied else {
             return allReceipts
@@ -38,6 +38,10 @@ final class DailySalesViewModel: ObservableObject {
     }
     
     func clearAllReceipts() {
-        database.clearAllReceipts()
+        do {
+            try database.clearAllReceipts()
+        } catch {
+            print(error)
+        }
     }
 }

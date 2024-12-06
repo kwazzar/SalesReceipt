@@ -12,7 +12,7 @@ struct DailySalesBar: View {
     var actionBack: () -> Void
     var actionFilter: () -> Void
     var actionDelete: () -> Void
-
+    
     var body: some View {
         HStack {
             Button(action: actionBack) {
@@ -24,13 +24,13 @@ struct DailySalesBar: View {
                     .contentShape(Rectangle())
             }
             .buttonStyle(BorderlessButtonStyle())
-
+            
             Text(title)
                 .font(.system(size: 34, weight: .bold))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .lineLimit(1)
-
+            
             Button(action: actionFilter) {
                 Image(systemName: "slider.horizontal.3")
                     .font(.title2)
