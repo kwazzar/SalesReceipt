@@ -8,12 +8,14 @@
 import Foundation
 
 protocol ReceiptDatabaseAPI {
+    var availableItems: [Item] { get set }
     func saveReceipt(customerName: CustomerName, items: [Item])
     func updatePDFPath(for receiptID: UUID, path: String) throws
     func fetchReceipt(by id: UUID) throws -> Receipt?
 }
 
 final class ReceiptManager: ReceiptDatabaseAPI {
+    var availableItems: [Item] = mockItems
     private let database: SalesDatabaseProtocol
 
     init(database: SalesDatabaseProtocol) {

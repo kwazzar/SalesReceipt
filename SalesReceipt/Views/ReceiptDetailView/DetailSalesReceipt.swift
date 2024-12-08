@@ -41,7 +41,7 @@ struct DetailSalesReceipt: View {
             // Список покупок
             ForEach(receipt.items, id: \.self) { item in
                 HStack {
-                    Text(item.description)
+                    Text(item.description.value)
                     Spacer()
                     Text(String(format: "%.2f $", item.price.value))
                 }

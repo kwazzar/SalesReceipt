@@ -9,15 +9,15 @@ import SwiftUI
 #warning("id change to uuid")
 struct Item: Identifiable, Hashable {
     let id: Int
-    let description: String
+    let description: Description
     let price: Price
     var image: ImageItem
 
     static func filter(items: [Item], query: SearchQuery) -> [Item] {
-           return query.text.isEmpty
-               ? items
-               : items.filter { $0.description.lowercased().contains(query.text.lowercased()) }
-       }
+        return query.text.isEmpty
+        ? items
+        : items.filter { $0.description.value.lowercased().contains(query.text.lowercased()) }
+    }
 
     static func calculateTotal(_ items: [Item]) -> Price {
         return items.reduce(Price(0)) { $0 + $1.price }
@@ -35,7 +35,6 @@ protocol ItemProtocol: Hashable {
     var value: ItemType {get}
 }
 
-#warning("Description")
 struct Description: ItemProtocol {
     let value: String
 

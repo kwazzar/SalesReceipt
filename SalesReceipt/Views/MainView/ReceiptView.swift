@@ -20,7 +20,7 @@ struct ReceiptView: View {
             
             List(items, id: \.id) { item in
                 HStack {
-                    Text(item.description)
+                    Text(item.description.value)
                         .font(.body)
                     Spacer()
                     Text(String(format: "%.2f $", item.price.value))

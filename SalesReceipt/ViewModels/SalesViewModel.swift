@@ -15,11 +15,10 @@ struct SearchQuery {
 final class SalesViewModel: ObservableObject {
     @Published private(set) var currentItems: [Item] = []
     @Published private(set) var total: Price = Price(0)
-    @Published var customerName: CustomerName = CustomerName("")
-    @Published var isPopupVisible = false
     @Published private(set) var filteredItems: [Item] = []
-    @Published private(set) var availableItems: [Item] = mockItems
+    @Published var customerName: CustomerName = CustomerName("")
     @Published var searchText: SearchQuery = SearchQuery(text: "")
+    @Published var isPopupVisible = false
     @Published var isSearching = false
     @Published var showingDailySales = false
 
@@ -27,11 +26,11 @@ final class SalesViewModel: ObservableObject {
 
     init(_ receiptManager: ReceiptDatabaseAPI) {
         self.receiptDatabase = receiptManager
-        filteredItems = availableItems
+        filteredItems = receiptDatabase.availableItems
     }
 
     func updateFilteredItems(for query: SearchQuery) {
-        filteredItems = Item.filter(items: availableItems, query: query)
+        filteredItems = Item.filter(items: receiptDatabase.availableItems, query: query)
     }
 
     func addItem(_ item: Item) {

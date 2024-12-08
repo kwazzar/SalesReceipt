@@ -27,7 +27,7 @@ final class SalesDatabase: SalesDatabaseProtocol {
             for item in receipt.items {
                 let itemEntity = ItemEntity(context: context)
                 itemEntity.id = Int32(item.id)
-                itemEntity.desc = item.description
+                itemEntity.desc = item.description.value
                 itemEntity.price = item.price.value
                 itemEntity.image = item.image.value
                 itemEntity.receipt = receiptEntity
@@ -141,7 +141,7 @@ extension SalesDatabase {
         (entity.items as? Set<ItemEntity>)?.compactMap { itemEntity in
             Item(
                 id: Int(itemEntity.id),
-                description: itemEntity.desc ?? "",
+                description: Description(itemEntity.desc),
                 price: Price(itemEntity.price),
                 image: ImageItem(itemEntity.image)
             )

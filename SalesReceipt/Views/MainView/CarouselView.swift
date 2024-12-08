@@ -39,7 +39,7 @@ struct ItemButton: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: 50)
-                Text(item.description)
+                Text(item.description.value)
                     .foregroundColor(.black)
                 Text(String(format: "%.2f $", item.price.value))
                     .foregroundColor(.black)
