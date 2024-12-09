@@ -9,6 +9,7 @@ import CoreData
 // MARK: - Core Data Setup
 final class CoreDataStack {
     static let shared = CoreDataStack()
+    
 
     lazy var persistentContainer: NSPersistentContainer = {
         // Создаем NSManagedObjectModel с программно добавленными сущностями
@@ -25,7 +26,7 @@ final class CoreDataStack {
         // Define attributes for ItemEntity
         let itemId = NSAttributeDescription()
         itemId.name = "id"
-        itemId.attributeType = .integer32AttributeType
+        itemId.attributeType = .UUIDAttributeType
         itemId.isOptional = false
 
         let itemDesc = NSAttributeDescription()
@@ -135,3 +136,32 @@ final class CoreDataStack {
         }
     }
 }
+
+extension CoreDataStack {
+    func migrateExistingData() {
+        // Створюємо запит вручну, вказуючи ім'я сутності
+        let fetchRequest = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
+
+        do {
+            let items = try context.fetch(fetchRequest)
+            var hasChanges = false
+
+            for item in items {
+                            if item.id == nil { // Check if id is nil
+                                item.id = UUID() // Assign a new UUID
+                                hasChanges = true
+                            }
+                        }
+
+            if hasChanges {
+                try context.save()
+                print("Migration completed: Updated \(items.count) items with new UUIDs.")
+            } else {
+                print("Migration not needed: All items already have valid IDs.")
+            }
+        } catch {
+            print("Error during migration: \(error)")
+        }
+    }
+}
+

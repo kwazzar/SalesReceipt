@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-#warning("id change to uuid")
+
 struct Item: Identifiable, Hashable {
-    let id: Int
+    let id: UUID
     let description: Description
     let price: Price
     var image: ImageItem
