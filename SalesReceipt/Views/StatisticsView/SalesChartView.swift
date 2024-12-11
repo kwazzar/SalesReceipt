@@ -10,13 +10,13 @@ import Charts
 
 struct SalesChartView: View {
     let salesStats: [SalesStat]
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Sales Dynamics")
                 .font(.headline)
                 .padding(.horizontal)
-
+            
             if !salesStats.isEmpty {
                 Chart {
                     ForEach(salesStats) { stat in
@@ -35,7 +35,7 @@ struct SalesChartView: View {
                                 .foregroundColor(.primary)
                         }
                         .foregroundStyle(
-                            Gradient(colors: [.blue.opacity(0.7), .blue])
+                            Gradient(colors: [.white.opacity(0.7), .blue])
                         )
                         .cornerRadius(4)
                     }
@@ -61,11 +61,22 @@ struct SalesChartView: View {
                 .frame(height: 300)
                 .padding(.horizontal)
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(.systemGroupedBackground))
-                        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.blue.opacity(0.05)]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .innerStroke(inset: 1)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.blue.opacity(0.5), lineWidth: 1)
+                        )
                 )
                 .padding(.horizontal)
+                
             } else {
                 Text("No data available for display.")
                     .padding()
@@ -77,7 +88,6 @@ struct SalesChartView: View {
         }
     }
 }
-
 
 struct SalesChartView_Previews: PreviewProvider {
     static var previews: some View {

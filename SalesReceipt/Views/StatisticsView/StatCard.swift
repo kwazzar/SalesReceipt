@@ -11,7 +11,7 @@ struct StatCard: View {
     let title: String
     let value: String
     let color: Color
-
+    
     var body: some View {
         VStack(spacing: 8) {
             Text(value)
@@ -29,6 +29,7 @@ struct StatCard: View {
         .padding()
         .background(color.opacity(0.1))
         .cornerRadius(12)
+        .innerStroke(inset: 1)
     }
 }
 
@@ -37,7 +38,7 @@ enum StatType: String, CaseIterable {
     case total
     case itemsSold
     case averageCheck
-
+    
     var title: String {
         rawValue
             .enumerated()
@@ -47,7 +48,7 @@ enum StatType: String, CaseIterable {
             .joined()
             .capitalized
     }
-
+    
     var color: Color {
         switch self {
         case .total:
@@ -58,20 +59,20 @@ enum StatType: String, CaseIterable {
             return .orange
         }
     }
-
+    
     func value(from stats: (total: Double, itemsSold: Int, averageCheck: Double)) -> String {
-           switch self {
-           case .total:
-               return String(format: "%.2f ₴", stats.total)
-           case .itemsSold:
-               return "\(stats.itemsSold)"
-           case .averageCheck:
-               return String(format: "%.2f ₴", stats.averageCheck)
-           }
-       }
+        switch self {
+        case .total:
+            return String(format: "%.2f ₴", stats.total)
+        case .itemsSold:
+            return "\(stats.itemsSold)"
+        case .averageCheck:
+            return String(format: "%.2f ₴", stats.averageCheck)
+        }
+    }
 }
 
-struct StatRow_Previews: PreviewProvider {
+struct StatCard_Previews: PreviewProvider {
     static var previews: some View {
         StatCard(title: StatType.total.rawValue,
                  value: StatType.total.rawValue,
