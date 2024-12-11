@@ -7,71 +7,38 @@
 
 import SwiftUI
 
+#warning("добавить фильтри статиски")
 struct StatisticsView: View {
     @StateObject var viewModel: StatisticsViewModel
-
+    
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    if let totalStats = viewModel.totalSalesStats {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Overall Statistics")
-                                .font(.headline)
-                                .padding(.horizontal)
-
-                            HStack {
-                                ForEach(StatType.allCases,
-                                        id: \.self) { statType in
-                                    StatCard(title: statType.title,
-                                             value: statType.value(from: totalStats),
-                                             color: statType.color)
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                    }
-                    SalesChartView(salesStats: viewModel.dailySalesStats)
+        ScrollView {
+            Text("Statistics")
+                .font(.system(size: 30, weight: .bold, design: .default))
+            VStack(spacing: 20) {
+                if let totalStats = viewModel.totalSalesStats {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Top Sales")
+                        Text("Overall Statistics")
                             .font(.headline)
                             .padding(.horizontal)
-
-                        if !viewModel.topItemSales.isEmpty {
-                            VStack(spacing: 10) {
-                                ForEach(viewModel.topItemSales, id: \.item.id) { item, count in
-                                    HStack {
-                                        Text(item.description.value)
-                                            .font(.subheadline)
-                                        Spacer()
-                                        Text("\(count) pcs.")
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.secondary)
-                                    }
-                                    .padding()
-                                    .background(Color.gray.opacity(0.1))
-                                    .cornerRadius(8)
-                                }
+                        HStack {
+                            ForEach(StatType.allCases,
+                                    id: \.self) { statType in
+                                StatCard(title: statType.title,
+                                         value: statType.value(from: totalStats),
+                                         color: statType.color)
                             }
-                            .padding(.horizontal)
-                        } else {
-                            Text("No sales data available.")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.gray.opacity(0.1))
-                                .cornerRadius(8)
-                                .padding(.horizontal)
                         }
+                        .padding(.horizontal)
                     }
                 }
-                .padding(.vertical)
+                SalesChartView(salesStats: viewModel.dailySalesStats)
+                TopSalesStatView(topItemSales: viewModel.topItemSales)
             }
-            .navigationTitle("Sales Statistics")
-            .background(Color(.systemGroupedBackground))
+            .padding(.vertical, 1)
         }
     }
 }
-
 
 struct StatisticsView_Previews: PreviewProvider {
     static var previews: some View {

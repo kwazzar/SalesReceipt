@@ -19,7 +19,6 @@ final class StatisticsViewModel: ObservableObject {
         fetchStatistics()
     }
 
-
     private func fetchStatistics() {
         totalSalesStats = statsService.getTotalSalesStats()
 
