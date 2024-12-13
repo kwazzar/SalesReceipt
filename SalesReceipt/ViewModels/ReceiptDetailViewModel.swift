@@ -13,11 +13,11 @@ final class ReceiptDetailViewModel: ObservableObject {
     @Published var isPdfCreated = false
     @Published var isShareButtonVisible = false
     @Published var errorMessage: String?
-
+    
     let receipt: Receipt
     private let pdfManager: PDFAPI
     private let receiptDatabase: ReceiptDatabaseAPI
-
+    
     init(
         receipt: Receipt,
         pdfManager: PDFAPI,
@@ -27,7 +27,7 @@ final class ReceiptDetailViewModel: ObservableObject {
         self.pdfManager = pdfManager
         self.receiptDatabase = databaseManager
     }
-
+    
     func checkPDFExists() -> Bool {
         do {
             let pdfPath = try pdfManager.checkPDFExists(for: receipt)
@@ -40,13 +40,13 @@ final class ReceiptDetailViewModel: ObservableObject {
             return false
         }
     }
-
+    
     func generatePDF() {
         do {
             guard let pdfPath = try pdfManager.generatePDF(for: receipt) else {
                 throw PDFError.pdfGenerationFailed
             }
-
+            
             try receiptDatabase.updatePDFPath(for: receipt.id, path: pdfPath.path)
             pdfUrlReceipt = pdfPath
             isPdfCreated = true
@@ -56,7 +56,7 @@ final class ReceiptDetailViewModel: ObservableObject {
             isPdfCreated = false
         }
     }
-
+    
     func sharePDF() {
         guard let pdfUrlReceipt = pdfUrlReceipt else { return }
         let activityVC = UIActivityViewController(activityItems: [pdfUrlReceipt], applicationActivities: nil)

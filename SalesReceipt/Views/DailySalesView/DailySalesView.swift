@@ -8,10 +8,11 @@
 import SwiftUI
 import SwiftUIIntrospect
 
+#warning("добавить фильтри статиски")
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: DailySalesViewModel
-
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
@@ -24,7 +25,7 @@ struct DailySalesView: View {
                 } actionDelete: {
                     viewModel.uiState.showDeletePopup = true
                 }
-
+                
                 if viewModel.uiState.areFiltersApplied {
                     filtersSearch()
                         .onDisappear {

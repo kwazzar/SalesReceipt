@@ -17,11 +17,11 @@ protocol ReceiptDatabaseAPI {
 final class ReceiptManager: ReceiptDatabaseAPI {
     var availableItems: [Item] = mockItems
     private let database: SalesDatabaseProtocol
-
+    
     init(database: SalesDatabaseProtocol) {
         self.database = database
     }
-
+    
     func saveReceipt(customerName: CustomerName, items: [Item]) {
         let receipt = Receipt(
             id: UUID(),
@@ -31,11 +31,11 @@ final class ReceiptManager: ReceiptDatabaseAPI {
         )
         database.saveReceiptToDatabase(receipt)
     }
-
+    
     func updatePDFPath(for receiptID: UUID, path: String) throws {
         try database.updatePdfPath(for: receiptID, pdfPath: path)
     }
-
+    
     func fetchReceipt(by id: UUID) throws -> Receipt? {
         try database.fetchAllReceipts().first(where: { $0.id == id })
     }

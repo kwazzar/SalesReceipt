@@ -16,7 +16,7 @@ extension View {
                 .stroke(color, lineWidth: lineWidth)
         )
     }
-
+    
     func configurePopup<PopupContent: View>(
         isPresented: Binding<Bool>,
         @ViewBuilder content: @escaping () -> PopupContent

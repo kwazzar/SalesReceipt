@@ -6,11 +6,9 @@
 //
 import Foundation
 
-// Пример данных для клиента
 let testCustomerName1 = CustomerName("John Doe")
 let testCustomerName2 = CustomerName("Jane Smith")
 
-// Пример данных для товаров
 let testItems1 = [
     Item(
         id: UUID(),
@@ -41,7 +39,6 @@ let testItems2 = [
     )
 ]
 
-// Пример данных для квитанций
 let testReceipts = [
     Receipt(
         id: UUID(),
@@ -56,4 +53,3 @@ let testReceipts = [
         items: testItems2
     )
 ]
-

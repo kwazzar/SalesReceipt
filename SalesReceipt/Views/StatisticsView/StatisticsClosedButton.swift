@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct StatisticsClosedButton: View {
-   private let action: () -> Void
-
+    private let action: () -> Void
+    
     init(_ action: @escaping () -> Void) {
         self.action = action
     }
-
+    
     var body: some View {
         Button(action: action) {
             ZStack {

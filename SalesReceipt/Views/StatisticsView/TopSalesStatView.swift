@@ -9,13 +9,13 @@ import SwiftUI
 
 struct TopSalesStatView: View {
     let topItemSales: [(item: Item, count: Int)]
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Top Sales")
                 .font(.headline)
                 .padding(.horizontal)
-
+            
             if !topItemSales.isEmpty {
                 VStack(spacing: 10) {
                     ForEach(topItemSales, id: \.item.id) { item, count in

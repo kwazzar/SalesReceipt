@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftUIIntrospect
 
-#warning("добавить фильтри статиски")
+
 struct StatisticsView: View {
     @StateObject var viewModel: StatisticsViewModel
     let actionClosed: () -> Void

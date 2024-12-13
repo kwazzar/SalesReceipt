@@ -11,7 +11,7 @@ enum BottomSheetState {
     case closed
     case overall
     case expanded
-
+    
     var offset: CGFloat {
         switch self {
         case .closed:
@@ -27,14 +27,14 @@ enum BottomSheetState {
 struct BottomSheetView<Content: View>: View {
     @Binding var state: BottomSheetState
     @GestureState private var dragOffset: CGFloat = 0
-
+    
     let content: Content
-
+    
     init(state: Binding<BottomSheetState>, @ViewBuilder content: () -> Content) {
         self._state = state
         self.content = content()
     }
-
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 16) {
