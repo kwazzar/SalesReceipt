@@ -7,58 +7,64 @@
 
 import SwiftUI
 import SwiftUIIntrospect
-import PopupView
 
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: DailySalesViewModel
-    
+
     var body: some View {
-        VStack {
-            DailySalesBar(title: "Daily Sales") {
-                presentationMode.wrappedValue.dismiss()
-            } actionFilter: {
-                withAnimation {
-                    viewModel.areFiltersApplied.toggle()
-                }
-            } actionDelete:  {
-                viewModel.showDeletePopup = true
-            }
-            
-            if viewModel.areFiltersApplied {
-                filtersSearch()
-                    .onDisappear {
-                        if !viewModel.searchtext.isEmpty || viewModel.startDate != Date() || viewModel.endDate != Date() {
-                            viewModel.areFiltersApplied = false
-                        }
+        ZStack(alignment: .bottom) {
+            VStack {
+                DailySalesBar(title: "Daily Sales") {
+                    presentationMode.wrappedValue.dismiss()
+                } actionFilter: {
+                    withAnimation {
+                        viewModel.uiState.areFiltersApplied.toggle()
                     }
+                } actionDelete: {
+                    viewModel.uiState.showDeletePopup = true
+                }
+
+                if viewModel.uiState.areFiltersApplied {
+                    filtersSearch()
+                        .onDisappear {
+                            if !viewModel.searchtext.isEmpty || viewModel.startDate != Date() || viewModel.endDate != Date() {
+                                viewModel.uiState.areFiltersApplied = false
+                            }
+                        }
+                }
+                ReceiptList(viewModel.filteredReceipts, onReceiptTap: { receipt in
+                    viewModel.selectedReceipt = receipt
+                    viewModel.uiState.isShowingReceiptDetail = true
+                })
             }
-            ReceiptList(viewModel.filteredReceipts,  onReceiptTap: { receipt in
-                viewModel.selectedReceipt = receipt
-                viewModel.isShowingReceiptDetail = true
-            })
-        }
-        .popup(isPresented: $viewModel.showDeletePopup) {
-            deleteConfirmationPopup()
-        } customize: {
-            $0
-                .type(.toast)
-                .position(.top)
-                .animation(.easeInOut)
-                .closeOnTap(false)
-                .backgroundColor(.black.opacity(0.5))
-        }
-        .fullScreenCover(isPresented: Binding(
-            get: { viewModel.isShowingReceiptDetail && viewModel.selectedReceipt != nil },
-            set: { viewModel.isShowingReceiptDetail = $0 }
-        )) {
-            ReceiptDetailView(viewModel: ReceiptDetailViewModel(
-                receipt: viewModel.selectedReceipt!,
-                pdfManager: PDFManager(),
-                databaseManager: ReceiptManager(database: SalesDatabase.shared)
-            ))
-            .onDisappear {
-                viewModel.isShowingReceiptDetail = false
+            .configurePopup(isPresented: $viewModel.uiState.showDeletePopup) {
+                deleteConfirmationPopup()
+            }
+            .fullScreenCover(isPresented: Binding(
+                get: { viewModel.uiState.isShowingReceiptDetail && viewModel.selectedReceipt != nil },
+                set: { viewModel.uiState.isShowingReceiptDetail = $0 }
+            )) {
+                ReceiptDetailView(viewModel: ReceiptDetailViewModel(
+                    receipt: viewModel.selectedReceipt!,
+                    pdfManager: PDFManager(),
+                    databaseManager: ReceiptManager(database: SalesDatabase.shared)
+                ))
+                .onDisappear {
+                    viewModel.uiState.isShowingReceiptDetail = false
+                }
+            }
+            BottomSheetView(state: $viewModel.uiState.currentState) {
+                StatisticsView(
+                    viewModel: StatisticsViewModel(statsService: StatisticsManager.shared),
+                    actionClosed: {
+                        withAnimation {
+                            viewModel.uiState.currentState = .closed
+                        }
+                    },
+                    isButtonVisible: viewModel.uiState.currentState != .closed
+                )
+                .frame(height: viewModel.bottomSheetHeight)
             }
         }
     }
@@ -74,7 +80,7 @@ struct DailySalesView: View {
             
             HStack {
                 Button(action: {
-                    viewModel.showDeletePopup = false
+                    viewModel.uiState.showDeletePopup = false
                 }) {
                     Text("Cancel")
                         .frame(maxWidth: .infinity)
@@ -87,7 +93,7 @@ struct DailySalesView: View {
                 
                 Button(action: {
                     viewModel.clearAllReceipts()
-                    viewModel.showDeletePopup = false
+                    viewModel.uiState.showDeletePopup = false
                 }) {
                     Text("Delete")
                         .frame(maxWidth: .infinity)
@@ -112,14 +118,13 @@ struct DailySalesView: View {
     private func filtersSearch() -> some View {
         VStack {
             customDatePicker()
-            
             SearchBar(titleSearch: "Search receipt...", searchText: $viewModel.searchtext) {
                 print("SearchBar close in DailySalesView")
             }
             .padding(.horizontal, 2)
         }
         .transition(.move(edge: .top).combined(with: .opacity))
-        .animation(.easeInOut(duration: 0.3), value: viewModel.areFiltersApplied)
+        .animation(.easeInOut(duration: 0.3), value: viewModel.uiState.areFiltersApplied)
     }
     
     //MARK: - customDatePicker
@@ -145,6 +150,6 @@ struct DailySalesView: View {
 
 struct DailySalesView_Previews: PreviewProvider {
     static var previews: some View {
-        DailySalesView(viewModel: DailySalesViewModel(database: SalesDatabase.shared))
+        DailySalesView(viewModel: DailySalesViewModel(database: MockSalesDatabase()))
     }
 }

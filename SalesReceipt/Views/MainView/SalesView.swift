@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-#warning("Додати статистику продажів")
-
 struct SalesView: View {
     @StateObject private var viewModel = SalesViewModel(
         ReceiptManager(database: SalesDatabase.shared))

@@ -12,7 +12,6 @@ final class CoreDataStack {
     
 
     lazy var persistentContainer: NSPersistentContainer = {
-        // Создаем NSManagedObjectModel с программно добавленными сущностями
         let model = NSManagedObjectModel()
 
         let itemEntity = NSEntityDescription()
@@ -23,7 +22,6 @@ final class CoreDataStack {
         receiptEntity.name = "ReceiptEntity"
         receiptEntity.managedObjectClassName = NSStringFromClass(ReceiptEntity.self)
 
-        // Define attributes for ItemEntity
         let itemId = NSAttributeDescription()
         itemId.name = "id"
         itemId.attributeType = .UUIDAttributeType
@@ -44,7 +42,6 @@ final class CoreDataStack {
         itemImage.attributeType = .stringAttributeType
         itemImage.isOptional = true
 
-        // Define attributes for ReceiptEntity
         let receiptId = NSAttributeDescription()
         receiptId.name = "id"
         receiptId.attributeType = .UUIDAttributeType
@@ -65,11 +62,9 @@ final class CoreDataStack {
         receiptPdfPath.attributeType = .stringAttributeType
         receiptPdfPath.isOptional = true
 
-        // Assign attributes to entities
         itemEntity.properties = [itemId, itemDesc, itemPrice, itemImage]
         receiptEntity.properties = [receiptId, receiptDate, receiptCustomerName, receiptPdfPath]
 
-        // Define relationships
         let itemsRelation = NSRelationshipDescription()
         itemsRelation.name = "items"
         itemsRelation.destinationEntity = itemEntity
@@ -86,17 +81,14 @@ final class CoreDataStack {
         receiptRelation.deleteRule = .nullifyDeleteRule
         receiptRelation.isOptional = true
 
-        // Set inverse relationships
         itemsRelation.inverseRelationship = receiptRelation
         receiptRelation.inverseRelationship = itemsRelation
 
         receiptEntity.properties.append(itemsRelation)
         itemEntity.properties.append(receiptRelation)
 
-        // Add entities to model
         model.entities = [itemEntity, receiptEntity]
 
-        // Инициализируем NSPersistentContainer с использованием созданной модели
         let container = NSPersistentContainer(name: "SalesDatabaseModel", managedObjectModel: model)
         let description = container.persistentStoreDescriptions.first
         description?.shouldMigrateStoreAutomatically = true
@@ -106,7 +98,7 @@ final class CoreDataStack {
                 fatalError("Failed to load Core Data stack: \(error)")
             }
         }
-        // Указываем путь для SQLite файла в каталоге документов приложения
+
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
                fatalError("Failed to locate document directory.")
            }

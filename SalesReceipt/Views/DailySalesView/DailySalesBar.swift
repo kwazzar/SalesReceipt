@@ -12,41 +12,47 @@ struct DailySalesBar: View {
     var actionBack: () -> Void
     var actionFilter: () -> Void
     var actionDelete: () -> Void
-    
+
     var body: some View {
-        HStack {
-            Button(action: actionBack) {
-                Image(systemName: "chevron.left")
-                    .font(.title2)
-                    .foregroundColor(.black)
-                    .padding()
-                    .frame(width: 44, height: 44)
-                    .contentShape(Rectangle())
+        ZStack {
+            HStack {
+                Button(action: actionBack) {
+                    Image(systemName: "chevron.left")
+                        .font(.title2)
+                        .foregroundColor(.black)
+                        .padding()
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(BorderlessButtonStyle())
+
+                Spacer()
+
+                Button(action: actionFilter) {
+                    Image(systemName: "slider.horizontal.3")
+                        .font(.title2)
+                        .foregroundColor(.black)
+                        .padding()
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(BorderlessButtonStyle())
+
+                Button(action: actionDelete) {
+                    Image(systemName: "trash")
+                        .font(.title2)
+                        .foregroundColor(.black)
+                        .padding()
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(BorderlessButtonStyle())
             }
-            .buttonStyle(BorderlessButtonStyle())
-            
+
             Text(title)
                 .font(.system(size: 34, weight: .bold))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .lineLimit(1)
-            
-            Button(action: actionFilter) {
-                Image(systemName: "slider.horizontal.3")
-                    .font(.title2)
-                    .foregroundColor(.black)
-                    .padding()
-                    .frame(width: 44, height: 44)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(BorderlessButtonStyle())
-            Button(action: actionDelete) {
-                Image(systemName: "trash")
-                    .font(.title2)
-                    .foregroundColor(.black)
-                    .padding()
-            }
-            .buttonStyle(BorderlessButtonStyle())
         }
         .padding(.horizontal, 10)
         .frame(height: 50)

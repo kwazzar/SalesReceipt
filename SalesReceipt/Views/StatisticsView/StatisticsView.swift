@@ -6,15 +6,29 @@
 //
 
 import SwiftUI
+import SwiftUIIntrospect
 
 #warning("добавить фильтри статиски")
 struct StatisticsView: View {
     @StateObject var viewModel: StatisticsViewModel
+    let actionClosed: () -> Void
+    let isButtonVisible: Bool
     
     var body: some View {
         ScrollView {
-            Text("Statistics")
-                .font(.system(size: 30, weight: .bold, design: .default))
+            ZStack {
+                Text("Statistics")
+                    .font(.system(size: 30, weight: .bold, design: .default))
+                    .padding(.top, 15)
+                
+                HStack {
+                    Spacer()
+                    if isButtonVisible {
+                        StatisticsClosedButton(actionClosed)
+                    }
+                }
+            }
+            
             VStack(spacing: 20) {
                 if let totalStats = viewModel.totalSalesStats {
                     VStack(alignment: .leading, spacing: 12) {
@@ -37,11 +51,15 @@ struct StatisticsView: View {
             }
             .padding(.vertical, 1)
         }
+        .scrollIndicators(.hidden)
+        .introspect(.scrollView, on: .iOS(.v15), .iOS(.v16), .iOS(.v17), .iOS(.v18), customize: { scroll in
+            scroll.bounces = false
+        })
     }
 }
 
 struct StatisticsView_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsView(viewModel: StatisticsViewModel(statsService: MockStatisticsManager()))
+        StatisticsView(viewModel: StatisticsViewModel(statsService: MockStatisticsManager()), actionClosed: {}, isButtonVisible: true)
     }
 }
