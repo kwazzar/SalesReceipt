@@ -19,11 +19,13 @@ enum BottomSheetState {
         case .overall:
             return UIScreen.main.bounds.height * 0.72
         case .expanded:
-            return 0
+#warning("настроить висоту чтоби было видно пикер")
+            return UIScreen.main.bounds.height * 0.1
         }
     }
 }
 
+#warning("відключити скролл у всіх станах окрім expanded")
 struct BottomSheetView<Content: View>: View {
     @Binding var state: BottomSheetState
     @GestureState private var dragOffset: CGFloat = 0
@@ -42,9 +44,16 @@ struct BottomSheetView<Content: View>: View {
             }
             .frame(maxWidth: .infinity)
             .background(
-                CustomTopRoundedShape() // Використовуємо кастомну форму
-                    .fill(Color(.systemBackground))
-                    .shadow(radius: 10)
+                Group {
+                    if state == .expanded {
+                        Color(.systemBackground)
+                            .shadow(radius: 10)
+                    } else {
+                        CustomTopRoundedShape()
+                            .fill(Color(.systemBackground))
+                            .shadow(radius: 10)
+                    }
+                }
             )
             .offset(y: state.offset + dragOffset)
             .gesture(

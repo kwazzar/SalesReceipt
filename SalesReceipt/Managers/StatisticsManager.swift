@@ -8,16 +8,16 @@
 import Foundation
 
 protocol StatisticsAPI {
-    func getTotalSalesStats() -> (total: Double, itemsSold: Int, averageCheck: Double)?
-    func getDailySalesStats() -> [SalesStat]?
-    func getItemSalesStats() -> [Item: Int]?
+    func fetchTotalStats() -> (total: Double, itemsSold: Int, averageCheck: Double)?
+    func fetchDailySales() -> [SalesStat]?
+    func fetchTopItemSales(limit: Int) -> [(item: Item, count: Int)]
 }
 
 final class StatisticsManager: StatisticsAPI {
     static let shared = StatisticsManager()
     private let database = SalesDatabase.shared
     
-    func getTotalSalesStats() -> (total: Double, itemsSold: Int, averageCheck: Double)? {
+    internal func fetchTotalStats() -> (total: Double, itemsSold: Int, averageCheck: Double)? {
         do {
             let receipts = try database.fetchAllReceipts()
             let totalAmount = receipts.reduce(0) { $0 + $1.total }
@@ -31,7 +31,7 @@ final class StatisticsManager: StatisticsAPI {
         }
     }
     
-    func getDailySalesStats() -> [SalesStat]? {
+    internal func fetchDailySales() -> [SalesStat]? {
         do {
             let receipts = try database.fetchAllReceipts()
             
@@ -52,7 +52,7 @@ final class StatisticsManager: StatisticsAPI {
         }
     }
     
-    func getItemSalesStats() -> [Item: Int]? {
+    internal func fetchTopItemSales(limit: Int = 5) -> [(item: Item, count: Int)] {
         do {
             let receipts = try database.fetchAllReceipts()
             let allItems = receipts.flatMap { $0.items }
@@ -63,9 +63,12 @@ final class StatisticsManager: StatisticsAPI {
             }
             
             return itemStats
+                .sorted { $0.value > $1.value }
+                .prefix(limit)
+                .map { (item: $0.key, count: $0.value) }
         } catch {
             print("Failed to fetch receipts: \(error)")
-            return nil
+            return []
         }
     }
 }

@@ -41,7 +41,7 @@ struct SalesView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct SalesView_Previews: PreviewProvider {
     static var previews: some View {
         SalesView()
     }

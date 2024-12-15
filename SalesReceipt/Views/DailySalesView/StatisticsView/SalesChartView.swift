@@ -9,7 +9,11 @@ import SwiftUI
 import Charts
 
 struct SalesChartView: View {
-    let salesStats: [SalesStat]
+    private let salesStats: [SalesStat]
+    
+    init(_ salesStats: [SalesStat]) {
+        self.salesStats = salesStats
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -91,6 +95,6 @@ struct SalesChartView: View {
 
 struct SalesChartView_Previews: PreviewProvider {
     static var previews: some View {
-        SalesChartView(salesStats: MockStatisticsManager().getDailySalesStats().unsafelyUnwrapped)
+        SalesChartView(MockStatisticsManager().fetchDailySales().unsafelyUnwrapped)
     }
 }

@@ -80,6 +80,6 @@ struct ReceiptDetailView_Previews: PreviewProvider {
         ReceiptDetailView(viewModel: ReceiptDetailViewModel(
             receipt: mockReceipt,
             pdfManager: PDFManager(),
-            databaseManager: ReceiptManager(database: SalesDatabase.shared)))
+            receiptManager: ReceiptManager(database: SalesDatabase.shared)))
     }
 }

@@ -16,16 +16,16 @@ final class ReceiptDetailViewModel: ObservableObject {
     
     let receipt: Receipt
     private let pdfManager: PDFAPI
-    private let receiptDatabase: ReceiptDatabaseAPI
+    private let receiptManager: ReceiptDatabaseAPI
     
     init(
         receipt: Receipt,
         pdfManager: PDFAPI,
-        databaseManager: ReceiptDatabaseAPI
+        receiptManager: ReceiptDatabaseAPI
     ) {
         self.receipt = receipt
         self.pdfManager = pdfManager
-        self.receiptDatabase = databaseManager
+        self.receiptManager = receiptManager
     }
     
     func checkPDFExists() -> Bool {
@@ -47,7 +47,7 @@ final class ReceiptDetailViewModel: ObservableObject {
                 throw PDFError.pdfGenerationFailed
             }
             
-            try receiptDatabase.updatePDFPath(for: receipt.id, path: pdfPath.path)
+            try receiptManager.updatePDFPath(for: receipt.id, path: pdfPath.path)
             pdfUrlReceipt = pdfPath
             isPdfCreated = true
             errorMessage = nil

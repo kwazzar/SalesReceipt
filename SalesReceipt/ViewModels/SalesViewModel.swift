@@ -22,15 +22,15 @@ final class SalesViewModel: ObservableObject {
     @Published var isSearching = false
     @Published var showingDailySales = false
     
-    private let receiptDatabase: ReceiptDatabaseAPI
+    private let receiptManager: ReceiptDatabaseAPI
     
     init(_ receiptManager: ReceiptDatabaseAPI) {
-        self.receiptDatabase = receiptManager
-        filteredItems = receiptDatabase.availableItems
+        self.receiptManager = receiptManager
+        filteredItems = receiptManager.availableItems
     }
     
     func updateFilteredItems(for query: SearchQuery) {
-        filteredItems = Item.filter(items: receiptDatabase.availableItems, query: query)
+        filteredItems = Item.filter(items: receiptManager.availableItems, query: query)
     }
     
     func addItem(_ item: Item) {
@@ -65,7 +65,7 @@ final class SalesViewModel: ObservableObject {
         
         let checkoutItems = currentItems
         let checkoutName = CustomerName(name)
-        receiptDatabase.saveReceipt(customerName: checkoutName, items: checkoutItems)
+        receiptManager.saveReceipt(customerName: checkoutName, items: checkoutItems)
         
         clearAll()
         isPopupVisible = false

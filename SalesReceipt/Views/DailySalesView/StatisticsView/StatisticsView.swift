@@ -8,9 +8,11 @@
 import SwiftUI
 import SwiftUIIntrospect
 
-
+#warning("щоб воно низ був розтянутий до кінця екрана")
 struct StatisticsView: View {
-    @StateObject var viewModel: StatisticsViewModel
+    @State var totalSalesStats: (total: Double, itemsSold: Int, averageCheck: Double)?
+    @State var dailySalesStats: [SalesStat]
+    @State var topItemSales: [(item: Item, count: Int)]
     let actionClosed: () -> Void
     let isButtonVisible: Bool
     
@@ -30,7 +32,7 @@ struct StatisticsView: View {
             }
             
             VStack(spacing: 20) {
-                if let totalStats = viewModel.totalSalesStats {
+                if let totalStats = totalSalesStats {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Overall Statistics")
                             .font(.headline)
@@ -46,8 +48,8 @@ struct StatisticsView: View {
                         .padding(.horizontal)
                     }
                 }
-                SalesChartView(salesStats: viewModel.dailySalesStats)
-                TopSalesStatView(topItemSales: viewModel.topItemSales)
+                SalesChartView(dailySalesStats)
+                TopSalesStatView(topItemSales)
             }
             .padding(.vertical, 1)
         }
@@ -58,8 +60,8 @@ struct StatisticsView: View {
     }
 }
 
-struct StatisticsView_Previews: PreviewProvider {
-    static var previews: some View {
-        StatisticsView(viewModel: StatisticsViewModel(statsService: MockStatisticsManager()), actionClosed: {}, isButtonVisible: true)
-    }
-}
+//struct StatisticsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StatisticsView(viewModel: StatisticsViewModel(statsService: MockStatisticsManager()), actionClosed: {}, isButtonVisible: true)
+//    }
+//}

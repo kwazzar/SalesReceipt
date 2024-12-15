@@ -29,7 +29,9 @@ struct DailySalesView: View {
                 if viewModel.uiState.areFiltersApplied {
                     filtersSearch()
                         .onDisappear {
-                            if !viewModel.searchtext.isEmpty || viewModel.startDate != Date() || viewModel.endDate != Date() {
+                            if !viewModel.searchText.isEmpty ||
+                                viewModel.startDate != Date() ||
+                                viewModel.endDate != Date() {
                                 viewModel.uiState.areFiltersApplied = false
                             }
                         }
@@ -49,7 +51,7 @@ struct DailySalesView: View {
                 ReceiptDetailView(viewModel: ReceiptDetailViewModel(
                     receipt: viewModel.selectedReceipt!,
                     pdfManager: PDFManager(),
-                    databaseManager: ReceiptManager(database: SalesDatabase.shared)
+                    receiptManager: ReceiptManager(database: SalesDatabase.shared)
                 ))
                 .onDisappear {
                     viewModel.uiState.isShowingReceiptDetail = false
@@ -57,7 +59,9 @@ struct DailySalesView: View {
             }
             BottomSheetView(state: $viewModel.uiState.currentState) {
                 StatisticsView(
-                    viewModel: StatisticsViewModel(statsService: StatisticsManager.shared),
+                    totalSalesStats: viewModel.totalSalesStats,
+                    dailySalesStats: viewModel.dailySalesStats,
+                    topItemSales: viewModel.topItemSales,
                     actionClosed: {
                         withAnimation {
                             viewModel.uiState.currentState = .closed
@@ -119,7 +123,7 @@ struct DailySalesView: View {
     private func filtersSearch() -> some View {
         VStack {
             customDatePicker()
-            SearchBar(titleSearch: "Search receipt...", searchText: $viewModel.searchtext) {
+            SearchBar(titleSearch: "Search receipt...", searchText: $viewModel.searchText) {
                 print("SearchBar close in DailySalesView")
             }
             .padding(.horizontal, 2)
@@ -151,6 +155,6 @@ struct DailySalesView: View {
 
 struct DailySalesView_Previews: PreviewProvider {
     static var previews: some View {
-        DailySalesView(viewModel: DailySalesViewModel(database: MockSalesDatabase()))
+        DailySalesView(viewModel: DailySalesViewModel(receiptManager: MockReceiptManager() , statsService: MockStatisticsManager()))
     }
 }

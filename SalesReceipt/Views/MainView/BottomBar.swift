@@ -38,7 +38,10 @@ struct BottomBar: View {
                 .innerStroke(cornerRadius: 8, lineWidth: 2, color: .black, inset: 4)
                 .padding(.horizontal, 20)
                 .fullScreenCover(isPresented: $viewModel.showingDailySales) {
-                    DailySalesView(viewModel: DailySalesViewModel(database: SalesDatabase.shared))
+                    DailySalesView(viewModel: DailySalesViewModel(
+                        receiptManager: ReceiptManager(database: SalesDatabase.shared),
+                        statsService: StatisticsManager.shared
+                    ))
                 }
         }.buttonStyle(BounceButtonStyle())
     }

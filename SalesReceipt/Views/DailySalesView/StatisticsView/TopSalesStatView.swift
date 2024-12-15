@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct TopSalesStatView: View {
-    let topItemSales: [(item: Item, count: Int)]
+    private let topItemSales: [(item: Item, count: Int)]
+
+    init(_ topItemSales: [(item: Item, count: Int)]) {
+        self.topItemSales = topItemSales
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -48,9 +52,9 @@ struct TopSalesStatView: View {
 
 struct TopSalesStatView_Previews: PreviewProvider {
     static var previews: some View {
-        let salesStats = MockStatisticsManager().getItemSalesStats() ?? [:]
+        let salesStats = MockStatisticsManager().fetchTopItemSales() ?? [:]
         let topItemSales = salesStats.map { (item: $0.key, count: $0.value) }
-        return TopSalesStatView(topItemSales: topItemSales)
+        return TopSalesStatView(topItemSales)
     }
 }
 
