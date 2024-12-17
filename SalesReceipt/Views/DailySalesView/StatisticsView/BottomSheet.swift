@@ -15,7 +15,7 @@ enum BottomSheetState {
     var offset: CGFloat {
         switch self {
         case .closed:
-            return UIScreen.main.bounds.height * 0.87
+            return UIScreen.main.bounds.height * 0.88
         case .overall:
             return UIScreen.main.bounds.height * 0.72
         case .expanded:
@@ -25,7 +25,6 @@ enum BottomSheetState {
     }
 }
 
-#warning("відключити скролл у всіх станах окрім expanded")
 struct BottomSheetView<Content: View>: View {
     @Binding var state: BottomSheetState
     @GestureState private var dragOffset: CGFloat = 0
@@ -39,22 +38,19 @@ struct BottomSheetView<Content: View>: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 16) {
-                content
-            }
-            .frame(maxWidth: .infinity)
-            .background(
-                Group {
-                    if state == .expanded {
-                        Color(.systemBackground)
-                            .shadow(radius: 10)
-                    } else {
-                        CustomTopRoundedShape()
-                            .fill(Color(.systemBackground))
-                            .shadow(radius: 10)
-                    }
+            VStack(spacing: 0) {
+                VStack(spacing: 0) {
+                    content
+                        .frame(maxWidth: .infinity)
+                        .frame(height: geometry.size.height - state.offset, alignment: .top)
+                        .background(Color(.systemBackground))
                 }
+                Spacer()
+            }
+            .clipShape(
+                state == .expanded ? AnyShape(Rectangle()) : AnyShape(CustomTopRoundedShape())
             )
+            .shadow(radius: 10)
             .offset(y: state.offset + dragOffset)
             .gesture(
                 DragGesture()
@@ -82,7 +78,8 @@ struct BottomSheetView<Content: View>: View {
                     state = .expanded
                 }
             }
+            .scrollDisabled(state != .expanded)
+            .ignoresSafeArea(edges: .bottom)
         }
-        .ignoresSafeArea(edges: .bottom)
     }
 }

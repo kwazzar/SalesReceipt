@@ -138,6 +138,7 @@
 				E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */,
 				E34AFF492D087BE70032D9BF /* StatCard.swift */,
 				E35787152D09E5C00088098E /* TopSalesStatView.swift */,
+				E31AB4F12D0BB0F9004BD99A /* BottomSheet.swift */,
 			);
 			path = StatisticsView;
 			sourceTree = "<group>";
@@ -191,7 +192,6 @@
 				E3A11C982CFFB75B00C0A55C /* ReceiptList.swift */,
 				E3A11C9A2CFFB7D000C0A55C /* DailySalesBar.swift */,
 				E3A11C9C2CFFB80A00C0A55C /* CustomDatePickerView.swift */,
-				E31AB4F12D0BB0F9004BD99A /* BottomSheet.swift */,
 			);
 			path = DailySalesView;
 			sourceTree = "<group>";

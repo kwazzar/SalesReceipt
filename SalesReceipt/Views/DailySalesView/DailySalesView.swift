@@ -62,6 +62,7 @@ struct DailySalesView: View {
                     totalSalesStats: viewModel.totalSalesStats,
                     dailySalesStats: viewModel.dailySalesStats,
                     topItemSales: viewModel.topItemSales,
+                    bottomSheetState: $viewModel.uiState.currentState,
                     actionClosed: {
                         withAnimation {
                             viewModel.uiState.currentState = .closed
