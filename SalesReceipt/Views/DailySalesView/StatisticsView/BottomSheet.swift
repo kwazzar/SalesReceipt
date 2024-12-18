@@ -19,7 +19,7 @@ enum BottomSheetState {
         case .overall:
             return UIScreen.main.bounds.height * 0.72
         case .expanded:
-#warning("настроить висоту чтоби было видно пикер")
+#warning("настроить висоту чтоби было видно пикер + добавить состояние с фильтрами")
             return UIScreen.main.bounds.height * 0.1
         }
     }

@@ -15,59 +15,75 @@ struct DailySalesUIState {
 }
 
 final class DailySalesViewModel: ObservableObject {
-    @Published var startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
-    @Published var endDate = Date()
-    @Published var searchText = ""
+    @Published var startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date() {
+        didSet { updateVisibleReceipts() }
+    }
+    @Published var endDate = Date() {
+        didSet { updateVisibleReceipts() }
+    }
+    @Published var searchText = "" {
+        didSet { updateVisibleReceipts() }
+    }
     @Published var selectedReceipt: Receipt?
     @Published var uiState = DailySalesUIState()
-    
+
     @Published var totalSalesStats: (total: Double, itemsSold: Int, averageCheck: Double)?
     @Published var dailySalesStats: [SalesStat] = []
     @Published var topItemSales: [(item: Item, count: Int)] = []
-    
+    @Published var visibleReceipts: [Receipt] = [] // Видимые рецепты
+
     private let receiptManager: ReceiptDatabaseAPI
-    private let statisticsService: StatisticsAPI
-    
+    let statisticsService: StatisticsAPI
+    private var allReceipts: [Receipt] = [] // Все данные из базы
+
     let bottomSheetHeight: CGFloat = UIScreen.main.bounds.height * 0.9
-    
+
     init(
         receiptManager: ReceiptDatabaseAPI,
-        statsService: StatisticsAPI
+        statisticsService: StatisticsAPI
     ) {
         self.receiptManager = receiptManager
-        self.statisticsService = statsService
+        self.statisticsService = statisticsService
+        loadAllReceipts()
+        updateVisibleReceipts()
         fetchStatistics()
     }
-    
-    var filteredReceipts: [Receipt] {
-        guard uiState.areFiltersApplied else {
-            return (try? receiptManager.fetchAllReceipts()) ?? []
-        }
-        
-        return receiptManager.filterReceipts(
+
+    // Загружаем все чеки из базы при старте
+    private func loadAllReceipts() {
+        allReceipts = (try? receiptManager.fetchAllReceipts()) ?? []
+    }
+
+    private func updateVisibleReceipts() {
+        print("🔄 Обновление видимых рецептов")
+        print("📅 Период: \(startDate) - \(endDate)")
+        print("🔍 Текст поиска: \(searchText)")
+
+        visibleReceipts = receiptManager.filter(
+            receipts: allReceipts,
             startDate: startDate,
             endDate: endDate,
             searchText: searchText
         )
+
+        print("✅ Количество видимых рецептов: \(visibleReceipts.count)")
+        fetchStatistics()
     }
-    
+
+    private func fetchStatistics() {
+        print("📊 Получение статистики")
+        totalSalesStats = statisticsService.fetchTotalStats(receipts: visibleReceipts)
+        dailySalesStats = statisticsService.fetchDailySales(receipts: visibleReceipts) ?? []
+        topItemSales = statisticsService.fetchTopItemSales(receipts: visibleReceipts, searchText: searchText, limit: 3)
+    }
+
     func clearAllReceipts() {
         do {
             try receiptManager.clearAllReceipts()
+            allReceipts.removeAll()
+            updateVisibleReceipts()
         } catch {
             print("Ошибка при очистке чеков: \(error)")
-        }
-    }
-    
-    private func fetchStatistics() {
-        totalSalesStats = statisticsService.fetchTotalStats()
-        dailySalesStats = statisticsService.fetchDailySales() ?? []
-        topItemSales = statisticsService.fetchTopItemSales(limit: 3)
-    }
-    
-    var filteredStatistics: [SalesStat] {
-        dailySalesStats.filter { stat in
-            stat.date >= startDate && stat.date <= endDate
         }
     }
 }

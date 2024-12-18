@@ -52,9 +52,8 @@ struct TopSalesStatView: View {
 
 struct TopSalesStatView_Previews: PreviewProvider {
     static var previews: some View {
-        let salesStats = MockStatisticsManager().fetchTopItemSales() ?? [:]
-        let topItemSales = salesStats.map { (item: $0.key, count: $0.value) }
+        let manager = StatisticsManager()
+        let topItemSales = manager.fetchTopItemSales(receipts: testReceipts)
         return TopSalesStatView(topItemSales)
     }
 }
-

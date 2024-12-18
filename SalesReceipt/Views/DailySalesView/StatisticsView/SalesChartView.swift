@@ -94,7 +94,11 @@ struct SalesChartView: View {
 }
 
 struct SalesChartView_Previews: PreviewProvider {
+
     static var previews: some View {
-        SalesChartView(MockStatisticsManager().fetchDailySales().unsafelyUnwrapped)
+        SalesChartView([
+            SalesStat(date: Date().addingTimeInterval(-86400), totalAmount: 500.0, itemCount: 25),
+            SalesStat(date: Date(), totalAmount: 235.0, itemCount: 25)
+        ])
     }
 }

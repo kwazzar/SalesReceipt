@@ -8,10 +8,10 @@
 import SwiftUI
 import SwiftUIIntrospect
 
-#warning("добавить фильтри статиски")
+#warning("добавить фильтри статиски по имени")
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var viewModel: DailySalesViewModel
+    @ObservedObject var viewModel: DailySalesViewModel
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -36,7 +36,8 @@ struct DailySalesView: View {
                             }
                         }
                 }
-                ReceiptList(viewModel.filteredReceipts, onReceiptTap: { receipt in
+                ReceiptList(viewModel.visibleReceipts,
+                            onReceiptTap: { receipt in
                     viewModel.selectedReceipt = receipt
                     viewModel.uiState.isShowingReceiptDetail = true
                 })
@@ -59,16 +60,16 @@ struct DailySalesView: View {
             }
             BottomSheetView(state: $viewModel.uiState.currentState) {
                 StatisticsView(
-                    totalSalesStats: viewModel.totalSalesStats,
-                    dailySalesStats: viewModel.dailySalesStats,
-                    topItemSales: viewModel.topItemSales,
                     bottomSheetState: $viewModel.uiState.currentState,
                     actionClosed: {
                         withAnimation {
                             viewModel.uiState.currentState = .closed
                         }
                     },
-                    isButtonVisible: viewModel.uiState.currentState != .closed
+                    isButtonVisible: viewModel.uiState.currentState != .closed,
+                    receipts: viewModel.visibleReceipts,
+                    searchText: viewModel.searchText,
+                    statisticsService: viewModel.statisticsService
                 )
                 .frame(height: viewModel.bottomSheetHeight)
             }
@@ -156,6 +157,6 @@ struct DailySalesView: View {
 
 struct DailySalesView_Previews: PreviewProvider {
     static var previews: some View {
-        DailySalesView(viewModel: DailySalesViewModel(receiptManager: MockReceiptManager() , statsService: MockStatisticsManager()))
+        DailySalesView(viewModel: DailySalesViewModel(receiptManager: MockReceiptManager() , statisticsService: StatisticsManager()))
     }
 }

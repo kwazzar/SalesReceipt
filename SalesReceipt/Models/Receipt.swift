@@ -37,6 +37,12 @@ struct Receipt: Identifiable {
     }
 }
 
+extension Receipt: Equatable {
+    static func == (lhs: Receipt, rhs: Receipt) -> Bool {
+        lhs.id == rhs.id  // Сравниваем по уникальному идентификатору
+    }
+}
+
 struct CustomerName: Hashable {
     let value: String
 

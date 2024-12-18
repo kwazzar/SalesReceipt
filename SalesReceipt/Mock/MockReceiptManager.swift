@@ -8,6 +8,7 @@
 import Foundation
 
 final class MockReceiptManager: ReceiptDatabaseAPI {
+
     var availableItems: [Item] = testItems1 + testItems2
     private var storedReceipts: [Receipt] = testReceipts
     
@@ -51,5 +52,14 @@ final class MockReceiptManager: ReceiptDatabaseAPI {
             
             return dateInRange && matchesSearchText
         }
+    }
+
+    func filter(receipts: [Receipt], startDate: Date, endDate: Date, searchText: String) -> [Receipt] {
+        Receipt.filter(
+            to: receipts,
+            startDate: startDate,
+            endDate: endDate,
+            searchText: searchText
+        )
     }
 }

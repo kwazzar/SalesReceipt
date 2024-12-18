@@ -15,7 +15,6 @@
 		E330C3242CD99693001CA7A5 /* Extension + View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E330C3232CD99693001CA7A5 /* Extension + View.swift */; };
 		E34AFF482D087BB10032D9BF /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AFF472D087BB10032D9BF /* StatisticsView.swift */; };
 		E34AFF4A2D087BE70032D9BF /* StatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AFF492D087BE70032D9BF /* StatCard.swift */; };
-		E34AFF4E2D08942A0032D9BF /* MockStatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AFF4D2D08942A0032D9BF /* MockStatisticsManager.swift */; };
 		E34AFF502D089B1F0032D9BF /* SalesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */; };
 		E35656952D0F69FE00B7E78D /* MockReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */; };
 		E35787162D09E5C00088098E /* TopSalesStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35787152D09E5C00088098E /* TopSalesStatView.swift */; };
@@ -66,7 +65,6 @@
 		E330C3232CD99693001CA7A5 /* Extension + View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + View.swift"; sourceTree = "<group>"; };
 		E34AFF472D087BB10032D9BF /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		E34AFF492D087BE70032D9BF /* StatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCard.swift; sourceTree = "<group>"; };
-		E34AFF4D2D08942A0032D9BF /* MockStatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStatisticsManager.swift; sourceTree = "<group>"; };
 		E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesChartView.swift; sourceTree = "<group>"; };
 		E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReceiptManager.swift; sourceTree = "<group>"; };
 		E35787152D09E5C00088098E /* TopSalesStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSalesStatView.swift; sourceTree = "<group>"; };
@@ -222,7 +220,6 @@
 			children = (
 				E39B91DC2D023B4100150545 /* MockItems.swift */,
 				E39B97C62D0B3A780095E384 /* MockReceipt.swift */,
-				E34AFF4D2D08942A0032D9BF /* MockStatisticsManager.swift */,
 				E39B97C82D0B3B0F0095E384 /* MockSalesDatabase.swift */,
 				E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */,
 			);
@@ -398,7 +395,6 @@
 				E367B8A52D00D96800AC7B81 /* ReceiptManager.swift in Sources */,
 				E32A8CEE2CDC029D00B4E405 /* CustomerCard.swift in Sources */,
 				E330C3242CD99693001CA7A5 /* Extension + View.swift in Sources */,
-				E34AFF4E2D08942A0032D9BF /* MockStatisticsManager.swift in Sources */,
 				E3FE02652CD554FE00779E5B /* Receipt.swift in Sources */,
 				E3FE02562CD5546300779E5B /* SalesView.swift in Sources */,
 				E330C31D2CD91B2C001CA7A5 /* SearchBar.swift in Sources */,

@@ -40,7 +40,7 @@ struct BottomBar: View {
                 .fullScreenCover(isPresented: $viewModel.showingDailySales) {
                     DailySalesView(viewModel: DailySalesViewModel(
                         receiptManager: ReceiptManager(database: SalesDatabase.shared),
-                        statsService: StatisticsManager.shared
+                        statisticsService: StatisticsManager()
                     ))
                 }
         }.buttonStyle(BounceButtonStyle())
