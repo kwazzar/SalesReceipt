@@ -8,10 +8,9 @@
 import SwiftUI
 import SwiftUIIntrospect
 
-#warning("добавить фильтри статиски по имени")
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel: DailySalesViewModel
+    @StateObject var viewModel: DailySalesViewModel
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -33,6 +32,9 @@ struct DailySalesView: View {
                                 viewModel.startDate != Date() ||
                                 viewModel.endDate != Date() {
                                 viewModel.uiState.areFiltersApplied = false
+                                if viewModel.uiState.currentState == .withFilters {
+                                    viewModel.uiState.currentState = .expanded
+                                }
                             }
                         }
                 }
@@ -157,6 +159,6 @@ struct DailySalesView: View {
 
 struct DailySalesView_Previews: PreviewProvider {
     static var previews: some View {
-        DailySalesView(viewModel: DailySalesViewModel(receiptManager: MockReceiptManager() , statisticsService: StatisticsManager()))
+        DailySalesView(viewModel: DailySalesViewModel(receiptManager: MockReceiptManager(), statisticsService: StatisticsManager()))
     }
 }

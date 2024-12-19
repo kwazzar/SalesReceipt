@@ -29,7 +29,6 @@ struct CustomDatePickerView: View {
     }
 }
 
-
 //struct CustomDatePickerView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        CustomDatePickerView()

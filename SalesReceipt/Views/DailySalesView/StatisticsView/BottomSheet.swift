@@ -11,6 +11,7 @@ enum BottomSheetState {
     case closed
     case overall
     case expanded
+    case withFilters
     
     var offset: CGFloat {
         switch self {
@@ -19,8 +20,9 @@ enum BottomSheetState {
         case .overall:
             return UIScreen.main.bounds.height * 0.72
         case .expanded:
-#warning("настроить висоту чтоби было видно пикер + добавить состояние с фильтрами")
-            return UIScreen.main.bounds.height * 0.1
+            return UIScreen.main.bounds.height * 0.06
+        case .withFilters:
+            return UIScreen.main.bounds.height * 0.165
         }
     }
 }
@@ -47,8 +49,9 @@ struct BottomSheetView<Content: View>: View {
                 }
                 Spacer()
             }
+
             .clipShape(
-                state == .expanded ? AnyShape(Rectangle()) : AnyShape(CustomTopRoundedShape())
+               !expandedAndWithFiltersState ? AnyShape(Rectangle()) : AnyShape(CustomTopRoundedShape())
             )
             .shadow(radius: 10)
             .offset(y: state.offset + dragOffset)
@@ -78,8 +81,12 @@ struct BottomSheetView<Content: View>: View {
                     state = .expanded
                 }
             }
-            .scrollDisabled(state != .expanded)
+            .scrollDisabled(!expandedAndWithFiltersState)
             .ignoresSafeArea(edges: .bottom)
         }
+    }
+
+    private var expandedAndWithFiltersState: Bool {
+        state != .expanded && state != .withFilters
     }
 }

@@ -7,25 +7,13 @@
 
 import SwiftUI
 
-#warning("скоріше за все потрібне роздрілення")
 struct StatisticsView: View {
-    @State var totalSalesStats: (total: Double, itemsSold: Int, averageCheck: Double)?
-    @State var dailySalesStats: [SalesStat]
-    @State var topItemSales: [(item: Item, count: Int)]
+    @ObservedObject private var viewModel: StatisticsViewModel
     @Binding var bottomSheetState: BottomSheetState
     let actionClosed: () -> Void
     let isButtonVisible: Bool
 
-    // НОВЫЕ ПАРАМЕТРЫ
-    let receipts: [Receipt]
-    let searchText: String?
-    let statisticsService: StatisticsAPI
-
-    // ОБНОВЛЕННЫЙ ИНИЦИАЛИЗАТОР
     init(
-        totalSalesStats: (total: Double, itemsSold: Int, averageCheck: Double)? = nil,
-        dailySalesStats: [SalesStat] = [],
-        topItemSales: [(item: Item, count: Int)] = [],
         bottomSheetState: Binding<BottomSheetState>,
         actionClosed: @escaping () -> Void,
         isButtonVisible: Bool,
@@ -33,15 +21,13 @@ struct StatisticsView: View {
         searchText: String?,
         statisticsService: StatisticsAPI
     ) {
-        self._totalSalesStats = State(initialValue: totalSalesStats)
-        self._dailySalesStats = State(initialValue: dailySalesStats)
-        self._topItemSales = State(initialValue: topItemSales)
         self._bottomSheetState = bottomSheetState
         self.actionClosed = actionClosed
         self.isButtonVisible = isButtonVisible
-        self.receipts = receipts
-        self.searchText = searchText
-        self.statisticsService = statisticsService
+        self._viewModel = ObservedObject(wrappedValue: StatisticsViewModel(
+            statisticsService: statisticsService, receipts: receipts,
+            searchText: searchText
+        ))
     }
 
     var body: some View {
@@ -65,7 +51,7 @@ struct StatisticsView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 20) {
-                        if let totalStats = calculatedTotalStats {
+                        if let totalStats = viewModel.totalSalesStats {
                             VStack(alignment: .leading, spacing: 12) {
                                 Text("Overall Statistics")
                                     .font(.headline)
@@ -82,8 +68,8 @@ struct StatisticsView: View {
                                 .padding(.horizontal)
                             }
                         }
-                        SalesChartView(calculatedDailySales)
-                        TopSalesStatView(calculatedTopSales)
+                        SalesChartView(viewModel.dailySalesStats)
+                        TopSalesStatView(viewModel.topItemSales)
                     }
                     .padding(.vertical, 16)
                     .id("top")
@@ -99,43 +85,8 @@ struct StatisticsView: View {
             .scrollIndicators(.hidden)
         }
         .ignoresSafeArea(edges: .top)
-        .onAppear(perform: calculateStatistics)
-        .onChange(of: receipts) { _ in calculateStatistics() }
-        .onChange(of: searchText ?? "") { _ in calculateStatistics() }
-    }
-
-    private var calculatedTotalStats: (total: Double, itemsSold: Int, averageCheck: Double)? {
-        statisticsService.fetchTotalStats(receipts: filteredReceipts)
-    }
-
-    private var calculatedDailySales: [SalesStat] {
-        statisticsService.fetchDailySales(receipts: filteredReceipts) ?? []
-    }
-    
-    private var calculatedTopSales: [(item: Item, count: Int)] {
-        statisticsService.fetchTopItemSales(receipts: receipts, searchText: searchText, limit: 3)
-    }
-
-    private var filteredReceipts: [Receipt] {
-        if let searchText = searchText, !searchText.isEmpty {
-            return receipts.filter { receipt in
-                receipt.items.contains {
-                    $0.description.value.lowercased().contains(searchText.lowercased())
-                }
-            }
-        }
-        return receipts
-    }
-
-    private func calculateStatistics() {
-        totalSalesStats = calculatedTotalStats
-        dailySalesStats = calculatedDailySales
-        topItemSales = calculatedTopSales
+        .onAppear(perform: viewModel.calculateStatistics)
+        .onChange(of: viewModel.receipts) { _ in viewModel.calculateStatistics() }
+        .onChange(of: viewModel.searchText ?? "") { _ in viewModel.calculateStatistics() }
     }
 }
-
-//struct StatisticsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StatisticsView(viewModel: StatisticsViewModel(statsService: MockStatisticsManager()), actionClosed: {}, isButtonVisible: true)
-//    }
-//}

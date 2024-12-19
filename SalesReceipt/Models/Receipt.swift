@@ -16,7 +16,7 @@ struct Receipt: Identifiable {
     var total: Double {
         items.reduce(0) { $0 + $1.price.value }
     }
-
+    
     static func filter(
         to receipts: [Receipt],
         startDate: Date,
@@ -32,14 +32,17 @@ struct Receipt: Identifiable {
         }
 
         return dateFiltered.filter { receipt in
-            receipt.customerName.value.lowercased().contains(searchText.lowercased())
+            receipt.customerName.value.lowercased().contains(searchText.lowercased()) ||
+            receipt.items.contains { item in
+                item.description.value.lowercased().contains(searchText.lowercased())
+            }
         }
     }
 }
 
 extension Receipt: Equatable {
     static func == (lhs: Receipt, rhs: Receipt) -> Bool {
-        lhs.id == rhs.id  // Сравниваем по уникальному идентификатору
+        lhs.id == rhs.id 
     }
 }
 

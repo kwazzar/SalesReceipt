@@ -8,19 +8,20 @@
 import SwiftUI
 import Charts
 
+#warning("better statistics chart")
 struct SalesChartView: View {
     private let salesStats: [SalesStat]
-    
+
     init(_ salesStats: [SalesStat]) {
         self.salesStats = salesStats
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Sales Dynamics")
                 .font(.headline)
                 .padding(.horizontal)
-            
+
             if !salesStats.isEmpty {
                 Chart {
                     ForEach(salesStats) { stat in
@@ -34,7 +35,7 @@ struct SalesChartView: View {
                                 .foregroundColor(.secondary)
                         }
                         .annotation(position: .overlay) {
-                            Text(stat.date, format: .dateTime.day().month())
+                            Text(stat.date, format: .dateTime.day())
                                 .font(.caption2)
                                 .foregroundColor(.primary)
                         }
@@ -80,7 +81,7 @@ struct SalesChartView: View {
                         )
                 )
                 .padding(.horizontal)
-                
+
             } else {
                 Text("No data available for display.")
                     .padding()
