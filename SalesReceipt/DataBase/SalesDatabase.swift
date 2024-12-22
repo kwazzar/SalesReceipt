@@ -19,7 +19,7 @@ final class SalesDatabase: SalesDatabaseProtocol {
     private let context = CoreDataStack.shared.context
 
     private init() {
-        CoreDataStack.shared.migrateExistingData()
+//        CoreDataStack.shared.migrateExistingData()
     }
 
     func saveReceiptToDatabase(_ receipt: Receipt) {

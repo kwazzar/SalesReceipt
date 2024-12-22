@@ -15,3 +15,11 @@ final class ItemEntity: NSManagedObject {
     @NSManaged var image: String?
     @NSManaged var receipt: ReceiptEntity?
 }
+
+extension ItemEntity {
+    @objc
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        self.id = UUID()
+    }
+}

@@ -23,7 +23,7 @@ final class MockReceiptManager: ReceiptDatabaseAPI {
     }
     
     func updatePDFPath(for receiptID: UUID, path: String) throws {
-        guard let index = storedReceipts.firstIndex(where: { $0.id == receiptID }) else {
+        guard storedReceipts.firstIndex(where: { $0.id == receiptID }) != nil else {
             throw NSError(domain: "MockReceiptManager", code: 404, userInfo: [NSLocalizedDescriptionKey: "Receipt not found"])
         }
         // В реальном сценарии здесь бы обновлялся PDF-путь
