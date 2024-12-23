@@ -34,7 +34,13 @@ final class SalesViewModel: ObservableObject {
     }
     
     func addItem(_ item: Item) {
-        currentItems.append(item)
+        let receiptItem = Item(
+            id: UUID(),
+            description: item.description,
+            price: item.price,
+            image: item.image
+        )
+        currentItems.append(receiptItem)
         calculateTotal()
     }
     

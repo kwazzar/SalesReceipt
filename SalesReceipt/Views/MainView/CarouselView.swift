@@ -13,7 +13,7 @@ struct CarouselView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 15) {
-                ForEach(viewModel.filteredItems, id: \.id) { item in
+                ForEach(viewModel.filteredItems, id: \.description) { item in
                     ItemButton(item: item) {
                         viewModel.addItem(item)
                     }

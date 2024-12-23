@@ -8,10 +8,26 @@
 import SwiftUI
 
 struct Item: Identifiable, Hashable {
-    let id: UUID
+    let id: UUID?
     let description: Description
     let price: Price
     var image: ImageItem
+
+    // Initialize without ID for catalog items
+    init(description: Description, price: Price, image: ImageItem) {
+        self.id = nil
+        self.description = description
+        self.price = price
+        self.image = image
+    }
+
+    // Initialize with ID for receipt items
+    init(id: UUID = UUID(), description: Description, price: Price, image: ImageItem) {
+        self.id = id
+        self.description = description
+        self.price = price
+        self.image = image
+    }
 
     static func filter(items: [Item], query: SearchQuery) -> [Item] {
         return query.text.isEmpty

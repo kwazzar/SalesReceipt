@@ -30,7 +30,7 @@ final class SalesDatabase: SalesDatabaseProtocol {
 
             for item in receipt.items {
                 let itemEntity = ItemEntity(context: context)
-                itemEntity.id = item.id
+                itemEntity.id = item.id ?? UUID()
                 itemEntity.desc = item.description.value
                 itemEntity.price = item.price.value
                 itemEntity.image = item.image.value
