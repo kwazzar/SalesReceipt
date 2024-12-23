@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUIIntrospect
 
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode

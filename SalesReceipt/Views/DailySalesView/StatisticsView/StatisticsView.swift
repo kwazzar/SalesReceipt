@@ -70,6 +70,7 @@ struct StatisticsView: View {
                         }
                         SalesChartView(viewModel.dailySalesStats)
                         TopSalesStatView(viewModel.topItemSales)
+                        Spacer(minLength: 40)
                     }
                     .padding(.vertical, 16)
                     .id("top")
@@ -82,6 +83,9 @@ struct StatisticsView: View {
                     }
                 }
             }
+            .introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18), customize: { scroll in
+                scroll.bounces = false
+            })
             .scrollIndicators(.hidden)
         }
         .ignoresSafeArea(edges: .top)

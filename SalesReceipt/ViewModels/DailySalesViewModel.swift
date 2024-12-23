@@ -37,7 +37,6 @@ final class DailySalesViewModel: ObservableObject {
          }
     }
 
-
     private let receiptManager: ReceiptDatabaseAPI
     let statisticsService: StatisticsAPI
     private var allReceipts: [Receipt] = []

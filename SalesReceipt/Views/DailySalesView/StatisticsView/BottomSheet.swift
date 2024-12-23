@@ -64,9 +64,17 @@ struct BottomSheetView<Content: View>: View {
                         withAnimation {
                             let threshold = geometry.size.height * 0.2
                             if value.translation.height < -threshold {
-                                state = state == .closed ? .overall : .expanded
+                                if state == .closed || state == .withFilters {
+                                    state = .overall
+                                } else if state == .overall {
+                                    state = .expanded
+                                }
                             } else if value.translation.height > threshold {
-                                state = state == .expanded ? .overall : .closed
+                                if state == .expanded {
+                                    state = .overall
+                                } else if state == .overall {
+                                    state = state == .withFilters ? .withFilters : .closed
+                                }
                             }
                         }
                     }
@@ -81,7 +89,7 @@ struct BottomSheetView<Content: View>: View {
                     state = .expanded
                 }
             }
-            .scrollDisabled(!expandedAndWithFiltersState)
+            .scrollDisabled(expandedAndWithFiltersState)
             .ignoresSafeArea(edges: .bottom)
         }
     }
