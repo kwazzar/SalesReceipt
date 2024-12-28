@@ -6,27 +6,19 @@
 //
 
 import SwiftUI
-
-struct Item: Identifiable, Hashable {
+struct Item: Identifiable, Hashable, Equatable {
     let id: UUID?
     let description: Description
     let price: Price
     var image: ImageItem
+    var quantity: Int = 1
 
-    // Initialize without ID for catalog items
-    init(description: Description, price: Price, image: ImageItem) {
-        self.id = nil
-        self.description = description
-        self.price = price
-        self.image = image
-    }
-
-    // Initialize with ID for receipt items
-    init(id: UUID = UUID(), description: Description, price: Price, image: ImageItem) {
+    init(id: UUID = UUID(), description: Description, price: Price, image: ImageItem, quantity: Int = 1) {
         self.id = id
         self.description = description
         self.price = price
         self.image = image
+        self.quantity = quantity
     }
 
     static func filter(items: [Item], query: SearchQuery) -> [Item] {
@@ -36,12 +28,9 @@ struct Item: Identifiable, Hashable {
     }
 
     static func calculateTotal(_ items: [Item]) -> Price {
-        return items.reduce(Price(0)) { $0 + $1.price }
-    }
-
-    static func removeLastItem(from items: inout [Item]) {
-        guard !items.isEmpty else { return }
-        items.removeLast()
+        return items.reduce(Price(0)) { total, item in
+            total + Price(item.price.value * Double(item.quantity))
+        }
     }
 }
 

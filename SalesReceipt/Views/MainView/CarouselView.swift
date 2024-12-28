@@ -46,9 +46,9 @@ struct ItemButton: View {
             }
         }
         .padding()
-        .innerStroke()
+        .innerStroke(cornerRadius: 16)
         .background(Color.blue.opacity(0.1))
-        .cornerRadius(10)
+        .cornerRadius(16)
     }
 }
 

@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+#warning("""
+не зберігає загальну сумму покупок замість цього
+вказує суму одного товару
+""")
+#warning("додати екшен меню до картки")
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: DailySalesViewModel

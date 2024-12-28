@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 struct BottomBar: View {
     @StateObject var viewModel: SalesViewModel
     
@@ -73,7 +72,6 @@ struct BottomBarButton: View {
 
 //MARK: - BottomBarButtonType
 enum BottomBarButtonType: String, CaseIterable {
-    case removeLast
     case clearAll
     case checkout
     
@@ -89,8 +87,6 @@ enum BottomBarButtonType: String, CaseIterable {
     
     var buttonColor: Color {
         switch self {
-        case .removeLast:
-            return Color.clear
         case .clearAll:
             return Color.clear
         case .checkout:
@@ -100,8 +96,6 @@ enum BottomBarButtonType: String, CaseIterable {
     
     func action(viewModel: SalesViewModel) {
         switch self {
-        case .removeLast:
-            viewModel.removeLastItem()
         case .clearAll:
             viewModel.clearAll()
         case .checkout:

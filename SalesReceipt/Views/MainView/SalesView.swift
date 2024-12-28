@@ -16,13 +16,19 @@ struct SalesView: View {
             VStack(spacing: 5) {
                 SearchBar(titleSearch: "Search items...", searchText: Binding(
                     get: { viewModel.searchText.text },
-                    set: { viewModel.searchText = SearchQuery(text: $0); viewModel.updateFilteredItems(for: SearchQuery(text: $0)) }
+                    set: { viewModel.searchText = SearchQuery(text: $0);
+                        viewModel.updateFilteredItems(for: SearchQuery(text: $0)) }
                 ), actionClose: {
                     viewModel.searchText = SearchQuery(text: "")
                     viewModel.updateFilteredItems(for: SearchQuery(text: ""))
                 })
                 CarouselView(viewModel: viewModel)
-                ReceiptView(items: viewModel.currentItems, total: viewModel.total.value)
+                ReceiptView(
+                    items: viewModel.currentItems,
+                    total: viewModel.total.value,
+                    onDeleteItem: viewModel.deleteItem,
+                    onDecrementItem: viewModel.decrementItem
+                )
                 BottomBar(viewModel: viewModel)
             }
             .blur(radius: viewModel.isPopupVisible ? 3 : 0)
