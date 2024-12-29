@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-//MARK: - ReceiptView
 struct ReceiptView: View {
     let items: [Item]
     let total: Double
+    @ObservedObject var uiState: SalesUIState
     let onDeleteItem: (Item) -> Void
     let onDecrementItem: (Item) -> Void
     
@@ -24,7 +24,7 @@ struct ReceiptView: View {
                 .padding(.vertical, 15)
             
             ScrollView {
-                VStack(spacing: 12) {
+                VStack(spacing: 0) {
                     ForEach(items, id: \.id) { item in
                         HStack {
                             if item.quantity > 1 {
@@ -42,13 +42,25 @@ struct ReceiptView: View {
                             Text("$\(String(format: "%.2f", item.price.value * Double(item.quantity)))")
                                 .font(.system(size: 16, weight: .medium))
                             
-                            ItemActionButton(item: item, onDelete: onDeleteItem, onDecrement: onDecrementItem)
+                            ItemActionButton(
+                                item: item,
+                                uiState: uiState,
+                                onDelete: onDeleteItem,
+                                onDecrement: onDecrementItem
+                            )
                         }
                         .padding(.horizontal, 20)
                     }
                 }
             }
             .frame(maxHeight: 300)
+            .onTapGesture {
+                if uiState.activeMenuItemID != nil {
+                    withAnimation {
+                        uiState.activeMenuItemID = nil
+                    }
+                }
+            }
             
             CustomDivider()
                 .padding(.vertical, 15)
@@ -77,40 +89,44 @@ struct ReceiptView: View {
     }
 }
 
-#warning("тільки одне працююче меню на екрані")
-//MARK: - ItemActionButton
+// MARK: - ItemActionButton
 struct ItemActionButton: View {
     let item: Item
+    @ObservedObject var uiState: SalesUIState
     let onDelete: (Item) -> Void
     let onDecrement: (Item) -> Void
     
-    @State private var showMenu = false
+    var isActive: Bool {
+        uiState.activeMenuItemID == item.id
+    }
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            Button(action: {
-                withAnimation {
-                    showMenu.toggle()
+            
+            if !isActive {
+                Button(action: {
+                    withAnimation {
+                        uiState.activeMenuItemID = item.id
+                    }
+                }) {
+                    Image(systemName: "ellipsis.circle")
+                        .font(.system(size: 20))
+                        .foregroundColor(.gray)
+                        .frame(width: 44, height: 44)
                 }
-            }) {
-                Image(systemName: "ellipsis.circle")
-                    .font(.system(size: 20))
-                    .foregroundColor(.gray)
-                    .frame(width: 44, height: 44)
+                .opacity(uiState.activeMenuItemID == nil ? 1 : 0)
             }
             
-            if showMenu {
+            if isActive {
                 VStack(spacing: 8) {
                     Button(action: {
                         onDelete(item)
                         withAnimation {
-                            showMenu = false
+                            uiState.activeMenuItemID = nil
                         }
                     }) {
                         HStack {
                             Image(systemName: "trash")
-                                .foregroundColor(.red)
-                            Text("Delete All")
                                 .foregroundColor(.red)
                         }
                         .padding()
@@ -124,14 +140,12 @@ struct ItemActionButton: View {
                     Button(action: {
                         onDecrement(item)
                         withAnimation {
-                            showMenu = false
+                            uiState.activeMenuItemID = nil
                         }
                     }) {
                         HStack {
                             Image(systemName: "minus.circle")
-                                .foregroundColor(.blue)
-                            Text("Remove One")
-                                .foregroundColor(.blue)
+                                .foregroundColor(.black)
                         }
                         .padding()
                         .background(
@@ -183,10 +197,12 @@ struct ReceiptView_Previews: PreviewProvider {
         ]
         
         let total = sampleItems.reduce(0) { $0 + $1.price.value }
+        let uiState = SalesUIState()
         
         return ReceiptView(
             items: sampleItems,
             total: total,
+            uiState: uiState,
             onDeleteItem: { _ in },
             onDecrementItem: { _ in }
         )

@@ -8,91 +8,133 @@
 import Foundation
 import SwiftUI
 
+final class SalesViewModel: ObservableObject {
+    @Published private(set) var total: Price = Price(0)
+    @Published var customerName: CustomerName = CustomerName("")
+
+    private let itemManager: ItemManager
+    private let checkoutManager: CheckoutManager
+    #warning("item provider vs itemManager")
+    let searchState: SearchState
+    let uiState: SalesUIState
+
+    init(
+        receiptManager: ReceiptDatabaseAPI,
+        itemManager: ItemManager = ItemManager()
+    ) {
+        self.itemManager = itemManager
+        self.checkoutManager = CheckoutManager(
+            receiptManager: receiptManager,
+            itemManager: itemManager
+        )
+        self.searchState = SearchState(itemProvider: itemManager)
+        self.uiState = SalesUIState()
+        self.searchState.setAvailableItems(receiptManager.availableItems)
+    }
+
+    var currentItems: [Item] {
+        itemManager.currentItems
+    }
+
+    func addItem(_ item: Item) {
+        itemManager.addItem(item)
+        updateTotal()
+    }
+
+    func deleteItem(_ item: Item) {
+        itemManager.deleteItem(item)
+        updateTotal()
+    }
+
+    func decrementItem(_ item: Item) {
+        itemManager.decrementItem(item)
+        updateTotal()
+    }
+
+    func clearAll() {
+        itemManager.clearAll()
+        customerName = CustomerName("")
+        updateTotal()
+    }
+
+    private func updateTotal() {
+        total = itemManager.calculateTotal()
+    }
+
+    func checkout() {
+        uiState.isPopupVisible = true
+    }
+
+    func finalizeCheckout(with name: String) {
+        if checkoutManager.finalizeCheckout(customerName: name) {
+            customerName = CustomerName("")
+            updateTotal()
+            uiState.isPopupVisible = false
+        }
+    }
+}
+
+//MARK: - SearchState
 struct SearchQuery {
     let text: String
 }
 
-final class SalesViewModel: ObservableObject {
-    @Published private(set) var currentItems: [Item] = []
-    @Published private(set) var total: Price = Price(0)
-    @Published private(set) var filteredItems: [Item] = []
-    @Published var customerName: CustomerName = CustomerName("")
+final class SearchState: ObservableObject {
     @Published var searchText: SearchQuery = SearchQuery(text: "")
-    @Published var isPopupVisible = false
     @Published var isSearching = false
-    @Published var showingDailySales = false
+    @Published var filteredItems: [Item] = []
+
+    private let itemProvider: ItemProvider
+    private var availableItems: [Item] = []
     
-    private let receiptManager: ReceiptDatabaseAPI
+    init(itemProvider: ItemProvider) {
+        self.itemProvider = itemProvider
+    }
     
-    init(_ receiptManager: ReceiptDatabaseAPI) {
-        self.receiptManager = receiptManager
-        filteredItems = receiptManager.availableItems
+    func setAvailableItems(_ items: [Item]) {
+        self.availableItems = items
+        self.filteredItems = items
     }
     
     func updateFilteredItems(for query: SearchQuery) {
-        filteredItems = Item.filter(items: receiptManager.availableItems, query: query)
-    }
-
-    func addItem(_ item: Item) {
-        if let index = currentItems.firstIndex(where: { $0.description == item.description }) {
-            currentItems[index].quantity += 1
+        if query.text.isEmpty {
+            filteredItems = availableItems
         } else {
-            let receiptItem = Item(
-                id: UUID(),
-                description: item.description,
-                price: item.price,
-                image: item.image,
-                quantity: 1
-            )
-            currentItems.append(receiptItem)
+            filteredItems = availableItems.filter { item in
+                item.description.value
+                    .localizedCaseInsensitiveContains(query.text)
+            }
         }
-        calculateTotal()
-    }
-    
-    func calculateTotal() {
-        total = Item.calculateTotal(currentItems)
-    }
-    
-    func clearAll() {
-        currentItems.removeAll()
-        customerName = CustomerName("")
-        calculateTotal()
-    }
-    
-    func checkout() {
-        isPopupVisible = true
-    }
-    
-    func finalizeCheckout(with name: String) {
-        guard !currentItems.isEmpty else {
-            isPopupVisible = false
-            return
-        }
-        
-        let checkoutItems = currentItems
-        let checkoutName = CustomerName(name)
-        receiptManager.saveReceipt(customerName: checkoutName, items: checkoutItems)
-        
-        clearAll()
-        isPopupVisible = false
     }
 }
 
-#warning("item Manager?")
-extension SalesViewModel {
-    func deleteItem(_ item: Item) {
-        currentItems.removeAll(where: { $0.id == item.id })
-        calculateTotal()
-    }
+//MARK: - SalesUIState
+final class SalesUIState: ObservableObject {
+    @Published var isPopupVisible = false
+    @Published var showingDailySales = false
+    @Published var activeMenuItemID: UUID? = nil
+}
 
-    func decrementItem(_ item: Item) {
-        if let index = currentItems.firstIndex(where: { $0.id == item.id }) {
-            if currentItems[index].quantity > 1 {
-                currentItems[index].quantity -= 1
-            } else {
-                currentItems.removeAll(where: { $0.id == item.id })
-            }
-            calculateTotal()
+// Управління checkout процесом
+final class CheckoutManager {
+    private let receiptManager: ReceiptDatabaseAPI
+    private let itemManager: ItemManager
+    
+    init(receiptManager: ReceiptDatabaseAPI, itemManager: ItemManager) {
+        self.receiptManager = receiptManager
+        self.itemManager = itemManager
+    }
+    
+    func finalizeCheckout(customerName: String) -> Bool {
+        guard !itemManager.currentItems.isEmpty else {
+            return false
         }
+        
+        let checkoutItems = itemManager.currentItems
+        let checkoutName = CustomerName(customerName)
+        receiptManager.saveReceipt(customerName: checkoutName, items: checkoutItems)
+        
+        itemManager.clearAll()
+        return true
     }
 }

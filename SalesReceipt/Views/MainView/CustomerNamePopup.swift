@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct CustomerNamePopup: View {
-    @StateObject var viewModel: SalesViewModel
     @State private var inputName: String = ""
+    @StateObject var viewModel: SalesViewModel
+    @ObservedObject private var uiState: SalesUIState
+    
+    init(viewModel: SalesViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        self.uiState = viewModel.uiState
+    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -26,7 +32,7 @@ struct CustomerNamePopup: View {
             HStack {
                 Button("Anonymous") {
                     viewModel.finalizeCheckout(with: "")
-                    viewModel.isPopupVisible = false
+                    viewModel.uiState.isPopupVisible = false
                 }
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.black)
@@ -39,7 +45,7 @@ struct CustomerNamePopup: View {
                 
                 Button("Save Name") {
                     viewModel.finalizeCheckout(with: inputName)
-                    viewModel.isPopupVisible = false
+                    viewModel.uiState.isPopupVisible = false
                 }
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.black)
@@ -61,6 +67,6 @@ struct CustomerNamePopup: View {
 
 struct CustomerNamePopup_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerNamePopup(viewModel: SalesViewModel(ReceiptManager(database: SalesDatabase.shared)))
+        CustomerNamePopup(viewModel: SalesViewModel(receiptManager: ReceiptManager(database: SalesDatabase.shared)))
     }
 }

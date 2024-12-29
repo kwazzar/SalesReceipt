@@ -12,25 +12,13 @@ struct Item: Identifiable, Hashable, Equatable {
     let price: Price
     var image: ImageItem
     var quantity: Int = 1
-
+    
     init(id: UUID = UUID(), description: Description, price: Price, image: ImageItem, quantity: Int = 1) {
         self.id = id
         self.description = description
         self.price = price
         self.image = image
         self.quantity = quantity
-    }
-
-    static func filter(items: [Item], query: SearchQuery) -> [Item] {
-        return query.text.isEmpty
-        ? items
-        : items.filter { $0.description.value.lowercased().contains(query.text.lowercased()) }
-    }
-
-    static func calculateTotal(_ items: [Item]) -> Price {
-        return items.reduce(Price(0)) { total, item in
-            total + Price(item.price.value * Double(item.quantity))
-        }
     }
 }
 
@@ -42,7 +30,7 @@ protocol ItemProtocol: Hashable {
 
 struct Description: ItemProtocol {
     let value: String
-
+    
     init(_ value: String? = nil) {
         guard let safeValue = value, !safeValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             self.value = "no Description"
@@ -54,11 +42,11 @@ struct Description: ItemProtocol {
 
 struct Price: ItemProtocol {
     let value: Double
-
+    
     init(_ value: Double) {
         self.value = value
     }
-
+    
     static func +(lhs: Price, rhs: Price) -> Price {
         return Price(lhs.value + rhs.value)
     }
@@ -66,7 +54,7 @@ struct Price: ItemProtocol {
 
 struct ImageItem: ItemProtocol {
     let value: String
-
+    
     init(_ value: String? = nil) {
         guard let value = value, UIImage(systemName: value) != nil else {
             self.value = "cart" // Fallback to "cart" if the image name is nil or invalid

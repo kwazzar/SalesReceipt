@@ -8,42 +8,56 @@
 import SwiftUI
 
 struct SalesView: View {
-    @StateObject private var viewModel = SalesViewModel(
-        ReceiptManager(database: SalesDatabase.shared))
+    @StateObject private var viewModel: SalesViewModel
+    @StateObject private var uiState: SalesUIState
+    @StateObject private var searchState: SearchState
+    
+    init(viewModel: SalesViewModel = SalesViewModel(
+        receiptManager: ReceiptManager(database: SalesDatabase.shared)
+    )) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        _uiState = StateObject(wrappedValue: viewModel.uiState)
+        _searchState = StateObject(wrappedValue: viewModel.searchState)
+    }
     
     var body: some View {
         ZStack {
             VStack(spacing: 5) {
                 SearchBar(titleSearch: "Search items...", searchText: Binding(
-                    get: { viewModel.searchText.text },
-                    set: { viewModel.searchText = SearchQuery(text: $0);
-                        viewModel.updateFilteredItems(for: SearchQuery(text: $0)) }
+                    get: { viewModel.searchState.searchText.text },
+                    set: { newText in
+                        viewModel.searchState.searchText = SearchQuery(text: newText)
+                        viewModel.searchState.updateFilteredItems(for: SearchQuery(text: newText))
+                    }
                 ), actionClose: {
-                    viewModel.searchText = SearchQuery(text: "")
-                    viewModel.updateFilteredItems(for: SearchQuery(text: ""))
+                    viewModel.searchState.searchText = SearchQuery(text: "")
+                    viewModel.searchState.updateFilteredItems(for: SearchQuery(text: ""))
                 })
+                
                 CarouselView(viewModel: viewModel)
+                
                 ReceiptView(
                     items: viewModel.currentItems,
                     total: viewModel.total.value,
+                    uiState: viewModel.uiState,
                     onDeleteItem: viewModel.deleteItem,
                     onDecrementItem: viewModel.decrementItem
                 )
                 BottomBar(viewModel: viewModel)
             }
-            .blur(radius: viewModel.isPopupVisible ? 3 : 0)
+            .blur(radius: viewModel.uiState.isPopupVisible ? 3 : 0)
             
-            if viewModel.isPopupVisible {
+            if viewModel.uiState.isPopupVisible {
                 Color.black.opacity(0.4)
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture {
-                        viewModel.isPopupVisible = false
+                        viewModel.uiState.isPopupVisible = false
                     }
                 CustomerNamePopup(viewModel: viewModel)
                     .transition(.scale)
             }
         }
-        .animation(.easeInOut, value: viewModel.isPopupVisible)
+        .animation(.easeInOut, value: viewModel.uiState.isPopupVisible)
     }
 }
 
