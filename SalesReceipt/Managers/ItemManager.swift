@@ -7,12 +7,20 @@
 
 import Foundation
 
-protocol ItemProvider {
+protocol ItemProvidable {
     var currentItems: [Item] { get }
     func filterItems(query: SearchQuery) -> [Item]
 }
 
-final class ItemManager: ItemProvider {
+protocol ItemManagable {
+    func addItem(_ item: Item)
+    func deleteItem(_ item: Item)
+    func decrementItem(_ item: Item)
+    func clearAll()
+    func calculateTotal() -> Price
+}
+
+final class ItemManager: ItemProvidable & ItemManagable {
     private(set) var currentItems: [Item] = []
     
     func addItem(_ item: Item) {

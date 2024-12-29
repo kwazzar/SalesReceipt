@@ -13,7 +13,7 @@ struct SalesView: View {
     @StateObject private var searchState: SearchState
     
     init(viewModel: SalesViewModel = SalesViewModel(
-        receiptManager: ReceiptManager(database: SalesDatabase.shared)
+        receiptManager: ReceiptManager(database: SalesDatabase.shared), itemManager: ItemManager()
     )) {
         _viewModel = StateObject(wrappedValue: viewModel)
         _uiState = StateObject(wrappedValue: viewModel.uiState)

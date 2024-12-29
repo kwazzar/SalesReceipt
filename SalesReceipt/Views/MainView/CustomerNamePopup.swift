@@ -67,6 +67,6 @@ struct CustomerNamePopup: View {
 
 struct CustomerNamePopup_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerNamePopup(viewModel: SalesViewModel(receiptManager: ReceiptManager(database: SalesDatabase.shared)))
+        CustomerNamePopup(viewModel: SalesViewModel(receiptManager: ReceiptManager(database: SalesDatabase.shared), itemManager: ItemManager()))
     }
 }

@@ -11,16 +11,15 @@ import SwiftUI
 final class SalesViewModel: ObservableObject {
     @Published private(set) var total: Price = Price(0)
     @Published var customerName: CustomerName = CustomerName("")
-
-    private let itemManager: ItemManager
+    
+    private let itemManager: any ItemProvidable & ItemManagable
     private let checkoutManager: CheckoutManager
-    #warning("item provider vs itemManager")
     let searchState: SearchState
     let uiState: SalesUIState
-
+    
     init(
         receiptManager: ReceiptDatabaseAPI,
-        itemManager: ItemManager = ItemManager()
+        itemManager: some ItemProvidable & ItemManagable
     ) {
         self.itemManager = itemManager
         self.checkoutManager = CheckoutManager(
@@ -31,40 +30,40 @@ final class SalesViewModel: ObservableObject {
         self.uiState = SalesUIState()
         self.searchState.setAvailableItems(receiptManager.availableItems)
     }
-
+    
     var currentItems: [Item] {
         itemManager.currentItems
     }
-
+    
     func addItem(_ item: Item) {
         itemManager.addItem(item)
         updateTotal()
     }
-
+    
     func deleteItem(_ item: Item) {
         itemManager.deleteItem(item)
         updateTotal()
     }
-
+    
     func decrementItem(_ item: Item) {
         itemManager.decrementItem(item)
         updateTotal()
     }
-
+    
     func clearAll() {
         itemManager.clearAll()
         customerName = CustomerName("")
         updateTotal()
     }
-
+    
     private func updateTotal() {
         total = itemManager.calculateTotal()
     }
-
+    
     func checkout() {
         uiState.isPopupVisible = true
     }
-
+    
     func finalizeCheckout(with name: String) {
         if checkoutManager.finalizeCheckout(customerName: name) {
             customerName = CustomerName("")
@@ -83,11 +82,11 @@ final class SearchState: ObservableObject {
     @Published var searchText: SearchQuery = SearchQuery(text: "")
     @Published var isSearching = false
     @Published var filteredItems: [Item] = []
-
-    private let itemProvider: ItemProvider
+    
+    private let itemProvider: ItemProvidable
     private var availableItems: [Item] = []
     
-    init(itemProvider: ItemProvider) {
+    init(itemProvider: some ItemProvidable) {
         self.itemProvider = itemProvider
     }
     
@@ -115,12 +114,12 @@ final class SalesUIState: ObservableObject {
     @Published var activeMenuItemID: UUID? = nil
 }
 
-// Управління checkout процесом
+//MARK: - CheckoutManager
 final class CheckoutManager {
     private let receiptManager: ReceiptDatabaseAPI
-    private let itemManager: ItemManager
+    private let itemManager: any ItemProvidable & ItemManagable
     
-    init(receiptManager: ReceiptDatabaseAPI, itemManager: ItemManager) {
+    init(receiptManager: ReceiptDatabaseAPI, itemManager: some ItemProvidable & ItemManagable) {
         self.receiptManager = receiptManager
         self.itemManager = itemManager
     }
