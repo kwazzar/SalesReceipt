@@ -10,11 +10,14 @@ import SwiftUI
 struct ReceiptList: View {
     var receipts: [Receipt]
     var onReceiptTap: (Receipt) -> Void
+    var onReceiptDelete: (Receipt) -> Void
     
     init(_ receipts: [Receipt],
-         onReceiptTap: @escaping (Receipt) -> Void) {
+         onReceiptTap: @escaping (Receipt) -> Void,
+         onReceiptDelete: @escaping (Receipt) -> Void) {
         self.receipts = receipts.sorted { $0.date > $1.date }
         self.onReceiptTap = onReceiptTap
+        self.onReceiptDelete = onReceiptDelete
     }
     
     var body: some View {
@@ -27,6 +30,9 @@ struct ReceiptList: View {
                              total: receipt.total,
                              items: receipt.items.count, infoAction: {
                     onReceiptTap(receipt)
+                },
+                             deleteAction: {
+                    onReceiptDelete(receipt)
                 })
                 .padding(.horizontal, 5)
                 .padding(.vertical, 5)

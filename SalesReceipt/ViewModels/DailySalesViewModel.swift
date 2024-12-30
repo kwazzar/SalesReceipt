@@ -12,6 +12,7 @@ struct DailySalesUIState {
     var areFiltersApplied: Bool = false
     var isShowingReceiptDetail: Bool = false
     var currentState: BottomSheetState = .closed
+    var selectedReceiptForAction: Receipt? = nil
 }
 
 final class DailySalesViewModel: ObservableObject {
@@ -73,6 +74,18 @@ final class DailySalesViewModel: ObservableObject {
             updateVisibleReceipts()
         } catch {
             print("Ошибка при очистке чеков: \(error)")
+        }
+    }
+
+    func deleteReceipt(_ receipt: Receipt) {
+        do {
+            try receiptManager.deleteReceipt(receipt)
+            if let index = allReceipts.firstIndex(where: { $0.id == receipt.id }) {
+                allReceipts.remove(at: index)
+            }
+            updateVisibleReceipts()
+        } catch {
+            print("Error deleting receipt: \(error)")
         }
     }
 }

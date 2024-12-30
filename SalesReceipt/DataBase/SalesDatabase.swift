@@ -12,6 +12,7 @@ protocol SalesDatabaseProtocol {
     func fetchAllReceipts() throws -> [Receipt]
     func clearAllReceipts() throws
     func updatePdfPath(for receiptId: UUID, pdfPath: String) throws
+    func deleteReceipt(_ receiptId: UUID) throws
 }
 
 final class SalesDatabase: SalesDatabaseProtocol {
@@ -73,7 +74,24 @@ final class SalesDatabase: SalesDatabaseProtocol {
             entity.pdfPath = pdfPath
             CoreDataStack.shared.saveContext()
         }
+
+    func deleteReceipt(_ receiptId: UUID) throws {
+        let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
+        request.predicate = NSPredicate(format: "id == %@", receiptId as CVarArg)
+        
+        do {
+            let results = try context.fetch(request)
+            if let receiptToDelete = results.first {
+                context.delete(receiptToDelete)
+                CoreDataStack.shared.saveContext()
+            } else {
+                throw DatabaseError.deleteReceiptFailed(reason: .receiptNotFound)
+            }
+        } catch {
+            throw DatabaseError.deleteReceiptFailed(reason: .deletionFailed(error))
+        }
     }
+}
 
 //MARK: - extension
 extension SalesDatabase {

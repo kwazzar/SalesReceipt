@@ -14,6 +14,7 @@ struct CustomerCard: View {
     let total: Double
     let items: Int
     let infoAction: () -> Void
+    let deleteAction: () -> Void
     
     var body: some View {
         VStack {
@@ -65,6 +66,11 @@ struct CustomerCard: View {
             .background(Color(.systemGray6))
             .cornerRadius(14)
             .innerStroke(cornerRadius: 14, lineWidth: 2, color: .black, inset: 1)
+        }
+        .contextMenu {
+            Button(role: .destructive, action: deleteAction) {
+                Label("Delete Receipt", systemImage: "trash")
+            }
         }
     }
     

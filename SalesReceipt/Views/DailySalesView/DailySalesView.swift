@@ -11,7 +11,6 @@ import SwiftUI
 не зберігає загальну сумму покупок замість цього
 вказує суму одного товару
 """)
-#warning("додати екшен меню до картки")
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: DailySalesViewModel
@@ -42,11 +41,16 @@ struct DailySalesView: View {
                             }
                         }
                 }
-                ReceiptList(viewModel.visibleReceipts,
-                            onReceiptTap: { receipt in
-                    viewModel.selectedReceipt = receipt
-                    viewModel.uiState.isShowingReceiptDetail = true
-                })
+                ReceiptList(
+                    viewModel.visibleReceipts,
+                    onReceiptTap: { receipt in
+                        viewModel.selectedReceipt = receipt
+                        viewModel.uiState.isShowingReceiptDetail = true
+                    },
+                    onReceiptDelete: { receipt in
+                        viewModel.deleteReceipt(receipt)
+                    }
+                )
             }
             .configurePopup(isPresented: $viewModel.uiState.showDeletePopup) {
                 deleteConfirmationPopup()

@@ -11,10 +11,16 @@ enum DatabaseError: Error, LocalizedError {
     case fetchReceiptsFailed(underlyingError: Error)
     case clearReceiptsFailed(underlyingError: Error)
     case updatePDFPathFailed(reason: UpdatePDFPathFailureReason)
+    case deleteReceiptFailed(reason: DeleteReceiptFailureReason)
 
     enum UpdatePDFPathFailureReason {
         case receiptNotFound
         case contextSaveFailed(underlyingError: Error?)
+    }
+
+    enum DeleteReceiptFailureReason {
+        case receiptNotFound
+        case deletionFailed(Error)
     }
 
     var errorDescription: String? {
@@ -29,6 +35,13 @@ enum DatabaseError: Error, LocalizedError {
                 return "receiptNotFound"
             case .contextSaveFailed(let error):
                 return "contextSaveFailed: \(error?.localizedDescription ?? "unknown error")"
+            }
+        case .deleteReceiptFailed(reason: let reason):
+            switch reason {
+            case .receiptNotFound:
+                return "receiptNotFound"
+            case .deletionFailed(let error):
+                return "deletionFailed \(error.localizedDescription)"
             }
         }
     }

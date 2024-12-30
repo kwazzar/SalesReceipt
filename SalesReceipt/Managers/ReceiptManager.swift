@@ -16,6 +16,7 @@ protocol ReceiptDatabaseAPI {
     func clearAllReceipts() throws
     func filterReceipts(startDate: Date, endDate: Date, searchText: String) -> [Receipt]
     func filter(receipts: [Receipt], startDate: Date, endDate: Date, searchText: String) -> [Receipt]
+    func deleteReceipt(_ receipt: Receipt) throws
 }
 
 final class ReceiptManager: ReceiptDatabaseAPI {
@@ -52,7 +53,6 @@ final class ReceiptManager: ReceiptDatabaseAPI {
         try database.clearAllReceipts()
     }
 
-    // Фильтруем данные из базы
     func filterReceipts(startDate: Date, endDate: Date, searchText: String) -> [Receipt] {
         Receipt.filter(
             to: (try? fetchAllReceipts()) ?? [],
@@ -62,7 +62,6 @@ final class ReceiptManager: ReceiptDatabaseAPI {
         )
     }
 
-    // Новый метод: Фильтруем произвольный массив рецептов
     func filter(receipts: [Receipt], startDate: Date, endDate: Date, searchText: String) -> [Receipt] {
         Receipt.filter(
             to: receipts,
@@ -70,5 +69,9 @@ final class ReceiptManager: ReceiptDatabaseAPI {
             endDate: endDate,
             searchText: searchText
         )
+    }
+
+    func deleteReceipt(_ receipt: Receipt) throws {
+        try database.deleteReceipt(receipt.id)
     }
 }

@@ -62,4 +62,11 @@ final class MockReceiptManager: ReceiptDatabaseAPI {
             searchText: searchText
         )
     }
+    
+    func deleteReceipt(_ receipt: Receipt) throws {
+        guard let index = storedReceipts.firstIndex(where: { $0.id == receipt.id }) else {
+            throw NSError(domain: "MockReceiptManager", code: 404, userInfo: [NSLocalizedDescriptionKey: "Receipt not found"])
+        }
+        storedReceipts.remove(at: index)
+    }
 }

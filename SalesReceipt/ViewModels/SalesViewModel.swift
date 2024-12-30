@@ -123,7 +123,7 @@ final class CheckoutManager {
         self.receiptManager = receiptManager
         self.itemManager = itemManager
     }
-    
+
     func finalizeCheckout(customerName: String) -> Bool {
         guard !itemManager.currentItems.isEmpty else {
             return false

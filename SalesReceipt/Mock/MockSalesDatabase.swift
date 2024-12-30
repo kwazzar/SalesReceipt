@@ -28,4 +28,8 @@ final class MockSalesDatabase: SalesDatabaseProtocol {
             throw DatabaseError.updatePDFPathFailed(reason: .receiptNotFound)
         }
     }
+
+    func deleteReceipt(_ receiptId: UUID) throws {
+        receipts.removeAll { $0.id == receiptId }
+    }
 }

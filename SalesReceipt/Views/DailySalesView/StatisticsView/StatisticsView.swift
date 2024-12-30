@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#warning("коли віднімаеш вверх від 0 стану view стає прозорим")
 struct StatisticsView: View {
     @ObservedObject private var viewModel: StatisticsViewModel
     @Binding var bottomSheetState: BottomSheetState
