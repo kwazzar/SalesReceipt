@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-#warning("коли віднімаеш вверх від 0 стану view стає прозорим")
+#warning("коли робиш піднімання вручну нехай стан фіксує BottomSheetState в залежності від висоти")
 struct StatisticsView: View {
     @ObservedObject private var viewModel: StatisticsViewModel
-    @Binding var bottomSheetState: BottomSheetState
-    let actionClosed: () -> Void
-    let isButtonVisible: Bool
+    @Binding private var bottomSheetState: BottomSheetState
+    private let actionClosed: () -> Void
+    private let isButtonVisible: Bool
 
     init(
         bottomSheetState: Binding<BottomSheetState>,
@@ -89,6 +89,7 @@ struct StatisticsView: View {
             })
             .scrollIndicators(.hidden)
         }
+        .background(Color.white)
         .ignoresSafeArea(edges: .top)
         .onAppear(perform: viewModel.calculateStatistics)
         .onChange(of: viewModel.receipts) { _ in viewModel.calculateStatistics() }
