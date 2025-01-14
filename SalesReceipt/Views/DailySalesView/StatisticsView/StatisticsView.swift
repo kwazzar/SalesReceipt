@@ -96,3 +96,4 @@ struct StatisticsView: View {
         .onChange(of: viewModel.searchText ?? "") { _ in viewModel.calculateStatistics() }
     }
 }
+

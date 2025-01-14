@@ -16,31 +16,32 @@ struct DetailSalesReceipt: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            // Чек заголовок
             Text("Sales Receipt")
                 .font(.title)
                 .bold()
             Text("\(receipt.id)")
                 .padding(.bottom, 10)
-            
-            // Информация о покупателе и дате
+
             Text("Customer: \(receipt.customerName.value)")
                 .font(.headline)
             Text("Date: \(formattedDate(receipt.date))")
                 .font(.subheadline)
             Divider()
-            
-            // Заголовки таблицы
+
             HStack {
+                Text("Qty").bold()
+                    .frame(width: 40, alignment: .leading)
                 Text("Item").bold()
                 Spacer()
                 Text("Price").bold()
             }
             .padding(.vertical, 5)
             Divider()
-            // Список покупок
             ForEach(receipt.items, id: \.self) { item in
                 HStack {
+                    Text("\(item.quantity)x")
+                        .frame(width: 40, alignment: .leading)
+                        .foregroundColor(.gray)
                     Text(item.description.value)
                     Spacer()
                     Text(String(format: "%.2f $", item.price.value))

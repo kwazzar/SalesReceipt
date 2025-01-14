@@ -24,22 +24,23 @@ final class SalesDatabase: SalesDatabaseProtocol {
     }
 
     func saveReceiptToDatabase(_ receipt: Receipt) {
-            let receiptEntity = ReceiptEntity(context: context)
-            receiptEntity.id = receipt.id
-            receiptEntity.date = receipt.date
-            receiptEntity.customerName = receipt.customerName.value
-
-            for item in receipt.items {
-                let itemEntity = ItemEntity(context: context)
-                itemEntity.id = item.id ?? UUID()
-                itemEntity.desc = item.description.value
-                itemEntity.price = item.price.value
-                itemEntity.image = item.image.value
-                itemEntity.receipt = receiptEntity
-            }
-            CoreDataStack.shared.saveContext()
-
+        let receiptEntity = ReceiptEntity(context: context)
+        receiptEntity.id = receipt.id
+        receiptEntity.date = receipt.date
+        receiptEntity.customerName = receipt.customerName.value
+        
+        for item in receipt.items {
+            let itemEntity = ItemEntity(context: context)
+            itemEntity.id = item.id ?? UUID()
+            itemEntity.desc = item.description.value
+            itemEntity.price = item.price.value
+            itemEntity.image = item.image.value
+            itemEntity.quantity = Int32(item.quantity)
+            itemEntity.receipt = receiptEntity
         }
+        
+        CoreDataStack.shared.saveContext()
+    }
 
     func fetchAllReceipts() throws -> [Receipt] {
         let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
@@ -97,12 +98,7 @@ final class SalesDatabase: SalesDatabaseProtocol {
 extension SalesDatabase {
     private func mapItems(from entity: ReceiptEntity) -> [Item] {
         (entity.items as? Set<ItemEntity>)?.compactMap { itemEntity in
-            Item(
-                id: itemEntity.id,
-                description: Description(itemEntity.desc),
-                price: Price(itemEntity.price),
-                image: ImageItem(itemEntity.image)
-            )
+            mapItemEntityToModel(itemEntity)
         } ?? []
     }
 
@@ -112,6 +108,16 @@ extension SalesDatabase {
             date: entity.date ?? Date(),
             customerName: CustomerName(entity.customerName),
             items: mapItems(from: entity)
+        )
+    }
+
+    private func mapItemEntityToModel(_ entity: ItemEntity) -> Item {
+        Item(
+            id: entity.id,
+            description: Description(entity.desc),
+            price: Price(entity.price),
+            image: ImageItem(entity.image),
+            quantity: Int(entity.quantity)
         )
     }
 }

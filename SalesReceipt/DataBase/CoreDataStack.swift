@@ -6,6 +6,10 @@
 //
 
 import CoreData
+#warning("""
+!!!
+I understand the issue - when retrieving items from the database, we need to properly handle and store the quantity of items.
+""")
 // MARK: - Core Data Setup
 final class CoreDataStack {
     static let shared = CoreDataStack()
@@ -42,6 +46,12 @@ final class CoreDataStack {
         itemImage.attributeType = .stringAttributeType
         itemImage.isOptional = true
 
+        let itemQuantity = NSAttributeDescription()
+        itemQuantity.name = "quantity"
+        itemQuantity.attributeType = .integer32AttributeType
+        itemQuantity.isOptional = false
+        itemQuantity.defaultValue = 1
+
         let receiptId = NSAttributeDescription()
         receiptId.name = "id"
         receiptId.attributeType = .UUIDAttributeType
@@ -62,7 +72,7 @@ final class CoreDataStack {
         receiptPdfPath.attributeType = .stringAttributeType
         receiptPdfPath.isOptional = true
 
-        itemEntity.properties = [itemId, itemDesc, itemPrice, itemImage]
+        itemEntity.properties = [itemId, itemDesc, itemPrice, itemImage, itemQuantity]
         receiptEntity.properties = [receiptId, receiptDate, receiptCustomerName, receiptPdfPath]
 
         let itemsRelation = NSRelationshipDescription()

@@ -13,12 +13,22 @@ protocol StatisticsAPI {
     func fetchTopItemSales(receipts: [Receipt], searchText: String?, limit: Int) -> [(item: Item, count: Int)]
 }
 
+extension StatisticsAPI {
+    func calculateTotalItemCount(_ receipts: [Receipt]) -> Int {
+        receipts.reduce(0) { total, receipt in
+            total + receipt.items.reduce(0) { sum, item in
+                sum + item.quantity
+            }
+        }
+    }
+}
+
 final class StatisticsManager: StatisticsAPI {
     internal func fetchTotalStats(receipts: [Receipt]) -> (total: Double, itemsSold: Int, averageCheck: Double)? {
         guard !receipts.isEmpty else { return nil }
 
         let totalAmount = receipts.reduce(0) { $0 + $1.total }
-        let totalItems = receipts.flatMap { $0.items }.count
+        let totalItems = calculateTotalItemCount(receipts)
         let averageCheck = totalAmount / Double(receipts.count)
 
         return (totalAmount, totalItems, averageCheck)
@@ -35,19 +45,22 @@ final class StatisticsManager: StatisticsAPI {
 
         return groupedReceipts.map { date, dayReceipts in
             let totalAmount = dayReceipts.reduce(0) { $0 + $1.total }
-            let itemCount = dayReceipts.flatMap { $0.items }.count
+            let itemCount = dayReceipts.reduce(0) { total, receipt in
+                total + receipt.items.reduce(0) { $0 + $1.quantity }
+            }
 
             return SalesStat(date: date, totalAmount: totalAmount, itemCount: itemCount)
         }.sorted { $0.date < $1.date }
     }
 
-    internal func fetchTopItemSales(receipts: [Receipt], searchText: String? = nil, limit: Int = 5) -> [(item: Item, count: Int)] {
+    internal func fetchTopItemSales(receipts: [Receipt],
+                                    searchText: String? = nil,
+                                    limit: Int = 5) -> [(item: Item, count: Int)] {
         print("🏆 Получение топ продаж")
         print("🧾 Количество рецептов: \(receipts.count)")
         print("🔍 Текст поиска: \(searchText ?? "Нет")")
 
         var filteredReceipts = receipts
-
         // Если есть текст поиска, фильтруем сначала рецепты
         if let searchText = searchText, !searchText.isEmpty {
             filteredReceipts = receipts.filter { receipt in
@@ -58,7 +71,6 @@ final class StatisticsManager: StatisticsAPI {
         }
 
         let filteredItems = filteredReceipts.flatMap { $0.items }
-
         print("🛍️ Количество рецептов после фильтрации: \(filteredReceipts.count)")
         print("🛍️ Количество товаров после фильтрации: \(filteredItems.count)")
 
@@ -76,7 +88,6 @@ final class StatisticsManager: StatisticsAPI {
         for (index, item) in result.enumerated() {
             print("  \(index + 1). \(item.item.description.value): \(item.count)")
         }
-
         return result
     }
 }

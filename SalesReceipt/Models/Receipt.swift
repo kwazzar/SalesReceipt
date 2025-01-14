@@ -14,7 +14,7 @@ struct Receipt: Identifiable {
     var items: [Item]
     var pdfPath: PdfPath?
     var total: Double {
-        items.reduce(0) { $0 + $1.price.value }
+        items.reduce(0) { $0 + ($1.price.value * Double($1.quantity)) }
     }
     
     static func filter(

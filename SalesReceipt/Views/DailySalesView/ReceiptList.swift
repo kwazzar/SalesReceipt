@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ReceiptList: View {
-    var receipts: [Receipt]
-    var onReceiptTap: (Receipt) -> Void
-    var onReceiptDelete: (Receipt) -> Void
+   private var receipts: [Receipt]
+   private var onReceiptTap: (Receipt) -> Void
+   private var onReceiptDelete: (Receipt) -> Void
     
     init(_ receipts: [Receipt],
          onReceiptTap: @escaping (Receipt) -> Void,
@@ -23,17 +23,13 @@ struct ReceiptList: View {
     var body: some View {
         ScrollView {
             ForEach(receipts, id: \.id) { receipt in
-                
                 CustomerCard(id: receipt.id,
                              name: receipt.customerName.value,
                              date: receipt.date,
                              total: receipt.total,
-                             items: receipt.items.count, infoAction: {
-                    onReceiptTap(receipt)
-                },
-                             deleteAction: {
-                    onReceiptDelete(receipt)
-                })
+                             items: receipt.items.reduce(0) { $0 + $1.quantity },
+                             infoAction: { onReceiptTap(receipt) },
+                             deleteAction: { onReceiptDelete(receipt) })
                 .padding(.horizontal, 5)
                 .padding(.vertical, 5)
             }

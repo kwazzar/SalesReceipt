@@ -60,15 +60,4 @@ final class StatisticsViewModel: ObservableObject {
         }
         return receipts
     }
-    
-//    private var filteredReceipts: [Receipt] {
-//        if let searchText = searchText, !searchText.isEmpty {
-//            return receipts.filter { receipt in
-//                receipt.items.contains {
-//                    $0.description.value.lowercased().contains(searchText.lowercased())
-//                }
-//            }
-//        }
-//        return receipts
-//    }
 }

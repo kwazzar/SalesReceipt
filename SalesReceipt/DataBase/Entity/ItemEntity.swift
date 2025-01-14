@@ -13,6 +13,7 @@ final class ItemEntity: NSManagedObject {
     @NSManaged var desc: String?
     @NSManaged var price: Double
     @NSManaged var image: String?
+    @NSManaged var quantity: Int32
     @NSManaged var receipt: ReceiptEntity?
 }
 
