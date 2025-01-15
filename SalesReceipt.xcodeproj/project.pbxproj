@@ -302,7 +302,6 @@
 		E3FE02522CD5546300779E5B /* SalesReceipt */ = {
 			isa = PBXGroup;
 			children = (
-				E3C0F2E32D37E58A003E4436 /* Info.plist */,
 				E3D394B62D3733B400D943ED /* APIs */,
 				E367B8A32D00D94F00AC7B81 /* Managers */,
 				E3A8924F2D03A03100574218 /* Errors */,
@@ -313,6 +312,7 @@
 				E39B91DB2D023B1600150545 /* Mock */,
 				E3FE02612CD5549500779E5B /* Models */,
 				E3FE02532CD5546300779E5B /* SalesReceiptApp.swift */,
+				E3C0F2E32D37E58A003E4436 /* Info.plist */,
 				E3FE02572CD5546900779E5B /* Assets.xcassets */,
 				E3FE02592CD5546900779E5B /* Preview Content */,
 			);

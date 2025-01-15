@@ -7,9 +7,6 @@
 
 import SwiftUI
 
-#warning("""
-share button bug
-""")
 struct ReceiptDetailView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: ReceiptDetailViewModel

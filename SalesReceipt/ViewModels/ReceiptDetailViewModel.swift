@@ -57,6 +57,7 @@ final class ReceiptDetailViewModel: ObservableObject {
         }
     }
 
+    #warning("sheet menu upgrade")
     func sharePDF() {
         guard let pdfUrlReceipt = pdfUrlReceipt else { return }
 
@@ -104,4 +105,3 @@ final class ReceiptDetailViewModel: ObservableObject {
         }
     }
 }
-
