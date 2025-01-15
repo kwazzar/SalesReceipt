@@ -56,12 +56,52 @@ final class ReceiptDetailViewModel: ObservableObject {
             isPdfCreated = false
         }
     }
-    
+
     func sharePDF() {
         guard let pdfUrlReceipt = pdfUrlReceipt else { return }
-        let activityVC = UIActivityViewController(activityItems: [pdfUrlReceipt], applicationActivities: nil)
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            windowScene.windows.first?.rootViewController?.present(activityVC, animated: true, completion: nil)
+
+        do {
+            // Зчитуємо дані PDF файлу
+            let pdfData = try Data(contentsOf: pdfUrlReceipt)
+
+            // Створюємо тимчасовий файл з унікальним ім'ям
+            let temporaryDir = FileManager.default.temporaryDirectory
+            let temporaryFileURL = temporaryDir.appendingPathComponent(UUID().uuidString + ".pdf")
+
+            // Записуємо дані у тимчасовий файл
+            try pdfData.write(to: temporaryFileURL)
+
+            // Налаштовуємо атрибути файлу
+            try (temporaryFileURL as NSURL).setResourceValue(true, forKey: .isReadableKey)
+
+            let activityVC = UIActivityViewController(
+                activityItems: [pdfData],  // Використовуємо дані замість URL
+                applicationActivities: nil
+            )
+
+            DispatchQueue.main.async {
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let window = windowScene.windows.first {
+
+                    if let popoverController = activityVC.popoverPresentationController {
+                        popoverController.sourceView = window
+                        popoverController.sourceRect = CGRect(x: window.bounds.midX,
+                                                              y: window.bounds.midY,
+                                                              width: 0, height: 0)
+                        popoverController.permittedArrowDirections = []
+                    }
+
+                    if let topController = window.rootViewController?.topMostViewController() {
+                        topController.present(activityVC, animated: true) {
+                            // Видаляємо тимчасовий файл після закриття
+                            try? FileManager.default.removeItem(at: temporaryFileURL)
+                        }
+                    }
+                }
+            }
+        } catch {
+            errorMessage = "Не вдалося поділитися PDF: \(error.localizedDescription)"
         }
     }
 }
+

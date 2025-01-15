@@ -10,7 +10,7 @@ import CoreData
 // MARK: - Core Data Setup
 final class CoreDataStack {
     static let shared = CoreDataStack()
-    
+
     lazy var persistentContainer: NSPersistentContainer = {
         let model = NSManagedObjectModel()
 

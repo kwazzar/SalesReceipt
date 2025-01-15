@@ -16,7 +16,8 @@ struct ReceiptDetailView: View {
     
     var body: some View {
         VStack {
-            ReceiptDetailBar(title: "ReceiptDetail", isPDFCreated: viewModel.pdfUrlReceipt != nil) {
+            ReceiptDetailBar(title: "ReceiptDetail",
+                             isPDFCreated: viewModel.pdfUrlReceipt != nil) {
                 viewModel.generatePDF()
             }
         actionBack: {
