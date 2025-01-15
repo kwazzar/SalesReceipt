@@ -6,15 +6,11 @@
 //
 
 import CoreData
-#warning("""
-!!!
-I understand the issue - when retrieving items from the database, we need to properly handle and store the quantity of items.
-""")
+
 // MARK: - Core Data Setup
 final class CoreDataStack {
     static let shared = CoreDataStack()
     
-
     lazy var persistentContainer: NSPersistentContainer = {
         let model = NSManagedObjectModel()
 

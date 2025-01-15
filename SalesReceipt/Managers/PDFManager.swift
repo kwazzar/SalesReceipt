@@ -8,12 +8,6 @@
 import Foundation
 import UIKit
 
-protocol PDFAPI {
-    func generatePDF(for receipt: Receipt) throws -> URL?
-    func checkPDFExists(for receipt: Receipt) throws -> URL
-    func savePDFToFileSystem(receipt: Receipt) throws -> URL
-}
-
 final class PDFManager: PDFAPI {
     func generatePDF(for receipt: Receipt) throws -> URL? {
         do {

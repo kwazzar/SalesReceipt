@@ -8,7 +8,6 @@
 import SwiftUI
 
 #warning("""
-!!!
 share button bug
 """)
 struct ReceiptDetailView: View {

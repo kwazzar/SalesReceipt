@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-#warning("""
-!!!
-не зберігає загальну сумму покупок замість цього
-вказує суму одного товару
-""")
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: DailySalesViewModel

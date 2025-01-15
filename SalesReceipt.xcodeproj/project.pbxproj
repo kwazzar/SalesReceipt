@@ -46,6 +46,10 @@
 		E3A892512D03A05D00574218 /* PDFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A892502D03A05D00574218 /* PDFError.swift */; };
 		E3A892532D03A0AD00574218 /* DatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A892522D03A0AD00574218 /* DatabaseError.swift */; };
 		E3CB1A822D14557C00EE6286 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CB1A812D14557C00EE6286 /* StatisticsViewModel.swift */; };
+		E3D394B82D3733D600D943ED /* ReceiptDatabaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394B72D3733D600D943ED /* ReceiptDatabaseAPI.swift */; };
+		E3D394BA2D37341200D943ED /* ItemAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394B92D37341200D943ED /* ItemAPI.swift */; };
+		E3D394BC2D37343C00D943ED /* PDFAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394BB2D37343C00D943ED /* PDFAPI.swift */; };
+		E3D394BE2D37346800D943ED /* StatisticsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394BD2D37346800D943ED /* StatisticsAPI.swift */; };
 		E3DFA2112D0764BD00A7B17A /* SalesStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA2102D0764BD00A7B17A /* SalesStat.swift */; };
 		E3DFA2132D07665400A7B17A /* StatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA2122D07665400A7B17A /* StatisticsManager.swift */; };
 		E3E089012CE38CC500DB0DF3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = E3E089002CE38CC500DB0DF3 /* PopupView */; };
@@ -97,6 +101,10 @@
 		E3A892502D03A05D00574218 /* PDFError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFError.swift; sourceTree = "<group>"; };
 		E3A892522D03A0AD00574218 /* DatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseError.swift; sourceTree = "<group>"; };
 		E3CB1A812D14557C00EE6286 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
+		E3D394B72D3733D600D943ED /* ReceiptDatabaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDatabaseAPI.swift; sourceTree = "<group>"; };
+		E3D394B92D37341200D943ED /* ItemAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAPI.swift; sourceTree = "<group>"; };
+		E3D394BB2D37343C00D943ED /* PDFAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFAPI.swift; sourceTree = "<group>"; };
+		E3D394BD2D37346800D943ED /* StatisticsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAPI.swift; sourceTree = "<group>"; };
 		E3DFA2102D0764BD00A7B17A /* SalesStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesStat.swift; sourceTree = "<group>"; };
 		E3DFA2122D07665400A7B17A /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesViewModel.swift; sourceTree = "<group>"; };
@@ -260,6 +268,17 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
+		E3D394B62D3733B400D943ED /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				E3D394B72D3733D600D943ED /* ReceiptDatabaseAPI.swift */,
+				E3D394B92D37341200D943ED /* ItemAPI.swift */,
+				E3D394BB2D37343C00D943ED /* PDFAPI.swift */,
+				E3D394BD2D37346800D943ED /* StatisticsAPI.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
 		E3FE02472CD5546300779E5B = {
 			isa = PBXGroup;
 			children = (
@@ -279,6 +298,7 @@
 		E3FE02522CD5546300779E5B /* SalesReceipt */ = {
 			isa = PBXGroup;
 			children = (
+				E3D394B62D3733B400D943ED /* APIs */,
 				E367B8A32D00D94F00AC7B81 /* Managers */,
 				E3A8924F2D03A03100574218 /* Errors */,
 				E330C31E2CD92981001CA7A5 /* Extensions */,
@@ -392,8 +412,10 @@
 			files = (
 				E367B8A72D00E1CC00AC7B81 /* PDFManager.swift in Sources */,
 				E3307DEE2D218E810044ECB1 /* ItemManager.swift in Sources */,
+				E3D394B82D3733D600D943ED /* ReceiptDatabaseAPI.swift in Sources */,
 				E3A2BD062CD5A2A000555B49 /* SalesViewModel.swift in Sources */,
 				E3A2BD022CD5597700555B49 /* CoreDataStack.swift in Sources */,
+				E3D394BA2D37341200D943ED /* ItemAPI.swift in Sources */,
 				E3A11C9B2CFFB7D000C0A55C /* DailySalesBar.swift in Sources */,
 				E34AFF502D089B1F0032D9BF /* SalesChartView.swift in Sources */,
 				E3DFA2132D07665400A7B17A /* StatisticsManager.swift in Sources */,
@@ -415,6 +437,7 @@
 				E3A8924C2D036FA400574218 /* ItemEntity.swift in Sources */,
 				E3A892532D03A0AD00574218 /* DatabaseError.swift in Sources */,
 				E35787162D09E5C00088098E /* TopSalesStatView.swift in Sources */,
+				E3D394BC2D37343C00D943ED /* PDFAPI.swift in Sources */,
 				E35656952D0F69FE00B7E78D /* MockReceiptManager.swift in Sources */,
 				E39B91DD2D023B4100150545 /* MockItems.swift in Sources */,
 				E3A11C9F2CFFBF9C00C0A55C /* ReceiptDetailBar.swift in Sources */,
@@ -434,6 +457,7 @@
 				E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */,
 				E3DFA2112D0764BD00A7B17A /* SalesStat.swift in Sources */,
 				E3A11C9D2CFFB80A00C0A55C /* CustomDatePickerView.swift in Sources */,
+				E3D394BE2D37346800D943ED /* StatisticsAPI.swift in Sources */,
 				E34AFF4A2D087BE70032D9BF /* StatCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
