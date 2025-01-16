@@ -57,26 +57,19 @@ final class ReceiptDetailViewModel: ObservableObject {
         }
     }
 
-    #warning("sheet menu upgrade")
     func sharePDF() {
         guard let pdfUrlReceipt = pdfUrlReceipt else { return }
 
         do {
-            // Зчитуємо дані PDF файлу
             let pdfData = try Data(contentsOf: pdfUrlReceipt)
-
-            // Створюємо тимчасовий файл з унікальним ім'ям
             let temporaryDir = FileManager.default.temporaryDirectory
             let temporaryFileURL = temporaryDir.appendingPathComponent(UUID().uuidString + ".pdf")
-
-            // Записуємо дані у тимчасовий файл
             try pdfData.write(to: temporaryFileURL)
 
-            // Налаштовуємо атрибути файлу
             try (temporaryFileURL as NSURL).setResourceValue(true, forKey: .isReadableKey)
 
             let activityVC = UIActivityViewController(
-                activityItems: [pdfData],  // Використовуємо дані замість URL
+                activityItems: [pdfData],
                 applicationActivities: nil
             )
 
@@ -94,7 +87,6 @@ final class ReceiptDetailViewModel: ObservableObject {
 
                     if let topController = window.rootViewController?.topMostViewController() {
                         topController.present(activityVC, animated: true) {
-                            // Видаляємо тимчасовий файл після закриття
                             try? FileManager.default.removeItem(at: temporaryFileURL)
                         }
                     }

@@ -26,15 +26,16 @@ extension PDFAPI {
         ]
         // Draw title
         let title = "Sales Receipt"
-        let date = "Date: \(receipt.date)"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+        let date = "Date: \(dateFormatter.string(from: receipt.date))"
         title.draw(at: CGPoint(x: 20, y: 20), withAttributes: titleAttributes)
         date.draw(at: CGPoint(x: 20, y: 50), withAttributes: contentAttributes)
-#warning("формат дати без нулей")
 
         // Draw receipt details
         var yPosition: CGFloat = 90
         for item in receipt.items {
-            let itemText = "\(item.description.value) - \(item.price.value) $"
+            let itemText = "\(item.quantity)x  \(item.description.value) - \(item.price.value) $"
             itemText.draw(at: CGPoint(x: 20, y: yPosition), withAttributes: contentAttributes)
             yPosition += 30
         }

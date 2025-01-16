@@ -45,7 +45,6 @@ final class PDFManager: PDFAPI {
                 context.beginPage()
                 drawReceiptContent(receipt, in: context.cgContext)
             }
-            
             try (outputURL as NSURL).setResourceValue(true, forKey: .isReadableKey)
             
             return outputURL
