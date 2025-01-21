@@ -29,7 +29,7 @@ struct SalesView: View {
                         viewModel.searchState.searchText = SearchQuery(text: newText)
                         viewModel.searchState.updateFilteredItems(for: SearchQuery(text: newText))
                     }
-                ), actionClose: {
+                ), onClose: {
                     viewModel.searchState.searchText = SearchQuery(text: "")
                     viewModel.searchState.updateFilteredItems(for: SearchQuery(text: ""))
                 })

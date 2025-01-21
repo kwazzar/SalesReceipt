@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct DailySalesBar: View {
+struct DailySalesHeader: View {
     var title: String
-    var actionBack: () -> Void
-    var actionFilter: () -> Void
-    var actionDelete: () -> Void
-    
+    var onDismiss: () -> Void
+    var onFilterToggle: () -> Void
+    var onDeleteRequest: () -> Void
+
     var body: some View {
         ZStack {
             HStack {
-                Button(action: actionBack) {
+                Button(action: onDismiss) {
                     Image(systemName: "chevron.left")
                         .font(.title2)
                         .foregroundColor(.black)
@@ -25,10 +25,10 @@ struct DailySalesBar: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(BorderlessButtonStyle())
-                
+
                 Spacer()
-                
-                Button(action: actionFilter) {
+
+                Button(action: onFilterToggle) {
                     Image(systemName: "slider.horizontal.3")
                         .font(.title2)
                         .foregroundColor(.black)
@@ -37,17 +37,18 @@ struct DailySalesBar: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(BorderlessButtonStyle())
-                
-                Button(action: actionDelete) {
+
+                Button(action: onDeleteRequest) {
                     Image(systemName: "trash")
                         .font(.title2)
                         .foregroundColor(.black)
                         .padding()
                         .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(BorderlessButtonStyle())
             }
-            
+
             Text(title)
                 .font(.system(size: 34, weight: .bold))
                 .foregroundColor(.black)

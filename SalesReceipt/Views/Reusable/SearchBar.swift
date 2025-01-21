@@ -12,7 +12,7 @@ struct SearchBar: View {
     @State private var isSearching: Bool = false
     var titleSearch: String
     var searchText: Binding<String>
-    var actionClose: () -> Void
+    var onClose: () -> Void
     
     var body: some View {
         VStack {
@@ -32,7 +32,7 @@ struct SearchBar: View {
                     Button(action: {
                         isTextFieldFocused = false
                         isSearching = false
-                        actionClose()
+                        onClose()
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundColor(.black)
@@ -46,21 +46,21 @@ struct SearchBar: View {
     }
 }
 
-//struct SearchBar_Previews: PreviewProvider {
-//    struct PreviewWrapper: View {
-//        @State private var searchText = ""
-//
-//        var body: some View {
-//            SearchBar(titleSearch: "Search items...", searchText: $searchText) {
-//                // Action when close button is pressed
-//                print("Search closed")
-//            }
-//        }
-//    }
-//
-//    static var previews: some View {
-//        PreviewWrapper()
-//            .previewLayout(.sizeThatFits) // Adjust the layout for better visibility in previews
-//            .padding() // Add padding for aesthetics in preview
-//    }
-//}
+struct SearchBar_Previews: PreviewProvider {
+    struct PreviewWrapper: View {
+        @State private var searchText = ""
+
+        var body: some View {
+            SearchBar(titleSearch: "Search items...", searchText: $searchText) {
+                // Action when close button is pressed
+                print("Search closed")
+            }
+        }
+    }
+
+    static var previews: some View {
+        PreviewWrapper()
+            .previewLayout(.sizeThatFits) // Adjust the layout for better visibility in previews
+            .padding() // Add padding for aesthetics in preview
+    }
+}

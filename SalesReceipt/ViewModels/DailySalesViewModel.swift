@@ -6,8 +6,10 @@
 //
 
 import UIKit.UIScreen
+import SwiftUI
+import Combine
 
-struct DailySalesUIState {
+struct DailySalesUIState: Equatable {
     var showDeletePopup: Bool = false
     var areFiltersApplied: Bool = false
     var isShowingReceiptDetail: Bool = false
@@ -16,44 +18,104 @@ struct DailySalesUIState {
 }
 
 final class DailySalesViewModel: ObservableObject {
-    @Published var startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date() {
-        didSet { updateVisibleReceipts() }
-    }
-    @Published var endDate = Date() {
-        didSet { updateVisibleReceipts() }
-    }
-    @Published var searchText = "" {
-        didSet { updateVisibleReceipts() }
-    }
+    @Published var uiState = DailySalesUIState()
+    @Published var startDate: Date
+    @Published var endDate: Date
+    @Published var searchText: String = ""
+    @Published private(set) var visibleReceipts: [Receipt] = []
     @Published var selectedReceipt: Receipt?
-    @Published var visibleReceipts: [Receipt] = []
-    @Published var uiState = DailySalesUIState() {
-        didSet {
-             if uiState.areFiltersApplied && uiState.currentState == .expanded {
-                 uiState.currentState = .withFilters
-             }
-             else if !uiState.areFiltersApplied && uiState.currentState == .withFilters {
-                 uiState.currentState = .expanded
-             }
-         }
-    }
 
     private let receiptManager: ReceiptDatabaseAPI
     let statisticsService: StatisticsAPI
     private var allReceipts: [Receipt] = []
-
-    let bottomSheetHeight: CGFloat = UIScreen.main.bounds.height * 0.9
+    let bottomSheetHeight: CGFloat
+    private var cancellables = Set<AnyCancellable>()
 
     init(
         receiptManager: ReceiptDatabaseAPI,
-        statisticsService: StatisticsAPI
+        statisticsService: StatisticsAPI,
+        screenHeight: CGFloat = UIScreen.main.bounds.height
     ) {
         self.receiptManager = receiptManager
         self.statisticsService = statisticsService
+        self.bottomSheetHeight = screenHeight * 0.9
+        self.startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+        self.endDate = Date()
+
+        setupPublishers()
         loadAllReceipts()
         updateVisibleReceipts()
     }
 
+    private func setupPublishers() {
+        Publishers.CombineLatest3($startDate, $endDate, $searchText)
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .sink { [weak self] _, _, _ in
+                self?.updateVisibleReceipts()
+            }
+            .store(in: &cancellables)
+        
+        $uiState
+            .map(\.currentState)
+            .debounce(for: .milliseconds(100), scheduler: DispatchQueue.main)
+            .sink { [weak self] newState in
+                guard let self = self else { return }
+                
+                if newState == .expanded && self.uiState.areFiltersApplied {
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            self.uiState.currentState = .withFilters
+                        }
+                    }
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    // MARK: - Public Interface
+    var receiptDetailBinding: Binding<Bool> {
+        Binding(
+            get: { [weak self] in
+                guard let self = self else { return false }
+                return self.uiState.isShowingReceiptDetail && self.selectedReceipt != nil
+            },
+            set: { [weak self] in self?.uiState.isShowingReceiptDetail = $0 }
+        )
+    }
+
+    func showReceiptDetail(_ receipt: Receipt) {
+        selectedReceipt = receipt
+        uiState.isShowingReceiptDetail = true
+    }
+
+    func closeStatistics() {
+        withAnimation {
+            uiState.currentState = .closed
+        }
+    }
+
+    // MARK: - Receipt Management
+    func clearAllReceipts() {
+        do {
+            try receiptManager.clearAllReceipts()
+            allReceipts.removeAll()
+            updateVisibleReceipts()
+        } catch {
+            print("Error clearing receipts: \(error)")
+        }
+    }
+
+    func deleteReceipt(_ receipt: Receipt) {
+        do {
+            try receiptManager.deleteReceipt(receipt)
+            allReceipts.removeAll { $0.id == receipt.id }
+            updateVisibleReceipts()
+        } catch {
+            print("Error deleting receipt: \(error)")
+        }
+    }
+
+    // MARK: - Private Methods
     private func loadAllReceipts() {
         allReceipts = (try? receiptManager.fetchAllReceipts()) ?? []
     }
@@ -66,26 +128,27 @@ final class DailySalesViewModel: ObservableObject {
             searchText: searchText
         )
     }
+}
 
-    func clearAllReceipts() {
-        do {
-            try receiptManager.clearAllReceipts()
-            allReceipts.removeAll()
-            updateVisibleReceipts()
-        } catch {
-            print("Ошибка при очистке чеков: \(error)")
+// MARK: -Filter Methods
+extension DailySalesViewModel {
+    func handleFiltersDisappear() {
+        if uiState.currentState == .withFilters {
+            withAnimation {
+                uiState.currentState = .expanded
+            }
         }
     }
 
-    func deleteReceipt(_ receipt: Receipt) {
-        do {
-            try receiptManager.deleteReceipt(receipt)
-            if let index = allReceipts.firstIndex(where: { $0.id == receipt.id }) {
-                allReceipts.remove(at: index)
+    func toggleFilters() {
+        withAnimation(.easeInOut(duration: 0.3)) {
+            uiState.areFiltersApplied.toggle()
+            
+            if uiState.areFiltersApplied && uiState.currentState == .expanded {
+                uiState.currentState = .withFilters
+            } else if !uiState.areFiltersApplied && uiState.currentState == .withFilters {
+                uiState.currentState = .expanded
             }
-            updateVisibleReceipts()
-        } catch {
-            print("Error deleting receipt: \(error)")
         }
     }
 }

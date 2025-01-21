@@ -27,17 +27,17 @@ enum BottomSheetState {
     }
 }
 
-struct BottomSheetView<Content: View>: View {
+struct BottomStatisticsSheet<Content: View>: View {
     @Binding var state: BottomSheetState
     @GestureState private var dragOffset: CGFloat = 0
-    
+
     let content: Content
-    
+
     init(state: Binding<BottomSheetState>, @ViewBuilder content: () -> Content) {
         self._state = state
         self.content = content()
     }
-    
+
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -51,7 +51,7 @@ struct BottomSheetView<Content: View>: View {
             }
 
             .clipShape(
-               !expandedAndWithFiltersState ? AnyShape(Rectangle()) : AnyShape(CustomTopRoundedShape())
+                !expandedAndWithFiltersState ? AnyShape(Rectangle()) : AnyShape(CustomTopRoundedShape())
             )
             .shadow(radius: 10)
             .offset(y: state.offset + dragOffset)
@@ -64,16 +64,26 @@ struct BottomSheetView<Content: View>: View {
                         withAnimation {
                             let threshold = geometry.size.height * 0.2
                             if value.translation.height < -threshold {
-                                if state == .closed || state == .withFilters {
+                                switch state {
+                                case .closed:
                                     state = .overall
-                                } else if state == .overall {
+                                case .overall:
                                     state = .expanded
+                                case .withFilters:
+                                    state = .expanded
+                                case .expanded:
+                                    break // Already at maximum expansion
                                 }
                             } else if value.translation.height > threshold {
-                                if state == .expanded {
+                                switch state {
+                                case .expanded:
                                     state = .overall
-                                } else if state == .overall {
-                                    state = state == .withFilters ? .withFilters : .closed
+                                case .overall:
+                                    state = .closed
+                                case .withFilters:
+                                    state = .closed
+                                case .closed:
+                                    break // Already closed
                                 }
                             }
                         }
@@ -81,12 +91,19 @@ struct BottomSheetView<Content: View>: View {
             )
             .onTapGesture(count: 1) {
                 withAnimation {
-                    state = state == .closed ? .overall : .expanded
+                    switch state {
+                    case .closed:
+                        state = .overall
+                    case .overall, .withFilters:
+                        state = .expanded
+                    case .expanded:
+                        state = .overall
+                    }
                 }
             }
             .onTapGesture(count: 2) {
                 withAnimation {
-                    state = .expanded
+                    state = state == .withFilters ? .withFilters : .expanded
                 }
             }
             .scrollDisabled(expandedAndWithFiltersState)

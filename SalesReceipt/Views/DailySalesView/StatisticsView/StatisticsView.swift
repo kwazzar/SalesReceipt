@@ -8,6 +8,8 @@
 import SwiftUI
 
 #warning("коли робиш піднімання вручну нехай стан фіксує BottomSheetState в залежності від висоти")
+#warning("top sales not currect count")
+
 struct StatisticsView: View {
     @ObservedObject private var viewModel: StatisticsViewModel
     @Binding private var bottomSheetState: BottomSheetState
@@ -26,51 +28,24 @@ struct StatisticsView: View {
         self.actionClosed = actionClosed
         self.isButtonVisible = isButtonVisible
         self._viewModel = ObservedObject(wrappedValue: StatisticsViewModel(
-            statisticsService: statisticsService, receipts: receipts,
+            statisticsService: statisticsService,
+            receipts: receipts,
             searchText: searchText
         ))
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            ZStack {
-                Text("Statistics")
-                    .font(.system(size: 30, weight: .bold, design: .default))
-                    .padding(.top, 15)
-
-                HStack {
-                    Spacer()
-                    if isButtonVisible {
-                        StatisticsClosedButton(actionClosed)
-                    }
-                }
-            }
-            .padding(.bottom, 3)
-            .background(Color(.systemBackground))
-            .zIndex(100)
-
+            // Header
+            statisticsHeader
+                .background(Color(.systemBackground))
+                .zIndex(100)
+            // Content
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 20) {
-                        if let totalStats = viewModel.totalSalesStats {
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text("Overall Statistics")
-                                    .font(.headline)
-                                    .padding(.horizontal)
-                                HStack {
-                                    ForEach(StatType.allCases, id: \.self) { statType in
-                                        StatCard(
-                                            title: statType.title,
-                                            value: statType.value(from: totalStats),
-                                            color: statType.color
-                                        )
-                                    }
-                                }
-                                .padding(.horizontal)
-                            }
-                        }
-                        SalesChartView(viewModel.dailySalesStats)
-                        TopSalesStatView(viewModel.topItemSales)
+                        // Add spacing when filters are shown
+                        statisticsContent
                         Spacer(minLength: 40)
                     }
                     .padding(.vertical, 16)
@@ -84,9 +59,9 @@ struct StatisticsView: View {
                     }
                 }
             }
-            .introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18), customize: { scroll in
+            .introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18)) { scroll in
                 scroll.bounces = false
-            })
+            }
             .scrollIndicators(.hidden)
         }
         .background(Color.white)
@@ -95,5 +70,47 @@ struct StatisticsView: View {
         .onChange(of: viewModel.receipts) { _ in viewModel.calculateStatistics() }
         .onChange(of: viewModel.searchText ?? "") { _ in viewModel.calculateStatistics() }
     }
-}
 
+    //MARK: - Header
+    private var statisticsHeader: some View {
+        ZStack {
+            Text("Statistics")
+                .font(.system(size: 30, weight: .bold, design: .default))
+                .padding(.top, 15)
+
+            HStack {
+                Spacer()
+                if isButtonVisible {
+                    StatisticsClosedButton(actionClosed)
+                }
+            }
+        }
+        .padding(.bottom, 3)
+    }
+    //MARK: - statisticsContent
+    private var statisticsContent: some View {
+        VStack(spacing: 20) {
+            if let totalStats = viewModel.totalSalesStats {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Overall Statistics")
+                        .font(.headline)
+                        .padding(.horizontal)
+
+                    HStack {
+                        ForEach(StatType.allCases, id: \.self) { statType in
+                            StatCard(
+                                title: statType.title,
+                                value: statType.value(from: totalStats),
+                                color: statType.color
+                            )
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+            }
+
+            SalesChartView(viewModel.dailySalesStats)
+            TopSalesStatView(viewModel.topItemSales)
+        }
+    }
+}
