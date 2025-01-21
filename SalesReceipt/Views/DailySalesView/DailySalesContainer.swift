@@ -30,8 +30,8 @@ struct DailySalesContainer: View {
                 }
 
                 ReceiptList( viewModel.visibleReceipts,
-                    onReceiptTap: viewModel.showReceiptDetail,
-                    onReceiptDelete: viewModel.deleteReceipt
+                             onReceiptTap: viewModel.showReceiptDetail,
+                             onReceiptDelete: viewModel.deleteReceipt
                 )
             }
             .configurePopup(isPresented: $viewModel.uiState.showDeletePopup,
@@ -41,19 +41,14 @@ struct DailySalesContainer: View {
                 content: { receiptDetailView }
             )
 
-            BottomStatisticsSheet(state: $viewModel.uiState.currentState) {
-                StatisticsView(
-                    bottomSheetState: $viewModel.uiState.currentState,
-                    actionClosed: viewModel.closeStatistics,
-                    isButtonVisible: viewModel.uiState.currentState != .closed,
-                    receipts: viewModel.visibleReceipts,
-                    searchText: viewModel.searchText,
-                    statisticsService: viewModel.statisticsService
-                )
-            }
+            BottomStatisticsSheet(state: $viewModel.uiState.currentState,
+                                  content: { statisticsContent })
         }
     }
+}
 
+//MARK: - Extension
+extension DailySalesContainer {
     private var deletePopup: some View {
         DeleteConfirmationPopup(
             isPresented: $viewModel.uiState.showDeletePopup,
@@ -70,5 +65,16 @@ struct DailySalesContainer: View {
             )
         )
         .onDisappear { viewModel.uiState.isShowingReceiptDetail = false }
+    }
+    
+    private var statisticsContent: some View {
+        StatisticsView(
+            bottomSheetState: $viewModel.uiState.currentState,
+            actionClosed: viewModel.closeStatistics,
+            isButtonVisible: viewModel.uiState.currentState != .closed,
+            receipts: viewModel.visibleReceipts,
+            searchText: viewModel.searchText,
+            statisticsService: viewModel.statisticsService
+        )
     }
 }

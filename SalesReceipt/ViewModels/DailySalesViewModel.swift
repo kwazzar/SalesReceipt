@@ -130,7 +130,7 @@ final class DailySalesViewModel: ObservableObject {
     }
 }
 
-// MARK: -Filter Methods
+// MARK: - Filter Methods
 extension DailySalesViewModel {
     func handleFiltersDisappear() {
         if uiState.currentState == .withFilters {

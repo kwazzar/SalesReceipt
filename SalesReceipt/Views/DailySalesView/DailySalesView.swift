@@ -10,7 +10,7 @@ import SwiftUI
 struct DailySalesView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: DailySalesViewModel
-
+    
     var body: some View {
         DailySalesContainer(
             viewModel: viewModel,

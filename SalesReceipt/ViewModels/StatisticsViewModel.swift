@@ -6,13 +6,29 @@
 //
 
 import Foundation
+// MARK: - Protocols
+protocol StatisticsViewModelInput {
+    var receipts: [Receipt] { get set }
+    var searchText: String? { get set }
+    func calculateStatistics()
+}
 
-final class StatisticsViewModel: ObservableObject {
-    @Published var totalSalesStats: (total: Double, itemsSold: Int, averageCheck: Double)?
-    @Published var dailySalesStats: [SalesStat] = []
-    @Published var topItemSales: [(item: Item, count: Int)] = []
+protocol StatisticsViewModelOutput {
+    var totalSalesStats: (total: Double, itemsSold: Int, averageCheck: Double)? { get }
+    var dailySalesStats: [SalesStat] { get }
+    var topItemSales: [(item: Item, count: Int)] { get }
+}
 
-    private let statisticsService: StatisticsAPI
+protocol StatisticsViewModelProtocol: StatisticsViewModelInput, StatisticsViewModelOutput, ObservableObject {}
+
+// MARK: - ViewModel
+final class StatisticsViewModel: StatisticsViewModelProtocol {
+    // MARK: - Published Properties (Output)
+    @Published private(set) var totalSalesStats: (total: Double, itemsSold: Int, averageCheck: Double)?
+    @Published private(set) var dailySalesStats: [SalesStat] = []
+    @Published private(set) var topItemSales: [(item: Item, count: Int)] = []
+
+    // MARK: - Input Properties
     @Published var receipts: [Receipt] {
         didSet { calculateStatistics() }
     }
@@ -20,23 +36,32 @@ final class StatisticsViewModel: ObservableObject {
         didSet { calculateStatistics() }
     }
 
+    // MARK: - Dependencies
+    private let statisticsService: StatisticsAPI
+    private let topSalesLimit: Int
+
+    // MARK: - Initialization
     init(
         statisticsService: StatisticsAPI,
         receipts: [Receipt],
-        searchText: String?
+        searchText: String? = nil,
+        topSalesLimit: Int = 3
     ) {
         self.statisticsService = statisticsService
         self.receipts = receipts
         self.searchText = searchText
+        self.topSalesLimit = topSalesLimit
         calculateStatistics()
     }
 
+    // MARK: - Public Methods
     func calculateStatistics() {
         totalSalesStats = calculatedTotalStats
         dailySalesStats = calculatedDailySales
         topItemSales = calculatedTopSales
     }
 
+    // MARK: - Private Methods
     private var calculatedTotalStats: (total: Double, itemsSold: Int, averageCheck: Double)? {
         statisticsService.fetchTotalStats(receipts: filteredReceipts)
     }
@@ -46,18 +71,23 @@ final class StatisticsViewModel: ObservableObject {
     }
 
     private var calculatedTopSales: [(item: Item, count: Int)] {
-        statisticsService.fetchTopItemSales(receipts: receipts, searchText: searchText, limit: 3)
+        statisticsService.fetchTopItemSales(
+            receipts: receipts,
+            searchText: searchText,
+            limit: topSalesLimit
+        )
     }
 
     private var filteredReceipts: [Receipt] {
-        if let searchText = searchText, !searchText.isEmpty {
-            return receipts.filter { receipt in
-                receipt.customerName.value.lowercased().contains(searchText.lowercased()) ||
-                receipt.items.contains {
-                    $0.description.value.lowercased().contains(searchText.lowercased())
-                }
+        guard let searchText = searchText, !searchText.isEmpty else {
+            return receipts
+        }
+
+        return receipts.filter { receipt in
+            receipt.customerName.value.lowercased().contains(searchText.lowercased()) ||
+            receipt.items.contains {
+                $0.description.value.lowercased().contains(searchText.lowercased())
             }
         }
-        return receipts
     }
 }

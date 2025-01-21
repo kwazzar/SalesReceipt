@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+//MARK: - SheetState
 enum BottomSheetState {
     case closed
     case overall
@@ -27,29 +27,27 @@ enum BottomSheetState {
     }
 }
 
+//MARK: - Sheet
 struct BottomStatisticsSheet<Content: View>: View {
     @Binding var state: BottomSheetState
     @GestureState private var dragOffset: CGFloat = 0
-
+    
     let content: Content
-
+    
     init(state: Binding<BottomSheetState>, @ViewBuilder content: () -> Content) {
         self._state = state
         self.content = content()
     }
-
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                VStack(spacing: 0) {
-                    content
-                        .frame(maxWidth: .infinity)
-                        .frame(height: geometry.size.height - state.offset, alignment: .top)
-                        .background(Color(.systemBackground))
-                }
+                content
+                    .frame(maxWidth: .infinity)
+                    .frame(height: geometry.size.height - state.offset, alignment: .top)
+                    .background(Color(.systemBackground))
                 Spacer()
             }
-
             .clipShape(
                 !expandedAndWithFiltersState ? AnyShape(Rectangle()) : AnyShape(CustomTopRoundedShape())
             )
@@ -62,33 +60,17 @@ struct BottomStatisticsSheet<Content: View>: View {
                     }
                     .onEnded { value in
                         withAnimation {
-                            let threshold = geometry.size.height * 0.2
-                            if value.translation.height < -threshold {
-                                switch state {
-                                case .closed:
-                                    state = .overall
-                                case .overall:
-                                    state = .expanded
-                                case .withFilters:
-                                    state = .expanded
-                                case .expanded:
-                                    break // Already at maximum expansion
-                                }
-                            } else if value.translation.height > threshold {
-                                switch state {
-                                case .expanded:
-                                    state = .overall
-                                case .overall:
-                                    state = .closed
-                                case .withFilters:
-                                    state = .closed
-                                case .closed:
-                                    break // Already closed
-                                }
-                            }
+                            let currentPosition = state.offset + value.translation.height
+                            updateStateBasedOnPosition(currentPosition, geometry: geometry)
                         }
                     }
             )
+            .onChange(of: dragOffset) { newOffset in
+                let currentPosition = state.offset + newOffset
+                if abs(newOffset) > 20 {
+                    updateStateBasedOnPosition(currentPosition, geometry: geometry, animated: false)
+                }
+            }
             .onTapGesture(count: 1) {
                 withAnimation {
                     switch state {
@@ -110,7 +92,35 @@ struct BottomStatisticsSheet<Content: View>: View {
             .ignoresSafeArea(edges: .bottom)
         }
     }
+}
 
+//MARK: - Extension
+extension BottomStatisticsSheet {
+    private func updateStateBasedOnPosition(_ position: CGFloat, geometry: GeometryProxy, animated: Bool = true) {
+        let screenHeight = UIScreen.main.bounds.height
+        let closedPosition = screenHeight * 0.88
+        let overallPosition = screenHeight * 0.72
+        let expandedPosition = screenHeight * 0.06
+        
+        let newState: BottomSheetState
+        
+        if position > (closedPosition + overallPosition) / 2 {
+            newState = .closed
+        } else if position > (overallPosition + expandedPosition) / 2 {
+            newState = .overall
+        } else {
+            newState = .expanded
+        }
+        
+        if animated {
+            withAnimation {
+                state = newState
+            }
+        } else {
+            state = newState
+        }
+    }
+    
     private var expandedAndWithFiltersState: Bool {
         state != .expanded && state != .withFilters
     }
