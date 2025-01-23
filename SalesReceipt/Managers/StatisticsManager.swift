@@ -22,7 +22,6 @@ final class StatisticsManager: StatisticsAPI {
         guard !receipts.isEmpty else { return nil }
 
         let calendar = Calendar.current
-
         let groupedReceipts = Dictionary(grouping: receipts) { receipt in
             calendar.startOfDay(for: receipt.date)
         }
@@ -40,10 +39,6 @@ final class StatisticsManager: StatisticsAPI {
     internal func fetchTopItemSales(receipts: [Receipt],
                                     searchText: String? = nil,
                                     limit: Int = 5) -> [(item: Item, count: Int)] {
-        print("🏆 Получение топ продаж")
-        print("🧾 Количество рецептов: \(receipts.count)")
-        print("🔍 Текст поиска: \(searchText ?? "Нет")")
-
         var filteredReceipts = receipts
         // Если есть текст поиска, фильтруем сначала рецепты
         if let searchText = searchText, !searchText.isEmpty {
@@ -55,23 +50,31 @@ final class StatisticsManager: StatisticsAPI {
         }
 
         let filteredItems = filteredReceipts.flatMap { $0.items }
-        print("🛍️ Количество рецептов после фильтрации: \(filteredReceipts.count)")
-        print("🛍️ Количество товаров после фильтрации: \(filteredItems.count)")
-
         var itemStats = [Item: Int]()
         for item in filteredItems {
-            itemStats[item, default: 0] += 1
+            // Use the first matching item as the key and accumulate quantities
+            if let existingItem = itemStats.keys.first(where: { $0.description == item.description }) {
+                itemStats[existingItem, default: 0] += item.quantity
+            } else {
+                // Create a new item with quantity = 1 for the key, but store the actual quantity
+                let keyItem = Item(
+                    id: item.id ?? UUID(),
+                    description: item.description,
+                    price: item.price,
+                    image: item.image,
+                    quantity: 1
+                )
+                itemStats[keyItem] = item.quantity
+            }
         }
 
         let result = itemStats
             .sorted { $0.value > $1.value }
             .prefix(limit)
             .map { (item: $0.key, count: $0.value) }
-
-        print("📊 Топ товаров:")
-        for (index, item) in result.enumerated() {
-            print("  \(index + 1). \(item.item.description.value): \(item.count)")
-        }
+        //        for (index, item) in result.enumerated() {
+        //            print("  \(index + 1). \(item.item.description.value): \(item.count)")
+        //        }
         return result
     }
 }

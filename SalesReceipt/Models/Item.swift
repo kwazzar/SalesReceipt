@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 struct Item: Identifiable, Hashable, Equatable {
     let id: UUID?
     let description: Description

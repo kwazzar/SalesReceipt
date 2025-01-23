@@ -11,7 +11,8 @@ import SwiftUI
 final class SalesViewModel: ObservableObject {
     @Published private(set) var total: Price = Price(0)
     @Published var customerName: CustomerName = CustomerName("")
-    
+
+    #warning("need to specify the concrete type when initializing")
     private let itemManager: any ItemProvidable & ItemManagable
     private let checkoutManager: CheckoutManager
     let searchState: SearchState

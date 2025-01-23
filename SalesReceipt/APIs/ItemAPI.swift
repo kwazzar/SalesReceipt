@@ -7,6 +7,7 @@
 
 import Foundation
 
+#warning("підписання протоколів під один обьект")
 protocol ItemProvidable {
     var currentItems: [Item] { get }
     func filterItems(query: SearchQuery) -> [Item]

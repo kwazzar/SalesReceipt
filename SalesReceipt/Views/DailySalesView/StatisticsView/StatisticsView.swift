@@ -7,9 +7,6 @@
 
 import SwiftUI
 
-#warning("коли робиш піднімання вручну нехай стан фіксує BottomSheetState в залежності від висоти")
-#warning("top sales not currect count")
-
 struct StatisticsView: View {
     @ObservedObject private var viewModel: StatisticsViewModel
     @Binding private var bottomSheetState: BottomSheetState
@@ -70,7 +67,9 @@ struct StatisticsView: View {
         .onChange(of: viewModel.receipts) { _ in viewModel.calculateStatistics() }
         .onChange(of: viewModel.searchText ?? "") { _ in viewModel.calculateStatistics() }
     }
+}
 
+extension StatisticsView {
     //MARK: - Header
     private var statisticsHeader: some View {
         ZStack {
@@ -108,9 +107,16 @@ struct StatisticsView: View {
                     .padding(.horizontal)
                 }
             }
-
             SalesChartView(viewModel.dailySalesStats)
             TopSalesStatView(viewModel.topItemSales)
         }
+    }
+}
+
+struct Statistics: PreviewProvider {
+    static var previews: some View {
+        StatisticsView(bottomSheetState: .constant(.expanded), actionClosed: {
+            print("closed")
+        }, isButtonVisible: true, receipts: testReceipts, searchText: nil, statisticsService: StatisticsManager())
     }
 }

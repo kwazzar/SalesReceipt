@@ -36,11 +36,9 @@ struct DailySalesContainer: View {
             }
             .configurePopup(isPresented: $viewModel.uiState.showDeletePopup,
                             content: { deletePopup })
-            .fullScreenCover(
-                isPresented: viewModel.receiptDetailBinding,
-                content: { receiptDetailView }
+            .fullScreenCover(isPresented: viewModel.receiptDetailBinding,
+                             content: { receiptDetailView }
             )
-
             BottomStatisticsSheet(state: $viewModel.uiState.currentState,
                                   content: { statisticsContent })
         }
