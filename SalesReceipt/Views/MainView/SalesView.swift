@@ -23,41 +23,64 @@ struct SalesView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 5) {
-                SearchBar(titleSearch: "Search items...", searchText: Binding(
-                    get: { viewModel.searchState.searchText.text },
-                    set: { newText in
-                        viewModel.searchState.searchText = SearchQuery(text: newText)
-                        viewModel.searchState.updateFilteredItems(for: SearchQuery(text: newText))
-                    }
-                ), onClose: {
-                    viewModel.searchState.searchText = SearchQuery(text: "")
-                    viewModel.searchState.updateFilteredItems(for: SearchQuery(text: ""))
-                })
-                
-                CarouselView(viewModel: viewModel)
-                
-                ReceiptView(
-                    items: viewModel.currentItems,
-                    total: viewModel.total.value,
-                    uiState: viewModel.uiState,
-                    onDeleteItem: viewModel.deleteItem,
-                    onDecrementItem: viewModel.decrementItem
+                searchBar
+                CarouselView(items: viewModel.searchState.filteredItems) { item in
+                    viewModel.addItem(item)
+                }
+                receiptView
+                BottomBar(showingDailySales: $uiState.showingDailySales,
+                          clearAllAction: { viewModel.clearAll() },
+                          checkoutAction: { viewModel.checkout() },
+                          isCheckoutDisabled: viewModel.currentItems.isEmpty
                 )
-                BottomBar(viewModel: viewModel)
             }
             .blur(radius: viewModel.uiState.isPopupVisible ? 3 : 0)
-            
+            popupOverlay
+        }
+        .animation(.easeInOut, value: viewModel.uiState.isPopupVisible)
+    }
+}
+
+//MARK: - Extension
+extension SalesView {
+    private var searchBar: some View {
+        SearchBar(
+            titleSearch: "Search items...",
+            searchText: Binding(
+                get: { viewModel.searchState.searchText.text },
+                set: { newText in
+                    let query = SearchQuery(text: newText)
+                    viewModel.searchState.searchText = query
+                    viewModel.searchState.updateFilteredItems(for: query)
+                }
+            ),
+            onClose: {
+                viewModel.searchState.resetSearch()
+            }
+        )
+    }
+    
+    private var receiptView: some View {
+        ReceiptView(
+            items: viewModel.currentItems,
+            total: viewModel.total.value,
+            uiState: viewModel.uiState,
+            onDeleteItem: viewModel.deleteItem,
+            onDecrementItem: viewModel.decrementItem
+        )
+    }
+    
+    private var popupOverlay: some View {
+        Group {
             if viewModel.uiState.isPopupVisible {
                 Color.black.opacity(0.4)
                     .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        viewModel.uiState.isPopupVisible = false
-                    }
+                    .onTapGesture { viewModel.uiState.isPopupVisible = false }
+                
                 CustomerNamePopup(viewModel: viewModel)
                     .transition(.scale)
             }
         }
-        .animation(.easeInOut, value: viewModel.uiState.isPopupVisible)
     }
 }
 

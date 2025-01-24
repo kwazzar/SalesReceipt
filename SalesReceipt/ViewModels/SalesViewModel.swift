@@ -5,24 +5,24 @@
 //  Created by Quasar on 02.11.2024.
 //
 
-import Foundation
 import SwiftUI
 
 final class SalesViewModel: ObservableObject {
+    private let itemManager: AnyItemManager
+    private let checkoutManager: CheckoutManager
+
+    let searchState: SearchState
+    let uiState: SalesUIState
+
     @Published private(set) var total: Price = Price(0)
     @Published var customerName: CustomerName = CustomerName("")
 
-    #warning("need to specify the concrete type when initializing")
-    private let itemManager: any ItemProvidable & ItemManagable
-    private let checkoutManager: CheckoutManager
-    let searchState: SearchState
-    let uiState: SalesUIState
-    
+    #warning("DI container need")
     init(
         receiptManager: ReceiptDatabaseAPI,
-        itemManager: some ItemProvidable & ItemManagable
+        itemManager: ItemManagerProtocol
     ) {
-        self.itemManager = itemManager
+        self.itemManager = AnyItemManager(itemManager)
         self.checkoutManager = CheckoutManager(
             receiptManager: receiptManager,
             itemManager: itemManager
@@ -74,6 +74,13 @@ final class SalesViewModel: ObservableObject {
     }
 }
 
+//MARK: - SalesUIState
+final class SalesUIState: ObservableObject {
+    @Published var isPopupVisible = false
+    @Published var showingDailySales = false
+    @Published var activeMenuItemID: UUID? = nil
+}
+
 //MARK: - SearchState
 struct SearchQuery {
     let text: String
@@ -108,23 +115,25 @@ final class SearchState: ObservableObject {
     }
 }
 
-//MARK: - SalesUIState
-final class SalesUIState: ObservableObject {
-    @Published var isPopupVisible = false
-    @Published var showingDailySales = false
-    @Published var activeMenuItemID: UUID? = nil
+extension SearchState {
+    func resetSearch() {
+        searchText = SearchQuery(text: "")
+        updateFilteredItems(for: SearchQuery(text: ""))
+    }
 }
 
 //MARK: - CheckoutManager
 final class CheckoutManager {
     private let receiptManager: ReceiptDatabaseAPI
-    private let itemManager: any ItemProvidable & ItemManagable
+    private let itemManager: AnyItemManager
     
-    init(receiptManager: ReceiptDatabaseAPI, itemManager: some ItemProvidable & ItemManagable) {
+    init(receiptManager: some ReceiptDatabaseAPI,
+         itemManager: some ItemManagerProtocol) {
         self.receiptManager = receiptManager
-        self.itemManager = itemManager
+        self.itemManager = AnyItemManager(itemManager)
     }
 
+    #warning("type driven in name")
     func finalizeCheckout(customerName: String) -> Bool {
         guard !itemManager.currentItems.isEmpty else {
             return false

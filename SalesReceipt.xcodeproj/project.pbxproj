@@ -50,6 +50,7 @@
 		E3BD976A2D3B0B7500CF2949 /* DeleteConfirmationPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BD97692D3B0B7500CF2949 /* DeleteConfirmationPopup.swift */; };
 		E3BD976C2D3B10FF00CF2949 /* DateRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BD976B2D3B10FF00CF2949 /* DateRangePicker.swift */; };
 		E3C0F2E52D38697A003E4436 /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C0F2E42D38697A003E4436 /* Extension + UIViewController.swift */; };
+		E3C5472A2D4415CB00E9B235 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C547292D4415CB00E9B235 /* DIContainer.swift */; };
 		E3CB1A822D14557C00EE6286 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CB1A812D14557C00EE6286 /* StatisticsViewModel.swift */; };
 		E3D394B82D3733D600D943ED /* ReceiptDatabaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394B72D3733D600D943ED /* ReceiptDatabaseAPI.swift */; };
 		E3D394BA2D37341200D943ED /* ItemAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394B92D37341200D943ED /* ItemAPI.swift */; };
@@ -111,6 +112,7 @@
 		E3BD976B2D3B10FF00CF2949 /* DateRangePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangePicker.swift; sourceTree = "<group>"; };
 		E3C0F2E32D37E58A003E4436 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E3C0F2E42D38697A003E4436 /* Extension + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIViewController.swift"; sourceTree = "<group>"; };
+		E3C547292D4415CB00E9B235 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		E3CB1A812D14557C00EE6286 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
 		E3D394B72D3733D600D943ED /* ReceiptDatabaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDatabaseAPI.swift; sourceTree = "<group>"; };
 		E3D394B92D37341200D943ED /* ItemAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAPI.swift; sourceTree = "<group>"; };
@@ -292,6 +294,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		E3C547282D4415A700E9B235 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				E3C547292D4415CB00E9B235 /* DIContainer.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
 		E3D394B62D3733B400D943ED /* APIs */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,6 +332,7 @@
 		E3FE02522CD5546300779E5B /* SalesReceipt */ = {
 			isa = PBXGroup;
 			children = (
+				E3C547282D4415A700E9B235 /* DI */,
 				E3D394B62D3733B400D943ED /* APIs */,
 				E367B8A32D00D94F00AC7B81 /* Managers */,
 				E3A8924F2D03A03100574218 /* Errors */,
@@ -447,6 +458,7 @@
 				E3DFA2132D07665400A7B17A /* StatisticsManager.swift in Sources */,
 				E3A2BD042CD559AD00555B49 /* SalesDatabase.swift in Sources */,
 				E330C3202CD929C9001CA7A5 /* ButtonStyle.swift in Sources */,
+				E3C5472A2D4415CB00E9B235 /* DIContainer.swift in Sources */,
 				E367B8A52D00D96800AC7B81 /* ReceiptManager.swift in Sources */,
 				E32A8CEE2CDC029D00B4E405 /* CustomerCard.swift in Sources */,
 				E330C3242CD99693001CA7A5 /* Extension + View.swift in Sources */,

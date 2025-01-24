@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ItemManager: ItemProvidable & ItemManagable {
+final class ItemManager: ItemManagerProtocol {
     private(set) var currentItems: [Item] = []
     
     func addItem(_ item: Item) {
@@ -55,3 +55,5 @@ final class ItemManager: ItemProvidable & ItemManagable {
         currentItems.removeAll()
     }
 }
+
+

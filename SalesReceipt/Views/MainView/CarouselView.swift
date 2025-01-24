@@ -8,20 +8,15 @@
 import SwiftUI
 
 struct CarouselView: View {
-    @StateObject var viewModel: SalesViewModel
-    @ObservedObject private var searchState: SearchState
-
-    init(viewModel: SalesViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-        self.searchState = viewModel.searchState
-    }
+    var items: [Item]
+    let actionItem: (Item) -> Void
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 15) {
-                ForEach(searchState.filteredItems, id: \.description) { item in
+                ForEach(items, id: \.description) { item in
                     ItemButton(item: item) {
-                        viewModel.addItem(item)
+                        actionItem(item)
                     }
                     .frame(width: 150, height: 200)
                     .cornerRadius(10)
