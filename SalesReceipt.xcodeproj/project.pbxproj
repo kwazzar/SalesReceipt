@@ -163,11 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				E34AFF472D087BB10032D9BF /* StatisticsView.swift */,
-				E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */,
-				E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */,
-				E34AFF492D087BE70032D9BF /* StatCard.swift */,
-				E35787152D09E5C00088098E /* TopSalesStatView.swift */,
-				E31AB4F12D0BB0F9004BD99A /* BottomStatisticsSheet.swift */,
+				E3E9077E2D46B58A009F7439 /* Components */,
 			);
 			path = StatisticsView;
 			sourceTree = "<group>";
@@ -187,8 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				E399FFB92CE50EA200BE0F31 /* ReceiptDetailView.swift */,
-				E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */,
-				E3A11C9E2CFFBF9C00C0A55C /* ReceiptDetailBar.swift */,
+				E3E9077F2D46B5BD009F7439 /* Components */,
 			);
 			path = ReceiptDetailView;
 			sourceTree = "<group>";
@@ -206,10 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				E3FE02552CD5546300779E5B /* SalesView.swift */,
-				E38A43832CDE43BE007BEC2B /* CarouselView.swift */,
-				E38A43812CDE436B007BEC2B /* ReceiptView.swift */,
-				E330C3212CD9329B001CA7A5 /* BottomBar.swift */,
-				E3A11C962CFFB65900C0A55C /* CustomerNamePopup.swift */,
+				E3E9077D2D46B553009F7439 /* Components */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -317,6 +309,38 @@
 				E3D394BD2D37346800D943ED /* StatisticsAPI.swift */,
 			);
 			path = APIs;
+			sourceTree = "<group>";
+		};
+		E3E9077D2D46B553009F7439 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E38A43832CDE43BE007BEC2B /* CarouselView.swift */,
+				E38A43812CDE436B007BEC2B /* ReceiptView.swift */,
+				E330C3212CD9329B001CA7A5 /* BottomBar.swift */,
+				E3A11C962CFFB65900C0A55C /* CustomerNamePopup.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E3E9077E2D46B58A009F7439 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */,
+				E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */,
+				E34AFF492D087BE70032D9BF /* StatCard.swift */,
+				E35787152D09E5C00088098E /* TopSalesStatView.swift */,
+				E31AB4F12D0BB0F9004BD99A /* BottomStatisticsSheet.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E3E9077F2D46B5BD009F7439 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E3A11C9E2CFFBF9C00C0A55C /* ReceiptDetailBar.swift */,
+				E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		E3FE02472CD5546300779E5B = {
