@@ -23,6 +23,7 @@
 		E35E58262D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */; };
 		E367B8A52D00D96800AC7B81 /* ReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367B8A42D00D96800AC7B81 /* ReceiptManager.swift */; };
 		E367B8A72D00E1CC00AC7B81 /* PDFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367B8A62D00E1CC00AC7B81 /* PDFManager.swift */; };
+		E36870C22D457DF700AC6CC7 /* Extension + CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36870C12D457DF700AC6CC7 /* Extension + CGRect.swift */; };
 		E376E97C2CFB88390065892D /* ReceiptDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */; };
 		E376E97F2CFBA92D0065892D /* DetailSalesReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */; };
 		E38A43822CDE436B007BEC2B /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A43812CDE436B007BEC2B /* ReceiptView.swift */; };
@@ -60,6 +61,7 @@
 		E3DFA2132D07665400A7B17A /* StatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA2122D07665400A7B17A /* StatisticsManager.swift */; };
 		E3E089012CE38CC500DB0DF3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = E3E089002CE38CC500DB0DF3 /* PopupView */; };
 		E3E089032CE39A3400DB0DF3 /* DailySalesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */; };
+		E3E9077C2D46A4D4009F7439 /* CustomErrorAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E9077B2D46A4D4009F7439 /* CustomErrorAlertView.swift */; };
 		E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02532CD5546300779E5B /* SalesReceiptApp.swift */; };
 		E3FE02562CD5546300779E5B /* SalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02552CD5546300779E5B /* SalesView.swift */; };
 		E3FE02582CD5546900779E5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3FE02572CD5546900779E5B /* Assets.xcassets */; };
@@ -85,6 +87,7 @@
 		E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsClosedButton.swift; sourceTree = "<group>"; };
 		E367B8A42D00D96800AC7B81 /* ReceiptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptManager.swift; sourceTree = "<group>"; };
 		E367B8A62D00E1CC00AC7B81 /* PDFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFManager.swift; sourceTree = "<group>"; };
+		E36870C12D457DF700AC6CC7 /* Extension + CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + CGRect.swift"; sourceTree = "<group>"; };
 		E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailViewModel.swift; sourceTree = "<group>"; };
 		E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSalesReceipt.swift; sourceTree = "<group>"; };
 		E38A43812CDE436B007BEC2B /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 		E3DFA2102D0764BD00A7B17A /* SalesStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesStat.swift; sourceTree = "<group>"; };
 		E3DFA2122D07665400A7B17A /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesViewModel.swift; sourceTree = "<group>"; };
+		E3E9077B2D46A4D4009F7439 /* CustomErrorAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorAlertView.swift; sourceTree = "<group>"; };
 		E3FE02502CD5546300779E5B /* SalesReceipt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesReceipt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FE02532CD5546300779E5B /* SalesReceiptApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesReceiptApp.swift; sourceTree = "<group>"; };
 		E3FE02552CD5546300779E5B /* SalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesView.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 				E330C3232CD99693001CA7A5 /* Extension + View.swift */,
 				E3C0F2E42D38697A003E4436 /* Extension + UIViewController.swift */,
 				E35E58232D0CC76400F3F0E4 /* CustomTopRoundedShape.swift */,
+				E36870C12D457DF700AC6CC7 /* Extension + CGRect.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				E330C31C2CD91B2C001CA7A5 /* SearchBar.swift */,
+				E3E9077B2D46A4D4009F7439 /* CustomErrorAlertView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -473,11 +479,13 @@
 				E396E9FA2CD651C100930B47 /* DailySalesView.swift in Sources */,
 				E38A43842CDE43BE007BEC2B /* CarouselView.swift in Sources */,
 				E3A8924C2D036FA400574218 /* ItemEntity.swift in Sources */,
+				E36870C22D457DF700AC6CC7 /* Extension + CGRect.swift in Sources */,
 				E3A892532D03A0AD00574218 /* DatabaseError.swift in Sources */,
 				E35787162D09E5C00088098E /* TopSalesStatView.swift in Sources */,
 				E3D394BC2D37343C00D943ED /* PDFAPI.swift in Sources */,
 				E35656952D0F69FE00B7E78D /* MockReceiptManager.swift in Sources */,
 				E3BD97682D3B091E00CF2949 /* DailySalesContainer.swift in Sources */,
+				E3E9077C2D46A4D4009F7439 /* CustomErrorAlertView.swift in Sources */,
 				E39B91DD2D023B4100150545 /* MockItems.swift in Sources */,
 				E3A11C9F2CFFBF9C00C0A55C /* ReceiptDetailBar.swift in Sources */,
 				E399FFBA2CE50EA200BE0F31 /* ReceiptDetailView.swift in Sources */,

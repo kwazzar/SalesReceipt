@@ -24,13 +24,13 @@ final class DailySalesViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published private(set) var visibleReceipts: [Receipt] = []
     @Published var selectedReceipt: Receipt?
-
+    
     private let receiptManager: ReceiptDatabaseAPI
     let statisticsService: StatisticsAPI
     private var allReceipts: [Receipt] = []
     let bottomSheetHeight: CGFloat
     private var cancellables = Set<AnyCancellable>()
-
+    
     init(
         receiptManager: ReceiptDatabaseAPI,
         statisticsService: StatisticsAPI,
@@ -41,12 +41,12 @@ final class DailySalesViewModel: ObservableObject {
         self.bottomSheetHeight = screenHeight * 0.9
         self.startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
         self.endDate = Date()
-
+        
         setupPublishers()
         loadAllReceipts()
         updateVisibleReceipts()
     }
-
+    
     private func setupPublishers() {
         Publishers.CombineLatest3($startDate, $endDate, $searchText)
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
@@ -71,7 +71,7 @@ final class DailySalesViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     // MARK: - Public Interface
     var receiptDetailBinding: Binding<Bool> {
         Binding(
@@ -82,18 +82,18 @@ final class DailySalesViewModel: ObservableObject {
             set: { [weak self] in self?.uiState.isShowingReceiptDetail = $0 }
         )
     }
-
+    
     func showReceiptDetail(_ receipt: Receipt) {
         selectedReceipt = receipt
         uiState.isShowingReceiptDetail = true
     }
-
+    
     func closeStatistics() {
         withAnimation {
             uiState.currentState = .closed
         }
     }
-
+    
     // MARK: - Receipt Management
     func clearAllReceipts() {
         do {
@@ -104,7 +104,7 @@ final class DailySalesViewModel: ObservableObject {
             print("Error clearing receipts: \(error)")
         }
     }
-
+    
     func deleteReceipt(_ receipt: Receipt) {
         do {
             try receiptManager.deleteReceipt(receipt)
@@ -114,12 +114,12 @@ final class DailySalesViewModel: ObservableObject {
             print("Error deleting receipt: \(error)")
         }
     }
-
+    
     // MARK: - Private Methods
     private func loadAllReceipts() {
         allReceipts = (try? receiptManager.fetchAllReceipts()) ?? []
     }
-
+    
     private func updateVisibleReceipts() {
         visibleReceipts = receiptManager.filter(
             receipts: allReceipts,
@@ -139,7 +139,7 @@ extension DailySalesViewModel {
             }
         }
     }
-
+    
     func toggleFilters() {
         withAnimation(.easeInOut(duration: 0.3)) {
             uiState.areFiltersApplied.toggle()

@@ -5,7 +5,6 @@
 //  Created by Quasar on 30.11.2024.
 //
 
-import Foundation
 import SwiftUI
 
 final class ReceiptDetailViewModel: ObservableObject {
@@ -13,87 +12,124 @@ final class ReceiptDetailViewModel: ObservableObject {
     @Published var isPdfCreated = false
     @Published var isShareButtonVisible = false
     @Published var errorMessage: String?
-    
+    @Published var showErrorAlert = false
+
     let receipt: Receipt
     private let pdfManager: PDFAPI
     private let receiptManager: ReceiptDatabaseAPI
-    
-    init(
-        receipt: Receipt,
-        pdfManager: PDFAPI,
-        receiptManager: ReceiptDatabaseAPI
-    ) {
+    private var lastAction: PDFAction?
+
+    init(receipt: Receipt, pdfManager: PDFAPI, receiptManager: ReceiptDatabaseAPI) {
         self.receipt = receipt
         self.pdfManager = pdfManager
         self.receiptManager = receiptManager
+        self.showErrorAlert = false
     }
-    
+
     func checkPDFExists() -> Bool {
         do {
             let pdfPath = try pdfManager.checkPDFExists(for: receipt)
-            pdfUrlReceipt = pdfPath
-            isPdfCreated = true
+            updatePDFState(pdfPath: pdfPath)
             return true
         } catch {
-            errorMessage = error.localizedDescription
-            isPdfCreated = false
+            if !(error is PDFError) {
+                 handleError(error)
+             }
             return false
         }
     }
-    
+
     func generatePDF() {
+        lastAction = .generatePDF
         do {
             guard let pdfPath = try pdfManager.generatePDF(for: receipt) else {
                 throw PDFError.pdfGenerationFailed
             }
-            
+
             try receiptManager.updatePDFPath(for: receipt.id, path: pdfPath.path)
-            pdfUrlReceipt = pdfPath
-            isPdfCreated = true
-            errorMessage = nil
+            updatePDFState(pdfPath: pdfPath)
         } catch {
-            errorMessage = error.localizedDescription
-            isPdfCreated = false
+            handleError(error)
         }
     }
 
     func sharePDF() {
-        guard let pdfUrlReceipt = pdfUrlReceipt else { return }
+        lastAction = .sharePDF
+        guard let pdfUrlReceipt = pdfUrlReceipt else {
+            handleError(PDFError.pdfNotFound)
+            return
+        }
 
         do {
-            let pdfData = try Data(contentsOf: pdfUrlReceipt)
-            let temporaryDir = FileManager.default.temporaryDirectory
-            let temporaryFileURL = temporaryDir.appendingPathComponent(UUID().uuidString + ".pdf")
-            try pdfData.write(to: temporaryFileURL)
-
-            try (temporaryFileURL as NSURL).setResourceValue(true, forKey: .isReadableKey)
-
-            let activityVC = UIActivityViewController(
-                activityItems: [pdfData],
-                applicationActivities: nil
-            )
-
-            DispatchQueue.main.async {
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let window = windowScene.windows.first {
-
-                    if let popoverController = activityVC.popoverPresentationController {
-                        popoverController.sourceView = window
-                        popoverController.sourceRect = CGRect(x: window.bounds.midX,
-                                                              y: window.bounds.midY,
-                                                              width: 0, height: 0)
-                        popoverController.permittedArrowDirections = []
-                    }
-
-                    if let topController = window.rootViewController?.topMostViewController() {
-                        topController.present(activityVC, animated: true) {
-                            try? FileManager.default.removeItem(at: temporaryFileURL)
-                        }
-                    }
-                }
-            }
+            let pdfData = try preparePDFForSharing(from: pdfUrlReceipt)
+            presentShareSheet(with: pdfData)
         } catch {
-            errorMessage = "Не вдалося поділитися PDF: \(error.localizedDescription)"
+            handleError(PDFError.sharingFailed(error))
+        }
+    }
+
+    private func updatePDFState(pdfPath: URL) {
+        pdfUrlReceipt = pdfPath
+        isPdfCreated = true
+        isShareButtonVisible = true
+        errorMessage = nil
+    }
+
+    private func preparePDFForSharing(from url: URL) throws -> Data {
+        let pdfData = try Data(contentsOf: url)
+        let temporaryFileURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString + ".pdf")
+        try pdfData.write(to: temporaryFileURL)
+        try (temporaryFileURL as NSURL).setResourceValue(true, forKey: .isReadableKey)
+        return pdfData
+    }
+
+    #warning("flow popover fix it")
+    private func presentShareSheet(with pdfData: Data) {
+        let activityVC = UIActivityViewController(
+            activityItems: [pdfData],
+            applicationActivities: nil
+        )
+
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first,
+                  let topController = window.rootViewController?.topMostViewController() else {
+                return
+            }
+
+            if let popoverController = activityVC.popoverPresentationController {
+                popoverController.sourceView = window
+                popoverController.sourceRect = window.bounds.centered
+                popoverController.permittedArrowDirections = []
+            }
+
+            topController.present(activityVC, animated: true)
+        }
+    }
+
+    private func handleError(_ error: Error) {
+        print("Error occurred: \(error.localizedDescription)")
+        errorMessage = error.localizedDescription
+        showErrorAlert = true
+    }
+}
+
+enum PDFAction {
+    case generatePDF
+    case sharePDF
+}
+
+//MARK: - Extension
+extension ReceiptDetailViewModel {
+    func retryLastAction() {
+        switch lastAction {
+        case .generatePDF:
+            generatePDF()
+        case .sharePDF:
+            sharePDF()
+        case .none:
+            break
         }
     }
 }

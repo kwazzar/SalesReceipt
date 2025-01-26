@@ -31,7 +31,7 @@ struct CustomerNamePopup: View {
             
             HStack {
                 Button("Anonymous") {
-                    viewModel.finalizeCheckout(with: "")
+                    viewModel.finalizeCheckout(with: CustomerName(nil))
                     viewModel.uiState.isPopupVisible = false
                 }
                 .frame(maxWidth: .infinity)
@@ -44,7 +44,7 @@ struct CustomerNamePopup: View {
                 Spacer()
                 
                 Button("Save Name") {
-                    viewModel.finalizeCheckout(with: inputName)
+                    viewModel.finalizeCheckout(with: CustomerName(inputName))
                     viewModel.uiState.isPopupVisible = false
                 }
                 .frame(maxWidth: .infinity)

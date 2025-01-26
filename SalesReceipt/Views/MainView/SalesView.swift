@@ -28,11 +28,7 @@ struct SalesView: View {
                     viewModel.addItem(item)
                 }
                 receiptView
-                BottomBar(showingDailySales: $uiState.showingDailySales,
-                          clearAllAction: { viewModel.clearAll() },
-                          checkoutAction: { viewModel.checkout() },
-                          isCheckoutDisabled: viewModel.currentItems.isEmpty
-                )
+                bottomBar
             }
             .blur(radius: viewModel.uiState.isPopupVisible ? 3 : 0)
             popupOverlay
@@ -81,6 +77,14 @@ extension SalesView {
                     .transition(.scale)
             }
         }
+    }
+    
+    private var bottomBar: some View {
+        BottomBar(showingDailySales: $uiState.showingDailySales,
+                  clearAllAction: { viewModel.clearAll() },
+                  checkoutAction: { viewModel.checkout() },
+                  isCheckoutDisabled: viewModel.currentItems.isEmpty
+        )
     }
 }
 

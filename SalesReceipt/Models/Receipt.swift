@@ -46,18 +46,34 @@ extension Receipt: Equatable {
     }
 }
 
-struct CustomerName: Hashable {
-    let value: String
+//MARK: - Customer
+enum CustomerType {
+    case anonymous
+    case named(String)
+}
+
+struct CustomerName {
+    let type: CustomerType
 
     init(_ value: String? = nil) {
-        guard let safeValue = value, !safeValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            self.value = "Anonymous"
-            return
+        if let value = value, !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.type = .named(value)
+        } else {
+            self.type = .anonymous
         }
-        self.value = safeValue
+    }
+
+    var value: String {
+        switch type {
+        case .anonymous:
+            return "Anonymous"
+        case .named(let name):
+            return name
+        }
     }
 }
 
+//MARK: - PdfPath
 struct PdfPath: Hashable {
     let value: String
 

@@ -10,14 +10,14 @@ import SwiftUI
 final class SalesViewModel: ObservableObject {
     private let itemManager: AnyItemManager
     private let checkoutManager: CheckoutManager
-
+    
     let searchState: SearchState
     let uiState: SalesUIState
-
+    
     @Published private(set) var total: Price = Price(0)
     @Published var customerName: CustomerName = CustomerName("")
-
-    #warning("DI container need")
+    
+#warning("DI container need")
     init(
         receiptManager: ReceiptDatabaseAPI,
         itemManager: ItemManagerProtocol
@@ -65,7 +65,7 @@ final class SalesViewModel: ObservableObject {
         uiState.isPopupVisible = true
     }
     
-    func finalizeCheckout(with name: String) {
+    func finalizeCheckout(with name: CustomerName) {
         if checkoutManager.finalizeCheckout(customerName: name) {
             customerName = CustomerName("")
             updateTotal()
@@ -133,15 +133,13 @@ final class CheckoutManager {
         self.itemManager = AnyItemManager(itemManager)
     }
 
-    #warning("type driven in name")
-    func finalizeCheckout(customerName: String) -> Bool {
+    func finalizeCheckout(customerName: CustomerName) -> Bool {
         guard !itemManager.currentItems.isEmpty else {
             return false
         }
         
         let checkoutItems = itemManager.currentItems
-        let checkoutName = CustomerName(customerName)
-        receiptManager.saveReceipt(customerName: checkoutName, items: checkoutItems)
+        receiptManager.saveReceipt(customerName: customerName, items: checkoutItems)
         
         itemManager.clearAll()
         return true

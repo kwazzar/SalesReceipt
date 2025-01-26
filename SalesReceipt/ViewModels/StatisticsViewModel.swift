@@ -5,7 +5,8 @@
 //  Created by Quasar on 19.12.2024.
 //
 
-import Foundation
+import SwiftUI
+
 // MARK: - Protocols
 protocol StatisticsViewModelInput {
     var receipts: [Receipt] { get set }

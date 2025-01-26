@@ -11,7 +11,7 @@ struct BottomBar: View {
     var clearAllAction: () -> Void
     var checkoutAction: () -> Void
     var isCheckoutDisabled: Bool
-
+    
     var body: some View {
         VStack {
             HStack {
@@ -35,7 +35,7 @@ struct BottomBar: View {
             salesButton()
         }
     }
-
+    
     private func salesButton() -> some View {
         Button(action: {
             showingDailySales.toggle()
@@ -80,13 +80,9 @@ struct BottomBarButton: View {
                 .cornerRadius(12)
                 .innerStroke(cornerRadius: 8, lineWidth: 2, color: .black, inset: 4)
                 .opacity(opacity)
-            //                .opacity(viewModel.currentItems.isEmpty && buttonType == .checkout ? 0.5 : 1.0)
-#warning("opacity -")
         }
         .buttonStyle(BounceButtonStyle())
         .disabled(isDisabled)
-        //        .disabled(buttonType == .checkout && viewModel.currentItems.isEmpty)
-#warning("disabled -")
     }
 }
 
@@ -111,15 +107,6 @@ enum BottomBarButtonType: String, CaseIterable {
             return Color.clear
         case .checkout:
             return Color.clear
-        }
-    }
-    
-    func action(viewModel: SalesViewModel) {
-        switch self {
-        case .clearAll:
-            viewModel.clearAll()
-        case .checkout:
-            viewModel.checkout()
         }
     }
 }

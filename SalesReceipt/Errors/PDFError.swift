@@ -13,6 +13,7 @@ enum PDFError: Error, LocalizedError {
     case pdfGenerationFailed
     case pdfSaveFailed
     case pdfNotFound
+    case sharingFailed(Error)
 
     var errorDescription: String? {
         switch self {
@@ -26,6 +27,8 @@ enum PDFError: Error, LocalizedError {
             return "Unable to save PDF to file system."
         case .pdfNotFound:
             return "PDF file does not exist."
+        case .sharingFailed(_):
+            return "sharing Failed"
         }
     }
 }

@@ -12,43 +12,53 @@ struct ReceiptDetailView: View {
     @StateObject var viewModel: ReceiptDetailViewModel
     
     var body: some View {
-        VStack {
-            ReceiptDetailBar(title: "ReceiptDetail",
-                             isPDFCreated: viewModel.pdfUrlReceipt != nil) {
-                viewModel.generatePDF()
-            }
-        actionBack: {
-            presentationMode.wrappedValue.dismiss()
-        }
-            
-            if viewModel.pdfUrlReceipt != nil {
-                withAnimation(.easeInOut(duration: 0.5)) {
-                    sharePdfButton()
+        ZStack {
+            VStack {
+                ReceiptDetailBar(title: "ReceiptDetail",
+                                 isPDFCreated: viewModel.pdfUrlReceipt != nil) {
+                    viewModel.generatePDF()
                 }
-            } else {
-                Text("PDF not created yet")
-                    .foregroundColor(.gray)
+            actionBack: {
+                presentationMode.wrappedValue.dismiss()
             }
-            
-            DetailSalesReceipt(viewModel.receipt)
-            Spacer()
-        }
-        .onChange(of: viewModel.pdfUrlReceipt) { newValue in
-            withAnimation {
-                viewModel.isShareButtonVisible = newValue != nil
-                viewModel.isPdfCreated = newValue != nil
+                header
+                DetailSalesReceipt(viewModel.receipt)
+                Spacer()
             }
-        }
-        .onAppear {
-            let pdfExists = viewModel.checkPDFExists()
-            viewModel.isShareButtonVisible = pdfExists
-            if pdfExists {
-                viewModel.generatePDF()
+            .onChange(of: viewModel.pdfUrlReceipt) { newValue in
+                withAnimation {
+                    viewModel.isShareButtonVisible = newValue != nil
+                    viewModel.isPdfCreated = newValue != nil
+                }
             }
+            .onAppear {
+                let pdfExists = viewModel.checkPDFExists()
+                viewModel.isShareButtonVisible = pdfExists
+                if pdfExists {
+                    viewModel.generatePDF()
+                }
+            }
+            alertError
         }
+        .animation(.default, value: viewModel.showErrorAlert)
     }
-    
-    private func sharePdfButton() -> some View {
+}
+
+//MARK: - Extension
+extension ReceiptDetailView {
+    @ViewBuilder private var header: some View {
+        if viewModel.pdfUrlReceipt != nil {
+            withAnimation(.easeInOut(duration: 0.5)) {
+                sharePdfButton
+            }
+        } else {
+            Text("PDF not created yet")
+                .foregroundColor(.gray)
+        }
+
+    }
+
+    private var sharePdfButton: some View {
         Button(action: {
             viewModel.sharePDF()
         }) {
@@ -66,12 +76,31 @@ struct ReceiptDetailView: View {
         }
         .buttonStyle(BounceButtonStyle())
     }
+
+    @ViewBuilder private var alertError: some View {
+        if viewModel.showErrorAlert {
+            CustomErrorAlertView(
+                title: "Error",
+                message: viewModel.errorMessage ?? "Unknown Error",
+                primaryButtonTitle: "Repeat",
+                secondaryButtonTitle: "Сlose",
+                primaryAction: {
+                    viewModel.retryLastAction()
+                    viewModel.showErrorAlert = false
+                },
+                dismissAction: {
+                    viewModel.showErrorAlert = false
+                }
+            )
+            .transition(.opacity)
+            .zIndex(1)
+        }
+    }
 }
 
 struct ReceiptDetailView_Previews: PreviewProvider {
     static var previews: some View {
         
-        // Mock Receipt
         let mockReceipt = Receipt(
             id: UUID(),
             date: Date(), customerName: CustomerName("John Doe"),
