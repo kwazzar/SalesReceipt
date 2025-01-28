@@ -68,11 +68,37 @@ final class ReceiptDetailViewModel: ObservableObject {
         }
     }
 
+    func retryLastAction() {
+        switch lastAction {
+        case .generatePDF:
+            generatePDF()
+        case .sharePDF:
+            sharePDF()
+        case .none:
+            break
+        }
+    }
+}
+
+//MARK: - PDFAction
+enum PDFAction {
+    case generatePDF
+    case sharePDF
+}
+
+//MARK: - Extension
+extension ReceiptDetailViewModel {
     private func updatePDFState(pdfPath: URL) {
         pdfUrlReceipt = pdfPath
         isPdfCreated = true
         isShareButtonVisible = true
         errorMessage = nil
+    }
+
+    private func handleError(_ error: Error) {
+        print("Error occurred: \(error.localizedDescription)")
+        errorMessage = error.localizedDescription
+        showErrorAlert = true
     }
 
     private func preparePDFForSharing(from url: URL) throws -> Data {
@@ -84,52 +110,35 @@ final class ReceiptDetailViewModel: ObservableObject {
         return pdfData
     }
 
-    #warning("flow popover fix it")
+//MARK: - ShareSheet
     private func presentShareSheet(with pdfData: Data) {
         let activityVC = UIActivityViewController(
             activityItems: [pdfData],
             applicationActivities: nil
         )
 
+        activityVC.excludedActivityTypes = [
+            .assignToContact,
+            .addToReadingList,
+            .markupAsPDF,
+            .openInIBooks,
+            .saveToCameraRoll,
+            .print
+        ]
+        
         DispatchQueue.main.async {
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                   let window = windowScene.windows.first,
                   let topController = window.rootViewController?.topMostViewController() else {
                 return
             }
-
+            
             if let popoverController = activityVC.popoverPresentationController {
                 popoverController.sourceView = window
                 popoverController.sourceRect = window.bounds.centered
                 popoverController.permittedArrowDirections = []
             }
-
             topController.present(activityVC, animated: true)
-        }
-    }
-
-    private func handleError(_ error: Error) {
-        print("Error occurred: \(error.localizedDescription)")
-        errorMessage = error.localizedDescription
-        showErrorAlert = true
-    }
-}
-
-enum PDFAction {
-    case generatePDF
-    case sharePDF
-}
-
-//MARK: - Extension
-extension ReceiptDetailViewModel {
-    func retryLastAction() {
-        switch lastAction {
-        case .generatePDF:
-            generatePDF()
-        case .sharePDF:
-            sharePDF()
-        case .none:
-            break
         }
     }
 }
