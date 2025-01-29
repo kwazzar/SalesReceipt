@@ -13,7 +13,8 @@ struct SalesView: View {
     @StateObject private var searchState: SearchState
     
     init(viewModel: SalesViewModel = SalesViewModel(
-        receiptManager: ReceiptManager(database: SalesDatabase.shared), itemManager: ItemManager()
+        receiptManager: ReceiptManager(database: SalesDatabase.shared),
+        itemManager: ItemManager()
     )) {
         _viewModel = StateObject(wrappedValue: viewModel)
         _uiState = StateObject(wrappedValue: viewModel.uiState)
@@ -31,7 +32,7 @@ struct SalesView: View {
                 bottomBar
             }
             .blur(radius: viewModel.uiState.isPopupVisible ? 3 : 0)
-            popupOverlay
+            popupEnterCustomerNameOverlay
         }
         .animation(.easeInOut, value: viewModel.uiState.isPopupVisible)
     }
@@ -66,15 +67,24 @@ extension SalesView {
         )
     }
     
-    private var popupOverlay: some View {
+    private var popupEnterCustomerNameOverlay: some View {
         Group {
             if viewModel.uiState.isPopupVisible {
                 Color.black.opacity(0.4)
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture { viewModel.uiState.isPopupVisible = false }
                 
-                CustomerNamePopup(viewModel: viewModel)
-                    .transition(.scale)
+                CustomerNamePopup(inputName: $viewModel.popupInputName,
+                                  anonymousButton: {
+                    viewModel.finalizeCheckout(with: CustomerName(nil))
+                    viewModel.uiState.isPopupVisible = false
+                }, saveNameButton: {
+                    viewModel.finalizeCheckout(with: CustomerName(viewModel.popupInputName))
+                    viewModel.uiState.isPopupVisible = false
+                }, onBack: { viewModel.uiState.isPopupVisible = false
+                    viewModel.popupInputName = ""
+                })
+                .transition(.scale)
             }
         }
     }

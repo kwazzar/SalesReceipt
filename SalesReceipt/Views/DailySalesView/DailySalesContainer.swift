@@ -29,9 +29,9 @@ struct DailySalesContainer: View {
                     )
                 }
 
-                ReceiptList( viewModel.visibleReceipts,
-                             onReceiptTap: viewModel.showReceiptDetail,
-                             onReceiptDelete: viewModel.deleteReceipt
+                ReceiptList(viewModel.visibleReceipts,
+                            onReceiptTap: viewModel.showReceiptDetail,
+                            onReceiptDelete: viewModel.deleteReceipt
                 )
             }
             .configurePopup(isPresented: $viewModel.uiState.showDeletePopup,
@@ -40,7 +40,7 @@ struct DailySalesContainer: View {
                              content: { receiptDetailView }
             )
             BottomStatisticsSheet(state: $viewModel.uiState.currentState,
-                                  content: { statisticsContent })
+                                  content: { statisticsView })
         }
     }
 }
@@ -65,7 +65,7 @@ extension DailySalesContainer {
         .onDisappear { viewModel.uiState.isShowingReceiptDetail = false }
     }
     
-    private var statisticsContent: some View {
+    private var statisticsView: some View {
         StatisticsView(
             bottomSheetState: $viewModel.uiState.currentState,
             actionClosed: viewModel.closeStatistics,

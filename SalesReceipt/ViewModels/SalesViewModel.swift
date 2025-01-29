@@ -13,11 +13,11 @@ final class SalesViewModel: ObservableObject {
     
     let searchState: SearchState
     let uiState: SalesUIState
-    
+
     @Published private(set) var total: Price = Price(0)
     @Published var customerName: CustomerName = CustomerName("")
-    
-#warning("DI container need")
+    @Published var popupInputName: String = ""
+
     init(
         receiptManager: ReceiptDatabaseAPI,
         itemManager: ItemManagerProtocol

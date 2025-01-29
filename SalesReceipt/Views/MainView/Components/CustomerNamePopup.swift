@@ -8,19 +8,31 @@
 import SwiftUI
 
 struct CustomerNamePopup: View {
-    @State private var inputName: String = ""
-    @StateObject var viewModel: SalesViewModel
-    @ObservedObject private var uiState: SalesUIState
-    
-    init(viewModel: SalesViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-        self.uiState = viewModel.uiState
-    }
+    @Binding var inputName: String
+    let anonymousButton: () -> Void
+    let saveNameButton: () -> Void
+    let onBack: () -> Void
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Enter Customer Name")
-                .font(.headline)
+            HStack {
+                Button(action: onBack) {
+                    ZStack {
+                        Circle()
+                            .stroke(Color.black, lineWidth: 3)
+                            .frame(width: 32, height: 32)
+                        
+                        Image(systemName: "arrow.left")
+                            .foregroundColor(.black)
+                            .font(.system(size: 14, weight: .semibold))
+                    }
+                }
+                Spacer()
+                
+                Text("Enter Customer Name")
+                    .font(.headline)
+                Spacer()
+            }
             
             TextField("Full name", text: $inputName)
                 .textFieldStyle(.roundedBorder)
@@ -31,8 +43,7 @@ struct CustomerNamePopup: View {
             
             HStack {
                 Button("Anonymous") {
-                    viewModel.finalizeCheckout(with: CustomerName(nil))
-                    viewModel.uiState.isPopupVisible = false
+                    anonymousButton()
                 }
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.black)
@@ -44,8 +55,8 @@ struct CustomerNamePopup: View {
                 Spacer()
                 
                 Button("Save Name") {
-                    viewModel.finalizeCheckout(with: CustomerName(inputName))
-                    viewModel.uiState.isPopupVisible = false
+                    saveNameButton()
+                    inputName = ""
                 }
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.black)
@@ -67,6 +78,14 @@ struct CustomerNamePopup: View {
 
 struct CustomerNamePopup_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerNamePopup(viewModel: SalesViewModel(receiptManager: ReceiptManager(database: SalesDatabase.shared), itemManager: ItemManager()))
+        CustomerNamePopup(
+            inputName: .constant(""),
+            anonymousButton: {},
+            saveNameButton: {},
+            onBack: {}
+        )
+        .previewLayout(.sizeThatFits)
+        .padding()
+        .background(Color.gray.opacity(0.1))
     }
 }
