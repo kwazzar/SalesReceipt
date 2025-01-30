@@ -77,9 +77,14 @@ final class DailySalesViewModel: ObservableObject {
         Binding(
             get: { [weak self] in
                 guard let self = self else { return false }
-                return self.uiState.isShowingReceiptDetail && self.selectedReceipt != nil
+                return self.uiState.isShowingReceiptDetail
             },
-            set: { [weak self] in self?.uiState.isShowingReceiptDetail = $0 }
+            set: { [weak self] newValue in
+                self?.uiState.isShowingReceiptDetail = newValue
+                if !newValue {
+                    self?.selectedReceipt = nil
+                }
+            }
         )
     }
     

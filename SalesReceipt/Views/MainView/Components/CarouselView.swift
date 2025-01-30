@@ -27,6 +27,7 @@ struct CarouselView: View {
         .frame(height: 220)
     }
 }
+
 //MARK: - ItemButton
 struct ItemButton: View {
     let item: Item
@@ -52,12 +53,10 @@ struct ItemButton: View {
     }
 }
 
-//struct CarouselView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let viewModel = SalesViewModel()
-//
-//        return CarouselView(viewModel: viewModel)
-//            .previewLayout(.sizeThatFits)
-//            .padding()
-//    }
-//}
+struct CarouselView_Previews: PreviewProvider {
+    static var previews: some View {
+        CarouselView(items: mockItems, actionItem: {_ in })
+            .previewLayout(.sizeThatFits)
+            .padding()
+    }
+}

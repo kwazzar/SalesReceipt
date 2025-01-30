@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct SalesView: View {
-    @StateObject private var viewModel: SalesViewModel
-    @StateObject private var uiState: SalesUIState
-    @StateObject private var searchState: SearchState
+    @StateObject var viewModel: SalesViewModel
+    @StateObject var uiState: SalesUIState
+    @StateObject var searchState: SearchState
     
-    init(viewModel: SalesViewModel = SalesViewModel(
-        receiptManager: ReceiptManager(database: SalesDatabase.shared),
-        itemManager: ItemManager()
-    )) {
+    init(viewModel: SalesViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
         _uiState = StateObject(wrappedValue: viewModel.uiState)
         _searchState = StateObject(wrappedValue: viewModel.searchState)
@@ -93,13 +90,16 @@ extension SalesView {
         BottomBar(showingDailySales: $uiState.showingDailySales,
                   clearAllAction: { viewModel.clearAll() },
                   checkoutAction: { viewModel.checkout() },
-                  isCheckoutDisabled: viewModel.currentItems.isEmpty
+                  isCheckoutDisabled: viewModel.currentItems.isEmpty,
+                  dailySalesFactory: DefaultDailySalesFactory()
         )
     }
 }
 
 struct SalesView_Previews: PreviewProvider {
     static var previews: some View {
-        SalesView()
+
+        let salesFactory = MockSalesFactory()
+        salesFactory.createSalesView()
     }
 }

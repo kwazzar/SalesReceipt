@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct SalesReceiptApp: App {
+    private let salesFactory: SalesFactory
+
+    init() {
+            self.salesFactory = DefaultSalesFactory()
+        }
+
+
     var body: some Scene {
         WindowGroup {
-            SalesView()
+            salesFactory.createSalesView()
         }
     }
 }

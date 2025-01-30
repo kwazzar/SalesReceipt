@@ -6,11 +6,28 @@
 //
 
 import SwiftUI
+
 struct BottomBar: View {
     @Binding var showingDailySales: Bool
     var clearAllAction: () -> Void
     var checkoutAction: () -> Void
     var isCheckoutDisabled: Bool
+
+    private let dailySalesFactory: DailySalesFactory
+
+    init(
+        showingDailySales: Binding<Bool>,
+        clearAllAction: @escaping () -> Void,
+        checkoutAction: @escaping () -> Void,
+        isCheckoutDisabled: Bool,
+        dailySalesFactory: DailySalesFactory
+    ) {
+        self._showingDailySales = showingDailySales
+        self.clearAllAction = clearAllAction
+        self.checkoutAction = checkoutAction
+        self.isCheckoutDisabled = isCheckoutDisabled
+        self.dailySalesFactory = dailySalesFactory
+    }
     
     var body: some View {
         VStack {
@@ -53,10 +70,11 @@ struct BottomBar: View {
                     get: { showingDailySales },
                     set: { showingDailySales = $0 }
                 )) {
-                    DailySalesView(viewModel: DailySalesViewModel(
-                        receiptManager: ReceiptManager(database: SalesDatabase.shared),
-                        statisticsService: StatisticsManager()
-                    ))
+                    dailySalesFactory.createDailySalesView()
+//                    DailySalesView(viewModel: DailySalesViewModel(
+//                        receiptManager: ReceiptManager(database: SalesDatabase.shared),
+//                        statisticsService: StatisticsManager()
+//                    ))
                 }
         }.buttonStyle(BounceButtonStyle())
     }
