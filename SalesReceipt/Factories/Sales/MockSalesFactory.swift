@@ -1,21 +1,16 @@
 //
-//  DefaultSalesFactory.swift
+//  MockSalesFactory.swift
 //  SalesReceipt
 //
-//  Created by Quasar on 29.01.2025.
+//  Created by Quasar on 03.02.2025.
 //
 
 import Foundation
 
-final class DefaultSalesFactory: SalesFactory {
-    private let database: SalesDatabaseProtocol
-
-    init(database: SalesDatabaseProtocol = SalesDatabase.shared) {
-        self.database = database
-    }
-
+final class MockSalesFactory: SalesFactory {
     func createSalesViewModel() -> SalesViewModel {
-        let receiptManager = ReceiptManager(database: database)
+        let mockDatabase = MockSalesDatabase()
+        let receiptManager = ReceiptManager(database: mockDatabase)
         let itemManager = ItemManager()
         return SalesViewModel(
             receiptManager: receiptManager,

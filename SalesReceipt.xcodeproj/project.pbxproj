@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E311C8FD2D50555300CCAC2A /* MockDailySalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E311C8FC2D50555300CCAC2A /* MockDailySalesFactory.swift */; };
+		E311C8FF2D50557E00CCAC2A /* MockSalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E311C8FE2D50557E00CCAC2A /* MockSalesFactory.swift */; };
 		E31AB4F22D0BB0F9004BD99A /* BottomStatisticsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31AB4F12D0BB0F9004BD99A /* BottomStatisticsSheet.swift */; };
 		E32A8CEE2CDC029D00B4E405 /* CustomerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A8CED2CDC029D00B4E405 /* CustomerCard.swift */; };
 		E3307DEE2D218E810044ECB1 /* ItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3307DED2D218E810044ECB1 /* ItemManager.swift */; };
@@ -59,7 +61,7 @@
 		E3D394BA2D37341200D943ED /* ItemAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394B92D37341200D943ED /* ItemAPI.swift */; };
 		E3D394BC2D37343C00D943ED /* PDFAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394BB2D37343C00D943ED /* PDFAPI.swift */; };
 		E3D394BE2D37346800D943ED /* StatisticsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D394BD2D37346800D943ED /* StatisticsAPI.swift */; };
-		E3DFA2112D0764BD00A7B17A /* SalesStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA2102D0764BD00A7B17A /* SalesStat.swift */; };
+		E3DFA2112D0764BD00A7B17A /* SalesStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA2102D0764BD00A7B17A /* SalesStatistics.swift */; };
 		E3DFA2132D07665400A7B17A /* StatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA2122D07665400A7B17A /* StatisticsManager.swift */; };
 		E3E089012CE38CC500DB0DF3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = E3E089002CE38CC500DB0DF3 /* PopupView */; };
 		E3E089032CE39A3400DB0DF3 /* DailySalesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */; };
@@ -73,6 +75,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E311C8FC2D50555300CCAC2A /* MockDailySalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailySalesFactory.swift; sourceTree = "<group>"; };
+		E311C8FE2D50557E00CCAC2A /* MockSalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSalesFactory.swift; sourceTree = "<group>"; };
 		E31AB4F12D0BB0F9004BD99A /* BottomStatisticsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomStatisticsSheet.swift; sourceTree = "<group>"; };
 		E32A8CED2CDC029D00B4E405 /* CustomerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCard.swift; sourceTree = "<group>"; };
 		E3307DED2D218E810044ECB1 /* ItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemManager.swift; sourceTree = "<group>"; };
@@ -125,7 +129,7 @@
 		E3D394B92D37341200D943ED /* ItemAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAPI.swift; sourceTree = "<group>"; };
 		E3D394BB2D37343C00D943ED /* PDFAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFAPI.swift; sourceTree = "<group>"; };
 		E3D394BD2D37346800D943ED /* StatisticsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAPI.swift; sourceTree = "<group>"; };
-		E3DFA2102D0764BD00A7B17A /* SalesStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesStat.swift; sourceTree = "<group>"; };
+		E3DFA2102D0764BD00A7B17A /* SalesStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesStatistics.swift; sourceTree = "<group>"; };
 		E3DFA2122D07665400A7B17A /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesViewModel.swift; sourceTree = "<group>"; };
 		E3E9077B2D46A4D4009F7439 /* CustomErrorAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorAlertView.swift; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 			children = (
 				E36DB9A42D4ACF620058E690 /* DailySalesFactory.swift */,
 				E36DB9A62D4ACF950058E690 /* DefaultDailySalesFactory.swift */,
+				E311C8FC2D50555300CCAC2A /* MockDailySalesFactory.swift */,
 			);
 			path = DailySales;
 			sourceTree = "<group>";
@@ -304,6 +309,7 @@
 			children = (
 				E3B6CAEC2D4AD7900034400E /* ReceiptDetailFactory.swift */,
 				E3B6CAEE2D4AD8000034400E /* DefaultReceiptDetailFactory.swift */,
+				E311C8FE2D50557E00CCAC2A /* MockSalesFactory.swift */,
 			);
 			path = Sales;
 			sourceTree = "<group>";
@@ -415,7 +421,7 @@
 			children = (
 				E3FE02622CD554BA00779E5B /* Item.swift */,
 				E3FE02642CD554FE00779E5B /* Receipt.swift */,
-				E3DFA2102D0764BD00A7B17A /* SalesStat.swift */,
+				E3DFA2102D0764BD00A7B17A /* SalesStatistics.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -537,6 +543,8 @@
 				E3B6CAEF2D4AD8000034400E /* DefaultReceiptDetailFactory.swift in Sources */,
 				E399FFBA2CE50EA200BE0F31 /* ReceiptDetailView.swift in Sources */,
 				E39B97C72D0B3A780095E384 /* MockReceipt.swift in Sources */,
+				E311C8FF2D50557E00CCAC2A /* MockSalesFactory.swift in Sources */,
+				E311C8FD2D50555300CCAC2A /* MockDailySalesFactory.swift in Sources */,
 				E3E089032CE39A3400DB0DF3 /* DailySalesViewModel.swift in Sources */,
 				E330C3222CD9329B001CA7A5 /* BottomBar.swift in Sources */,
 				E3BD976A2D3B0B7500CF2949 /* DeleteConfirmationPopup.swift in Sources */,
@@ -553,7 +561,7 @@
 				E3A11C972CFFB65900C0A55C /* CustomerNamePopup.swift in Sources */,
 				E35E58242D0CC76400F3F0E4 /* CustomTopRoundedShape.swift in Sources */,
 				E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */,
-				E3DFA2112D0764BD00A7B17A /* SalesStat.swift in Sources */,
+				E3DFA2112D0764BD00A7B17A /* SalesStatistics.swift in Sources */,
 				E3A11C9D2CFFB80A00C0A55C /* CustomDatePickerView.swift in Sources */,
 				E3D394BE2D37346800D943ED /* StatisticsAPI.swift in Sources */,
 				E34AFF4A2D087BE70032D9BF /* StatCard.swift in Sources */,

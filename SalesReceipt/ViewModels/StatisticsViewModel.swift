@@ -47,8 +47,7 @@ final class StatisticsViewModel: ObservableObject {
         self.receipts = receipts
         self.searchText = searchText
         self.topSalesLimit = topSalesLimit
-        
-        // Preload data immediately
+
         Task { @MainActor in
             await preloadStatistics()
         }
@@ -70,8 +69,7 @@ final class StatisticsViewModel: ObservableObject {
         calculationTask = Task { @MainActor in
             defer { isCalculating = false }
             guard !Task.isCancelled else { return }
-            
-            // Use existing values if available during calculation
+
             let currentTotalStats = self.totalSalesStats
             let currentDailySales = self.dailySalesStats
             let currentTopSales = self.topItemSales
@@ -89,13 +87,13 @@ final class StatisticsViewModel: ObservableObject {
             guard !Task.isCancelled else { return }
             
             if newStats != nil || currentTotalStats == nil {
-                self.totalSalesStats = newStats.map { TotalStats(total: $0.total, itemsSold: $0.itemsSold, averageCheck: $0.averageCheck) }
+                self.totalSalesStats = newStats.map { TotalStats(total: $0.total, itemsSold: $0.itemsSold, averageCheck: $0.averageCheck.amount) }
             }
-            if !newSales.isNil || currentDailySales.isEmpty {
-                self.dailySalesStats = newSales ?? currentDailySales
+            if let newSales = newSales {
+                self.dailySalesStats = newSales
             }
             if !newTop.isEmpty || currentTopSales.isEmpty {
-                self.topItemSales = newTop.map { TopItemStat(item: $0.item, count: $0.count) }
+                self.topItemSales = newTop.map { TopItemStat(item: $0.item, count: Quantity($0.count).value) }
             }
         }
     }
@@ -117,9 +115,9 @@ final class StatisticsViewModel: ObservableObject {
         let (stats, sales, top) = await (totalStats, dailySales, topSales)
         
         await MainActor.run {
-            self.totalSalesStats = stats.map { TotalStats(total: $0.total, itemsSold: $0.itemsSold, averageCheck: $0.averageCheck) }
+            self.totalSalesStats = stats.map { TotalStats(total: $0.total, itemsSold: $0.itemsSold, averageCheck: $0.averageCheck.amount) }
             self.dailySalesStats = sales ?? []
-            self.topItemSales = top.map { TopItemStat(item: $0.item, count: $0.count) }
+            self.topItemSales = top.map { TopItemStat(item: $0.item, count: Quantity($0.count).value) }
             self.isDataLoaded = true
         }
     }
@@ -154,13 +152,5 @@ extension StatisticsViewModel {
                 $0.description.value.lowercased().contains(searchText.lowercased())
             }
         }
-    }
-}
-
-// MARK: - Optional Extension
-#warning("знайти альтернативу цьому")
-extension Optional {
-    var isNil: Bool {
-        self == nil
     }
 }

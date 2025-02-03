@@ -27,7 +27,7 @@ struct TopSalesStatView: View {
                             Text(stat.item.description.value)
                                 .font(.subheadline)
                             Spacer()
-                            Text("\(stat.count) pcs.")
+                            Text(stat.quantity.formatted)
                                 .fontWeight(.bold)
                                 .foregroundColor(.secondary)
                         }

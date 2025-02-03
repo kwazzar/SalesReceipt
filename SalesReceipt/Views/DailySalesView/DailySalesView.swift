@@ -14,25 +14,11 @@ struct DailySalesView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
-                DailySalesHeader(
-                    title: "DailySales",
-                    onDismiss: { presentationMode.wrappedValue.dismiss() },
-                    onFilterToggle: viewModel.toggleFilters,
-                    onDeleteRequest: { viewModel.uiState.showDeletePopup = true }
-                )
+                header
                 if viewModel.uiState.areFiltersApplied {
-                    FiltersView(
-                        startDate: $viewModel.startDate,
-                        endDate: $viewModel.endDate,
-                        searchText: $viewModel.searchText,
-                        onDisappear: viewModel.handleFiltersDisappear
-                    )
+                    filtersView
                 }
-
-                ReceiptList(viewModel.visibleReceipts,
-                            onReceiptTap: viewModel.showReceiptDetail,
-                            onReceiptDelete: viewModel.deleteReceipt
-                )
+                receiptList
             }
             .configurePopup(isPresented: $viewModel.uiState.showDeletePopup,
                             content: { deletePopup })
@@ -47,6 +33,31 @@ struct DailySalesView: View {
 
 //MARK: - Extension
 extension DailySalesView {
+    private var header: some View {
+        DailySalesHeader(
+            title: "DailySales",
+            onDismiss: { presentationMode.wrappedValue.dismiss() },
+            onFilterToggle: viewModel.toggleFilters,
+            onDeleteRequest: { viewModel.uiState.showDeletePopup = true }
+        )
+    }
+
+    private var filtersView: some View {
+        FiltersView(
+            startDate: $viewModel.startDate,
+            endDate: $viewModel.endDate,
+            searchText: $viewModel.searchText,
+            onDisappear: viewModel.handleFiltersDisappear
+        )
+    }
+
+    private var receiptList: some View {
+        ReceiptList(viewModel.visibleReceipts,
+                    onReceiptTap: viewModel.showReceiptDetail,
+                    onReceiptDelete: viewModel.deleteReceipt
+        )
+    }
+
     private var deletePopup: some View {
         DeleteConfirmationPopup(
             isPresented: $viewModel.uiState.showDeletePopup,
@@ -76,6 +87,8 @@ extension DailySalesView {
 
 struct DailySalesView_Previews: PreviewProvider {
     static var previews: some View {
-        DailySalesView(viewModel: DailySalesViewModel(receiptManager: MockReceiptManager(), statisticsService: StatisticsManager()))
+
+        let dailySales = MockDailySalesFactory()
+        dailySales.createDailySalesView()
     }
 }
