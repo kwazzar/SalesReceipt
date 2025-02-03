@@ -9,9 +9,10 @@ import SwiftUI
 import Charts
 
 struct SalesChartView: View {
-    private let salesStats: [SalesStat]
+    private let salesStats: [DailySales]
+    @State private var showChart = false
 
-    init(_ salesStats: [SalesStat]) {
+    init(_ salesStats: [DailySales]) {
         self.salesStats = salesStats
     }
 
@@ -20,14 +21,28 @@ struct SalesChartView: View {
             chartTitle
 
             if !salesStats.isEmpty {
-                chartContent
-                monthLabels
+                if showChart {
+                    chartContent
+                    monthLabels
+                } else {
+                    ProgressView()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                withAnimation {
+                                    showChart = true
+                                }
+                            }
+                        }
+                }
             } else {
                 noDataView
             }
         }
     }
+}
 
+//MARK: - Extension
+extension SalesChartView {
     private var chartTitle: some View {
         Text("Sales Dynamics")
             .font(.headline)
@@ -131,8 +146,8 @@ struct SalesChartView: View {
 struct SalesChartView_Previews: PreviewProvider {
     static var previews: some View {
         SalesChartView([
-            SalesStat(date: Date().addingTimeInterval(-86400), totalAmount: 500.0, itemCount: 25),
-            SalesStat(date: Date(), totalAmount: 235.0, itemCount: 25)
+            DailySales(date: Date().addingTimeInterval(-86400), totalAmount: 500.0, itemCount: 25),
+            DailySales(date: Date(), totalAmount: 235.0, itemCount: 25)
         ])
     }
 }

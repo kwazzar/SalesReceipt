@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TopSalesStatView: View {
-    private let topItemSales: [(item: Item, count: Int)]
+    private let topItemSales: [TopItemStat]
 
-    init(_ topItemSales: [(item: Item, count: Int)]) {
+    init(_ topItemSales: [TopItemStat]) {
         self.topItemSales = topItemSales
     }
     
@@ -22,12 +22,12 @@ struct TopSalesStatView: View {
             
             if !topItemSales.isEmpty {
                 VStack(spacing: 10) {
-                    ForEach(topItemSales, id: \.item.id) { item, count in
+                    ForEach(topItemSales, id: \.item.id) { stat in
                         HStack {
-                            Text(item.description.value)
+                            Text(stat.item.description.value)
                                 .font(.subheadline)
                             Spacer()
-                            Text("\(count) pcs.")
+                            Text("\(stat.count) pcs.")
                                 .fontWeight(.bold)
                                 .foregroundColor(.secondary)
                         }
@@ -52,8 +52,15 @@ struct TopSalesStatView: View {
 
 struct TopSalesStatView_Previews: PreviewProvider {
     static var previews: some View {
-        let manager = StatisticsManager()
-        let topItemSales = manager.fetchTopItemSales(receipts: testReceipts)
-        return TopSalesStatView(topItemSales)
+
+        let topItemStats = [
+            TopItemStat(item: mockItems[0], count: 10),
+            TopItemStat(item: mockItems[1], count: 7),
+            TopItemStat(item: mockItems[2], count: 5)
+        ]
+
+        TopSalesStatView(topItemStats)
+            .previewLayout(.sizeThatFits)
+            .padding()
     }
 }

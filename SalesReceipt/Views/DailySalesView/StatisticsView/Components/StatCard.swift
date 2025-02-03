@@ -60,7 +60,7 @@ enum StatType: String, CaseIterable {
         }
     }
     
-    func value(from stats: (total: Double, itemsSold: Int, averageCheck: Double)) -> String {
+    func value(from stats: TotalStats) -> String {
         switch self {
         case .total:
             return String(format: "%.2f ₴", stats.total)

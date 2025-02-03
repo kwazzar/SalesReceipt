@@ -8,9 +8,9 @@
 import Foundation
 
 protocol StatisticsAPI {
-    func fetchTotalStats(receipts: [Receipt]) -> (total: Double, itemsSold: Int, averageCheck: Double)?
-    func fetchDailySales(receipts: [Receipt]) -> [SalesStat]?
-    func fetchTopItemSales(receipts: [Receipt], searchText: String?, limit: Int) -> [(item: Item, count: Int)]
+    func fetchTotalStats(receipts: [Receipt]) -> TotalStats?
+    func fetchDailySales(receipts: [Receipt]) -> [DailySales]?
+    func fetchTopItemSales(receipts: [Receipt], searchText: String?, limit: Int) -> [TopItemStat]
 }
 
 extension StatisticsAPI {

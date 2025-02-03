@@ -8,17 +8,17 @@
 import Foundation
 
 final class StatisticsManager: StatisticsAPI {
-    internal func fetchTotalStats(receipts: [Receipt]) -> (total: Double, itemsSold: Int, averageCheck: Double)? {
+    internal func fetchTotalStats(receipts: [Receipt]) -> TotalStats? {
         guard !receipts.isEmpty else { return nil }
         
         let totalAmount = receipts.reduce(0) { $0 + $1.total }
         let totalItems = calculateTotalItemCount(receipts)
         let averageCheck = totalAmount / Double(receipts.count)
         
-        return (totalAmount, totalItems, averageCheck)
+        return TotalStats(total: totalAmount, itemsSold: totalItems, averageCheck: averageCheck)
     }
     
-    internal func fetchDailySales(receipts: [Receipt]) -> [SalesStat]? {
+    internal func fetchDailySales(receipts: [Receipt]) -> [DailySales]? {
         guard !receipts.isEmpty else { return nil }
         
         let calendar = Calendar.current
@@ -32,13 +32,13 @@ final class StatisticsManager: StatisticsAPI {
                 total + receipt.items.reduce(0) { $0 + $1.quantity }
             }
             
-            return SalesStat(date: date, totalAmount: totalAmount, itemCount: itemCount)
+            return DailySales(date: date, totalAmount: totalAmount, itemCount: itemCount)
         }.sorted { $0.date < $1.date }
     }
     
     internal func fetchTopItemSales(receipts: [Receipt],
                                     searchText: String? = nil,
-                                    limit: Int = 5) -> [(item: Item, count: Int)] {
+                                    limit: Int = 5) -> [TopItemStat] {
         var filteredReceipts = receipts
         // Если есть текст поиска, фильтруем сначала рецепты
         if let searchText = searchText, !searchText.isEmpty {
@@ -68,13 +68,9 @@ final class StatisticsManager: StatisticsAPI {
             }
         }
         
-        let result = itemStats
+        return itemStats
             .sorted { $0.value > $1.value }
             .prefix(limit)
-            .map { (item: $0.key, count: $0.value) }
-        //        for (index, item) in result.enumerated() {
-        //            print("  \(index + 1). \(item.item.description.value): \(item.count)")
-        //        }
-        return result
+            .map { TopItemStat(item: $0.key, count: $0.value) }
     }
 }

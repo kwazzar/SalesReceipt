@@ -53,6 +53,7 @@ extension DailySalesView {
             onConfirm: viewModel.clearAllReceipts
         )
     }
+
     private var receiptDetailView: some View {
         Group {
             if let receipt = viewModel.selectedReceipt {
@@ -68,19 +69,10 @@ extension DailySalesView {
         }
     }
 
-    #warning("при першому піднятті statisticsView підлагує")
     private var statisticsView: some View {
-        StatisticsView(
-            bottomSheetState: $viewModel.uiState.currentState,
-            actionClosed: viewModel.closeStatistics,
-            isButtonVisible: viewModel.uiState.currentState != .closed,
-            receipts: viewModel.visibleReceipts,
-            searchText: viewModel.searchText,
-            statisticsService: viewModel.statisticsService
-        )
+        StatisticsView(viewModel: StatisticsViewModel(statisticsService: StatisticsManager(), receipts: viewModel.visibleReceipts), bottomSheetState: $viewModel.uiState.currentState, actionClosed: viewModel.closeStatistics, isButtonVisible: viewModel.uiState.currentState != .closed)
     }
 }
-
 
 struct DailySalesView_Previews: PreviewProvider {
     static var previews: some View {

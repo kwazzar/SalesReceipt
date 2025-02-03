@@ -13,59 +13,51 @@ struct StatisticsView: View {
     private let actionClosed: () -> Void
     private let isButtonVisible: Bool
 
-    init(
-        bottomSheetState: Binding<BottomSheetState>,
-        actionClosed: @escaping () -> Void,
-        isButtonVisible: Bool,
-        receipts: [Receipt],
-        searchText: String?,
-        statisticsService: StatisticsAPI
-    ) {
+    init(viewModel: StatisticsViewModel,
+         bottomSheetState: Binding<BottomSheetState>,
+         actionClosed: @escaping () -> Void,
+         isButtonVisible: Bool) {
+        self.viewModel = viewModel
         self._bottomSheetState = bottomSheetState
         self.actionClosed = actionClosed
         self.isButtonVisible = isButtonVisible
-        self._viewModel = ObservedObject(wrappedValue: StatisticsViewModel(
-            statisticsService: statisticsService,
-            receipts: receipts,
-            searchText: searchText
-        ))
     }
-
+    
     var body: some View {
         VStack(spacing: 0) {
-            // Header
             statisticsHeader
                 .background(Color(.systemBackground))
                 .zIndex(100)
-            // Content
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // Add spacing when filters are shown
-                        statisticsContent
-                        Spacer(minLength: 40)
+            
+            if !viewModel.isDataLoaded {
+                ProgressView()
+                    .frame(maxHeight: .infinity)
+            } else {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            statisticsContent
+                            Spacer(minLength: 40)
+                        }
+                        .padding(.vertical, 16)
+                        .id("top")
                     }
-                    .padding(.vertical, 16)
-                    .id("top")
-                }
-                .onChange(of: bottomSheetState) { newState in
-                    if newState == .closed {
-                        withAnimation {
-                            proxy.scrollTo("top", anchor: .top)
+                    .onChange(of: bottomSheetState) { newState in
+                        if newState == .closed {
+                            withAnimation {
+                                proxy.scrollTo("top", anchor: .top)
+                            }
                         }
                     }
                 }
+                .introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18)) { scroll in
+                    scroll.bounces = false
+                }
+                .scrollIndicators(.hidden)
             }
-            .introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18)) { scroll in
-                scroll.bounces = false
-            }
-            .scrollIndicators(.hidden)
         }
         .background(Color.white)
         .ignoresSafeArea(edges: .top)
-        .onAppear(perform: viewModel.calculateStatistics)
-        .onChange(of: viewModel.receipts) { _ in viewModel.calculateStatistics() }
-        .onChange(of: viewModel.searchText ?? "") { _ in viewModel.calculateStatistics() }
     }
 }
 
@@ -86,7 +78,8 @@ extension StatisticsView {
         }
         .padding(.bottom, 3)
     }
-    //MARK: - statisticsContent
+
+    //MARK: - Content
     private var statisticsContent: some View {
         VStack(spacing: 20) {
             if let totalStats = viewModel.totalSalesStats {
@@ -106,17 +99,40 @@ extension StatisticsView {
                     }
                     .padding(.horizontal)
                 }
+                .transition(.opacity)
             }
-            SalesChartView(viewModel.dailySalesStats)
-            TopSalesStatView(viewModel.topItemSales)
+
+            if !viewModel.dailySalesStats.isEmpty {
+                SalesChartView(viewModel.dailySalesStats)
+                    .transition(.opacity)
+            }
+
+            if !viewModel.topItemSales.isEmpty {
+                TopSalesStatView(viewModel.topItemSales)
+                    .transition(.opacity)
+            }
         }
+        .animation(.easeInOut, value: viewModel.totalSalesStats)
+        .animation(.easeInOut, value: viewModel.dailySalesStats)
+        .animation(.easeInOut, value: viewModel.topItemSales)
     }
 }
 
-struct Statistics: PreviewProvider {
+struct Statistics_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsView(bottomSheetState: .constant(.expanded), actionClosed: {
-            print("closed")
-        }, isButtonVisible: true, receipts: testReceipts, searchText: nil, statisticsService: StatisticsManager())
+
+        let viewModel = StatisticsViewModel(
+            statisticsService: StatisticsManager(),
+            receipts: testReceipts,
+            searchText: nil,
+            topSalesLimit: 5
+        )
+
+        StatisticsView(
+            viewModel: viewModel,
+            bottomSheetState: .constant(.expanded),
+            actionClosed: { print("closed") },
+            isButtonVisible: true
+        )
     }
 }
