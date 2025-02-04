@@ -107,9 +107,7 @@ struct ReceiptDetailView_Previews: PreviewProvider {
             items: mockItems
         )
         
-        ReceiptDetailView(viewModel: ReceiptDetailViewModel(
-            receipt: mockReceipt,
-            pdfManager: PDFManager(),
-            receiptManager: ReceiptManager(database: SalesDatabase.shared)))
+        let mockFactory = MockReceiptDetailFactory()
+        mockFactory.createReceiptDetailView(receipt: mockReceipt)
     }
 }

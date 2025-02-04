@@ -68,14 +68,9 @@ extension DailySalesView {
     private var receiptDetailView: some View {
         Group {
             if let receipt = viewModel.selectedReceipt {
-                ReceiptDetailView(
-                    viewModel: ReceiptDetailViewModel(
-                        receipt: receipt,
-                        pdfManager: PDFManager(),
-                        receiptManager: ReceiptManager(database: SalesDatabase.shared)
-                    )
-                )
-                .onDisappear { viewModel.uiState.isShowingReceiptDetail = false }
+                DefaultReceiptDetailFactory()
+                    .createReceiptDetailView(receipt: receipt)
+                    .onDisappear { viewModel.uiState.isShowingReceiptDetail = false }
             }
         }
     }
