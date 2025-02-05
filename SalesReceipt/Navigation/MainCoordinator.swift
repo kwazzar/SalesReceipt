@@ -9,6 +9,7 @@ import SwiftUI
 
 final class MainCoordinator: ObservableObject {
    @Published private(set) var navigationState: Route = .sales
+   @Published private var screenStack: [Route] = [.sales]
    private let factory: CoordinatorFactory
 
    init(factory: CoordinatorFactory) {
@@ -46,14 +47,22 @@ final class MainCoordinator: ObservableObject {
    }
 
    func showDailySales() {
+       screenStack.append(.dailySales)
        navigationState = .dailySales
    }
 
    func showReceiptDetail(receipt: Receipt) {
+       screenStack.append(.receiptDetail(receipt))
        navigationState = .receiptDetail(receipt)
    }
 
    func dismiss() {
+       screenStack.removeLast()
+       navigationState = screenStack.last ?? .sales
+   }
+
+   func popToRoot() {
+       screenStack = [.sales]
        navigationState = .sales
    }
 }

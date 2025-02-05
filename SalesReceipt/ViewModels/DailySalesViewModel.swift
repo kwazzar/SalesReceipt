@@ -12,9 +12,7 @@ import Combine
 struct DailySalesUIState: Equatable {
     var showDeletePopup: Bool = false
     var areFiltersApplied: Bool = false
-    var isShowingReceiptDetail: Bool = false
     var currentState: BottomSheetState = .closed
-    var selectedReceiptForAction: Receipt? = nil
 }
 
 final class DailySalesViewModel: ObservableObject {
@@ -73,26 +71,6 @@ final class DailySalesViewModel: ObservableObject {
     }
     
     // MARK: - Public Interface
-    var receiptDetailBinding: Binding<Bool> {
-        Binding(
-            get: { [weak self] in
-                guard let self = self else { return false }
-                return self.uiState.isShowingReceiptDetail
-            },
-            set: { [weak self] newValue in
-                self?.uiState.isShowingReceiptDetail = newValue
-                if !newValue {
-                    self?.selectedReceipt = nil
-                }
-            }
-        )
-    }
-    
-    func showReceiptDetail(_ receipt: Receipt) {
-        selectedReceipt = receipt
-        uiState.isShowingReceiptDetail = true
-    }
-    
     func closeStatistics() {
         withAnimation {
             uiState.currentState = .closed

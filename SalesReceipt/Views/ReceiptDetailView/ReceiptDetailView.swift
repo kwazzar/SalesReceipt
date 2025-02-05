@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ReceiptDetailView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject private var coordinator: MainCoordinator
     @StateObject var viewModel: ReceiptDetailViewModel
     
     var body: some View {
@@ -19,7 +19,7 @@ struct ReceiptDetailView: View {
                     viewModel.generatePDF()
                 }
             actionBack: {
-                presentationMode.wrappedValue.dismiss()
+                coordinator.dismiss()
             }
                 header
                 DetailSalesReceipt(viewModel.receipt)

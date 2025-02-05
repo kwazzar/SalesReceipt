@@ -18,13 +18,15 @@ struct DailySalesView: View {
                 if viewModel.uiState.areFiltersApplied {
                     filtersView
                 }
-                receiptList
+                ReceiptList(viewModel.visibleReceipts,
+                            onReceiptTap: { receipt in
+                    coordinator.showReceiptDetail(receipt: receipt)
+                },
+                            onReceiptDelete: viewModel.deleteReceipt
+                )
             }
             .configurePopup(isPresented: $viewModel.uiState.showDeletePopup,
                             content: { deletePopup })
-            .fullScreenCover(isPresented: viewModel.receiptDetailBinding,
-                             content: { receiptDetailView }
-            )
             BottomStatisticsSheet(state: $viewModel.uiState.currentState,
                                   content: { statisticsView })
         }
@@ -51,28 +53,11 @@ extension DailySalesView {
         )
     }
     
-    private var receiptList: some View {
-        ReceiptList(viewModel.visibleReceipts,
-                    onReceiptTap: viewModel.showReceiptDetail,
-                    onReceiptDelete: viewModel.deleteReceipt
-        )
-    }
-    
     private var deletePopup: some View {
         DeleteConfirmationPopup(
             isPresented: $viewModel.uiState.showDeletePopup,
             onConfirm: viewModel.clearAllReceipts
         )
-    }
-    
-    private var receiptDetailView: some View {
-        Group {
-            if let receipt = viewModel.selectedReceipt {
-                DefaultReceiptDetailFactory()
-                    .createReceiptDetailView(receipt: receipt)
-                    .onDisappear { viewModel.uiState.isShowingReceiptDetail = false }
-            }
-        }
     }
     
     private var statisticsView: some View {
