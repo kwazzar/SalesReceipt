@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SalesView: View {
+    @EnvironmentObject private var coordinator: MainCoordinator
     @StateObject var viewModel: SalesViewModel
     @StateObject var uiState: SalesUIState
     @StateObject var searchState: SearchState
@@ -87,11 +88,18 @@ extension SalesView {
     }
     
     private var bottomBar: some View {
-        BottomBar(showingDailySales: $uiState.showingDailySales,
+        BottomBar(showingDailySales: Binding(
+            get: { uiState.showingDailySales },
+            set: { newValue in
+                uiState.showingDailySales = newValue
+                if newValue {
+                    coordinator.showDailySales()
+                }
+            }
+        ),
                   clearAllAction: { viewModel.clearAll() },
                   checkoutAction: { viewModel.checkout() },
-                  isCheckoutDisabled: viewModel.currentItems.isEmpty,
-                  dailySalesFactory: DefaultDailySalesFactory()
+                  isCheckoutDisabled: viewModel.currentItems.isEmpty
         )
     }
 }

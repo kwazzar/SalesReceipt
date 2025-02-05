@@ -1,5 +1,5 @@
 //
-//  DailySalesBar.swift
+//  DailySalesHeader.swift
 //  SalesReceipt
 //
 //  Created by Quasar on 04.12.2024.
@@ -60,7 +60,7 @@ struct DailySalesHeader: View {
     }
 }
 
-//struct DailySalesBar_Previews: PreviewProvider {
+//struct DailySalesHeader_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DailySalesBar()
 //    }

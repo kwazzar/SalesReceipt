@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailySalesView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject private var coordinator: MainCoordinator
     @StateObject var viewModel: DailySalesViewModel
     
     var body: some View {
@@ -36,12 +36,12 @@ extension DailySalesView {
     private var header: some View {
         DailySalesHeader(
             title: "DailySales",
-            onDismiss: { presentationMode.wrappedValue.dismiss() },
+            onDismiss: { coordinator.dismiss() },
             onFilterToggle: viewModel.toggleFilters,
             onDeleteRequest: { viewModel.uiState.showDeletePopup = true }
         )
     }
-
+    
     private var filtersView: some View {
         FiltersView(
             startDate: $viewModel.startDate,
@@ -50,21 +50,21 @@ extension DailySalesView {
             onDisappear: viewModel.handleFiltersDisappear
         )
     }
-
+    
     private var receiptList: some View {
         ReceiptList(viewModel.visibleReceipts,
                     onReceiptTap: viewModel.showReceiptDetail,
                     onReceiptDelete: viewModel.deleteReceipt
         )
     }
-
+    
     private var deletePopup: some View {
         DeleteConfirmationPopup(
             isPresented: $viewModel.uiState.showDeletePopup,
             onConfirm: viewModel.clearAllReceipts
         )
     }
-
+    
     private var receiptDetailView: some View {
         Group {
             if let receipt = viewModel.selectedReceipt {
@@ -74,7 +74,7 @@ extension DailySalesView {
             }
         }
     }
-
+    
     private var statisticsView: some View {
         StatisticsView(viewModel: StatisticsViewModel(statisticsService: StatisticsManager(), receipts: viewModel.visibleReceipts), bottomSheetState: $viewModel.uiState.currentState, actionClosed: viewModel.closeStatistics, isButtonVisible: viewModel.uiState.currentState != .closed)
     }
@@ -82,7 +82,7 @@ extension DailySalesView {
 
 struct DailySalesView_Previews: PreviewProvider {
     static var previews: some View {
-
+        
         let dailySales = MockDailySalesFactory()
         dailySales.createDailySalesView()
     }

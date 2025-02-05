@@ -21,11 +21,15 @@
 		E34AFF502D089B1F0032D9BF /* SalesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */; };
 		E35656952D0F69FE00B7E78D /* MockReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */; };
 		E35787162D09E5C00088098E /* TopSalesStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35787152D09E5C00088098E /* TopSalesStatView.swift */; };
+		E35D3F522D53D29C003B3267 /* DefaultCoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35D3F512D53D29C003B3267 /* DefaultCoordinatorFactory.swift */; };
 		E35E58242D0CC76400F3F0E4 /* CustomTopRoundedShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35E58232D0CC76400F3F0E4 /* CustomTopRoundedShape.swift */; };
 		E35E58262D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */; };
 		E367B8A52D00D96800AC7B81 /* ReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367B8A42D00D96800AC7B81 /* ReceiptManager.swift */; };
 		E367B8A72D00E1CC00AC7B81 /* PDFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367B8A62D00E1CC00AC7B81 /* PDFManager.swift */; };
 		E36870C22D457DF700AC6CC7 /* Extension + CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36870C12D457DF700AC6CC7 /* Extension + CGRect.swift */; };
+		E369E3032D52CE580099C126 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3022D52CE580099C126 /* MainCoordinator.swift */; };
+		E369E3052D52CEBE0099C126 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3042D52CEBE0099C126 /* Route.swift */; };
+		E369E3072D52D1DE0099C126 /* CoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3062D52D1DE0099C126 /* CoordinatorFactory.swift */; };
 		E36DB9A52D4ACF620058E690 /* DailySalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36DB9A42D4ACF620058E690 /* DailySalesFactory.swift */; };
 		E36DB9A72D4ACF950058E690 /* DefaultDailySalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36DB9A62D4ACF950058E690 /* DefaultDailySalesFactory.swift */; };
 		E376E97C2CFB88390065892D /* ReceiptDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */; };
@@ -40,7 +44,7 @@
 		E39B97C92D0B3B0F0095E384 /* MockSalesDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B97C82D0B3B0F0095E384 /* MockSalesDatabase.swift */; };
 		E3A11C972CFFB65900C0A55C /* CustomerNamePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C962CFFB65900C0A55C /* CustomerNamePopup.swift */; };
 		E3A11C992CFFB75B00C0A55C /* ReceiptList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C982CFFB75B00C0A55C /* ReceiptList.swift */; };
-		E3A11C9B2CFFB7D000C0A55C /* DailySalesBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C9A2CFFB7D000C0A55C /* DailySalesBar.swift */; };
+		E3A11C9B2CFFB7D000C0A55C /* DailySalesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C9A2CFFB7D000C0A55C /* DailySalesHeader.swift */; };
 		E3A11C9D2CFFB80A00C0A55C /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C9C2CFFB80A00C0A55C /* CustomDatePickerView.swift */; };
 		E3A11C9F2CFFBF9C00C0A55C /* ReceiptDetailBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A11C9E2CFFBF9C00C0A55C /* ReceiptDetailBar.swift */; };
 		E3A2BD022CD5597700555B49 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A2BD012CD5597700555B49 /* CoreDataStack.swift */; };
@@ -92,11 +96,15 @@
 		E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesChartView.swift; sourceTree = "<group>"; };
 		E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReceiptManager.swift; sourceTree = "<group>"; };
 		E35787152D09E5C00088098E /* TopSalesStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSalesStatView.swift; sourceTree = "<group>"; };
+		E35D3F512D53D29C003B3267 /* DefaultCoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCoordinatorFactory.swift; sourceTree = "<group>"; };
 		E35E58232D0CC76400F3F0E4 /* CustomTopRoundedShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTopRoundedShape.swift; sourceTree = "<group>"; };
 		E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsClosedButton.swift; sourceTree = "<group>"; };
 		E367B8A42D00D96800AC7B81 /* ReceiptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptManager.swift; sourceTree = "<group>"; };
 		E367B8A62D00E1CC00AC7B81 /* PDFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFManager.swift; sourceTree = "<group>"; };
 		E36870C12D457DF700AC6CC7 /* Extension + CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + CGRect.swift"; sourceTree = "<group>"; };
+		E369E3022D52CE580099C126 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		E369E3042D52CEBE0099C126 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		E369E3062D52D1DE0099C126 /* CoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFactory.swift; sourceTree = "<group>"; };
 		E36DB9A42D4ACF620058E690 /* DailySalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesFactory.swift; sourceTree = "<group>"; };
 		E36DB9A62D4ACF950058E690 /* DefaultDailySalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDailySalesFactory.swift; sourceTree = "<group>"; };
 		E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailViewModel.swift; sourceTree = "<group>"; };
@@ -110,7 +118,7 @@
 		E39B97C82D0B3B0F0095E384 /* MockSalesDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSalesDatabase.swift; sourceTree = "<group>"; };
 		E3A11C962CFFB65900C0A55C /* CustomerNamePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerNamePopup.swift; sourceTree = "<group>"; };
 		E3A11C982CFFB75B00C0A55C /* ReceiptList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptList.swift; sourceTree = "<group>"; };
-		E3A11C9A2CFFB7D000C0A55C /* DailySalesBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesBar.swift; sourceTree = "<group>"; };
+		E3A11C9A2CFFB7D000C0A55C /* DailySalesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesHeader.swift; sourceTree = "<group>"; };
 		E3A11C9C2CFFB80A00C0A55C /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
 		E3A11C9E2CFFBF9C00C0A55C /* ReceiptDetailBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailBar.swift; sourceTree = "<group>"; };
 		E3A2BD012CD5597700555B49 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -191,6 +199,17 @@
 				E3DFA2122D07665400A7B17A /* StatisticsManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		E369E3012D52CD800099C126 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				E369E3062D52D1DE0099C126 /* CoordinatorFactory.swift */,
+				E35D3F512D53D29C003B3267 /* DefaultCoordinatorFactory.swift */,
+				E369E3022D52CE580099C126 /* MainCoordinator.swift */,
+				E369E3042D52CEBE0099C126 /* Route.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		E36DB9A32D4ACF330058E690 /* Factories */ = {
@@ -336,7 +355,7 @@
 			children = (
 				E32A8CED2CDC029D00B4E405 /* CustomerCard.swift */,
 				E3A11C982CFFB75B00C0A55C /* ReceiptList.swift */,
-				E3A11C9A2CFFB7D000C0A55C /* DailySalesBar.swift */,
+				E3A11C9A2CFFB7D000C0A55C /* DailySalesHeader.swift */,
 				E3A11C9C2CFFB80A00C0A55C /* CustomDatePickerView.swift */,
 				E3BD97652D3B081900CF2949 /* FiltersView.swift */,
 				E3BD976B2D3B10FF00CF2949 /* DateRangePicker.swift */,
@@ -407,6 +426,7 @@
 		E3FE02522CD5546300779E5B /* SalesReceipt */ = {
 			isa = PBXGroup;
 			children = (
+				E369E3012D52CD800099C126 /* Navigation */,
 				E36DB9A32D4ACF330058E690 /* Factories */,
 				E3D394B62D3733B400D943ED /* APIs */,
 				E367B8A32D00D94F00AC7B81 /* Managers */,
@@ -529,7 +549,7 @@
 				E36DB9A72D4ACF950058E690 /* DefaultDailySalesFactory.swift in Sources */,
 				E3A2BD022CD5597700555B49 /* CoreDataStack.swift in Sources */,
 				E3D394BA2D37341200D943ED /* ItemAPI.swift in Sources */,
-				E3A11C9B2CFFB7D000C0A55C /* DailySalesBar.swift in Sources */,
+				E3A11C9B2CFFB7D000C0A55C /* DailySalesHeader.swift in Sources */,
 				E34AFF502D089B1F0032D9BF /* SalesChartView.swift in Sources */,
 				E3DFA2132D07665400A7B17A /* StatisticsManager.swift in Sources */,
 				E3A2BD042CD559AD00555B49 /* SalesDatabase.swift in Sources */,
@@ -554,9 +574,11 @@
 				E35787162D09E5C00088098E /* TopSalesStatView.swift in Sources */,
 				E3D394BC2D37343C00D943ED /* PDFAPI.swift in Sources */,
 				E35656952D0F69FE00B7E78D /* MockReceiptManager.swift in Sources */,
+				E35D3F522D53D29C003B3267 /* DefaultCoordinatorFactory.swift in Sources */,
 				E3E9077C2D46A4D4009F7439 /* CustomErrorAlertView.swift in Sources */,
 				E39B91DD2D023B4100150545 /* MockItems.swift in Sources */,
 				E3A11C9F2CFFBF9C00C0A55C /* ReceiptDetailBar.swift in Sources */,
+				E369E3032D52CE580099C126 /* MainCoordinator.swift in Sources */,
 				E3B6CAEF2D4AD8000034400E /* DefaultSalesFactory.swift in Sources */,
 				E399FFBA2CE50EA200BE0F31 /* ReceiptDetailView.swift in Sources */,
 				E39B97C72D0B3A780095E384 /* MockReceipt.swift in Sources */,
@@ -577,9 +599,11 @@
 				E36DB9A52D4ACF620058E690 /* DailySalesFactory.swift in Sources */,
 				E3FE02632CD554BA00779E5B /* Item.swift in Sources */,
 				E376E97F2CFBA92D0065892D /* DetailSalesReceipt.swift in Sources */,
+				E369E3052D52CEBE0099C126 /* Route.swift in Sources */,
 				E35E58262D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift in Sources */,
 				E3A11C972CFFB65900C0A55C /* CustomerNamePopup.swift in Sources */,
 				E35E58242D0CC76400F3F0E4 /* CustomTopRoundedShape.swift in Sources */,
+				E369E3072D52D1DE0099C126 /* CoordinatorFactory.swift in Sources */,
 				E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */,
 				E3DFA2112D0764BD00A7B17A /* SalesStatistics.swift in Sources */,
 				E3A11C9D2CFFB80A00C0A55C /* CustomDatePickerView.swift in Sources */,

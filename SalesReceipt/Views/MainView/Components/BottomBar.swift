@@ -13,20 +13,16 @@ struct BottomBar: View {
     var checkoutAction: () -> Void
     var isCheckoutDisabled: Bool
 
-    private let dailySalesFactory: DailySalesFactory
-
     init(
         showingDailySales: Binding<Bool>,
         clearAllAction: @escaping () -> Void,
         checkoutAction: @escaping () -> Void,
-        isCheckoutDisabled: Bool,
-        dailySalesFactory: DailySalesFactory
+        isCheckoutDisabled: Bool
     ) {
         self._showingDailySales = showingDailySales
         self.clearAllAction = clearAllAction
         self.checkoutAction = checkoutAction
         self.isCheckoutDisabled = isCheckoutDisabled
-        self.dailySalesFactory = dailySalesFactory
     }
     
     var body: some View {
@@ -66,16 +62,6 @@ struct BottomBar: View {
                 .cornerRadius(8)
                 .innerStroke(cornerRadius: 8, lineWidth: 2, color: .black, inset: 4)
                 .padding(.horizontal, 20)
-                .fullScreenCover(isPresented: Binding(
-                    get: { showingDailySales },
-                    set: { showingDailySales = $0 }
-                )) {
-                    dailySalesFactory.createDailySalesView()
-//                    DailySalesView(viewModel: DailySalesViewModel(
-//                        receiptManager: ReceiptManager(database: SalesDatabase.shared),
-//                        statisticsService: StatisticsManager()
-//                    ))
-                }
         }.buttonStyle(BounceButtonStyle())
     }
 }

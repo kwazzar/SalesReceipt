@@ -9,16 +9,15 @@ import SwiftUI
 
 @main
 struct SalesReceiptApp: App {
-    private let salesFactory: SalesFactory
-
+    @StateObject private var coordinator: MainCoordinator
+    
     init() {
-            self.salesFactory = DefaultSalesFactory()
-        }
-
-
+        _coordinator = StateObject(wrappedValue: MainCoordinator(factory: DefaultCoordinatorFactory()))
+    }
+    
     var body: some Scene {
         WindowGroup {
-            salesFactory.createSalesView()
+            coordinator.view()
         }
     }
 }

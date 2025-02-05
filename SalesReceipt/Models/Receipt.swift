@@ -40,14 +40,19 @@ struct Receipt: Identifiable {
     }
 }
 
-extension Receipt: Equatable {
+extension Receipt: Equatable, Hashable {
     static func == (lhs: Receipt, rhs: Receipt) -> Bool {
         lhs.id == rhs.id 
+    }
+
+    func hash(into hasher: inout Hasher) {
+        // Додайте унікальні властивості для хешування
+        hasher.combine(id) // припустимо, що є id
     }
 }
 
 //MARK: - Customer
-enum CustomerType {
+enum CustomerType: Hashable {
     case anonymous
     case named(String)
 }
