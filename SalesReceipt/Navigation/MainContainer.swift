@@ -7,12 +7,13 @@
 
 import Foundation
 
-final class DefaultCoordinatorFactory: CoordinatorFactory {
+final class MainContainer: CoordinatorFactory {
+    static let shared = MainContainer()
+
     private let database: SalesDatabaseProtocol
     private lazy var receiptManager = ReceiptManager(database: database)
     private lazy var itemManager = ItemManager()
     private lazy var statisticsManager = StatisticsManager()
-    private lazy var pdfManager = PDFManager()
 
     init(database: SalesDatabaseProtocol = SalesDatabase.shared) {
         self.database = database
@@ -35,6 +36,8 @@ final class DefaultCoordinatorFactory: CoordinatorFactory {
     }
 
     func createReceiptDetailView(receipt: Receipt) -> ReceiptDetailView {
+        let pdfManager = PDFManager()
+
         let viewModel = ReceiptDetailViewModel(
             receipt: receipt,
             pdfManager: pdfManager,

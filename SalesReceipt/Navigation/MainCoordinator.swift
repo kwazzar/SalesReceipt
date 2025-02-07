@@ -10,10 +10,10 @@ import SwiftUI
 final class MainCoordinator: ObservableObject {
    @Published private(set) var navigationState: Route = .sales
    @Published private var screenStack: [Route] = [.sales]
-   private let factory: CoordinatorFactory
+   private let container: CoordinatorFactory
 
-   init(factory: CoordinatorFactory) {
-       self.factory = factory
+   init(container: CoordinatorFactory) {
+       self.container = container
    }
 
    @ViewBuilder
@@ -21,21 +21,21 @@ final class MainCoordinator: ObservableObject {
        ZStack {
            switch navigationState {
            case .sales:
-               factory.createSalesView()
+               container.createSalesView()
                    .environmentObject(self)
                    .transition(.asymmetric(
                        insertion: .move(edge: .leading).combined(with: .opacity),
                        removal: .move(edge: .leading).combined(with: .opacity)
                    ))
            case .dailySales:
-               factory.createDailySalesView()
+               container.createDailySalesView()
                    .environmentObject(self)
                    .transition(.asymmetric(
                        insertion: .move(edge: .trailing).combined(with: .opacity),
                        removal: .move(edge: .trailing).combined(with: .opacity)
                    ))
            case .receiptDetail(let receipt):
-               factory.createReceiptDetailView(receipt: receipt)
+               container.createReceiptDetailView(receipt: receipt)
                    .environmentObject(self)
                    .transition(.asymmetric(
                        insertion: .move(edge: .bottom).combined(with: .opacity),
