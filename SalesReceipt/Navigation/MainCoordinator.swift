@@ -24,26 +24,45 @@ final class MainCoordinator: ObservableObject {
                container.createSalesView()
                    .environmentObject(self)
                    .transition(.asymmetric(
-                       insertion: .move(edge: .leading).combined(with: .opacity),
-                       removal: .move(edge: .leading).combined(with: .opacity)
+                       insertion: .move(edge: .leading)
+                           .combined(with: .opacity)
+                           .animation(.easeInOut(duration: 0.4)),
+                       removal: .move(edge: .leading)
+                           .combined(with: .opacity)
+                           .animation(.easeInOut(duration: 0.4))
                    ))
            case .dailySales:
                container.createDailySalesView()
                    .environmentObject(self)
                    .transition(.asymmetric(
-                       insertion: .move(edge: .trailing).combined(with: .opacity),
-                       removal: .move(edge: .trailing).combined(with: .opacity)
+                       insertion: .move(edge: .trailing)
+                           .combined(with: .opacity)
+                           .animation(.easeInOut(duration: 0.4)),
+                       removal: .move(edge: .trailing)
+                           .combined(with: .opacity)
+                           .animation(.easeInOut(duration: 0.4))
                    ))
            case .receiptDetail(let receipt):
                container.createReceiptDetailView(receipt: receipt)
                    .environmentObject(self)
                    .transition(.asymmetric(
-                       insertion: .move(edge: .bottom).combined(with: .opacity),
-                       removal: .move(edge: .bottom).combined(with: .opacity)
+                       insertion: .move(edge: .bottom)
+                           .combined(with: .opacity)
+                           .animation(.easeInOut(duration: 0.4)),
+                       removal: .move(edge: .bottom)
+                           .combined(with: .opacity)
+                           .animation(.easeInOut(duration: 0.4))
                    ))
            }
        }
-       .animation(.spring(response: 0.3, dampingFraction: 0.8), value: navigationState)
+       .animation(
+           .spring(
+               response: 0.4,
+               dampingFraction: 0.85,
+               blendDuration: 0.3
+           ),
+           value: navigationState
+       )
    }
 
    func showDailySales() {
