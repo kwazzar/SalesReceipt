@@ -15,6 +15,7 @@ struct DailySalesUIState: Equatable {
     var currentState: BottomSheetState = .closed
 }
 
+#warning("viewModel is Overloaded")
 final class DailySalesViewModel: ObservableObject {
     @Published var uiState = DailySalesUIState()
     @Published var startDate: Date
@@ -22,6 +23,7 @@ final class DailySalesViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published private(set) var visibleReceipts: [Receipt] = []
     @Published var selectedReceipt: Receipt?
+    @Published private(set) var isLoadingMore = false
     
     private let receiptManager: ReceiptDatabaseAPI
     let statisticsService: StatisticsAPI
@@ -100,7 +102,31 @@ final class DailySalesViewModel: ObservableObject {
     
     // MARK: - Private Methods
     private func loadAllReceipts() {
-        allReceipts = (try? receiptManager.fetchAllReceipts()) ?? []
+        do {
+            // First load last 10 receipts
+            allReceipts = try receiptManager.fetchLastReceipts(limit: 10)
+            updateVisibleReceipts()
+            
+            // Then load all receipts asynchronously
+            isLoadingMore = true
+            Task {
+                do {
+                    let allLoadedReceipts = try await receiptManager.fetchAllReceipts()
+                    await MainActor.run {
+                        self.allReceipts = allLoadedReceipts
+                        self.updateVisibleReceipts()
+                        self.isLoadingMore = false
+                    }
+                } catch {
+                    print("Error loading all receipts: \(error)")
+                    await MainActor.run {
+                        self.isLoadingMore = false
+                    }
+                }
+            }
+        } catch {
+            print("Error loading initial receipts: \(error)")
+        }
     }
     
     private func updateVisibleReceipts() {

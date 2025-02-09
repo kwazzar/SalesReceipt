@@ -28,7 +28,13 @@ struct StatisticsView: View {
             statisticsHeader
                 .background(Color(.systemBackground))
                 .zIndex(100)
-            contentView
+            if !viewModel.isDataLoaded {
+                loadingView
+            } else if isDataEmpty {
+                noDataView
+            } else {
+                statisticsScrollView
+            }
         }
         .background(Color.white)
         .ignoresSafeArea(edges: .top)
@@ -36,18 +42,7 @@ struct StatisticsView: View {
 }
 
 // MARK: - Content Views
-private extension StatisticsView {
-    @ViewBuilder
-    var contentView: some View {
-        if !viewModel.isDataLoaded {
-            loadingView
-        } else if isDataEmpty {
-            noDataView
-        } else {
-            statisticsScrollView
-        }
-    }
-    
+private extension StatisticsView {    
     var statisticsHeader: some View {
         ZStack {
             Text("Statistics")

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 final class MockSalesDatabase: SalesDatabaseProtocol {
     var receipts: [Receipt] = testReceipts
 
@@ -13,8 +14,14 @@ final class MockSalesDatabase: SalesDatabaseProtocol {
         receipts.append(receipt)
     }
 
-    func fetchAllReceipts() throws -> [Receipt] {
-        return receipts
+    func fetchLastReceipts(limit: Int) throws -> [Receipt] {
+        return Array(receipts.sorted { $0.date > $1.date }.prefix(limit))
+    }
+
+    func fetchAllReceipts() async throws -> [Receipt] {
+        // Симулюємо асинхронну затримку для реалістичності
+        try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds delay
+        return receipts.sorted { $0.date > $1.date }
     }
 
     func clearAllReceipts() throws {
@@ -30,6 +37,9 @@ final class MockSalesDatabase: SalesDatabaseProtocol {
     }
 
     func deleteReceipt(_ receiptId: UUID) throws {
+        guard receipts.contains(where: { $0.id == receiptId }) else {
+            throw DatabaseError.deleteReceiptFailed(reason: .receiptNotFound)
+        }
         receipts.removeAll { $0.id == receiptId }
     }
 }

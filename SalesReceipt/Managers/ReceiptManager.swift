@@ -32,9 +32,17 @@ final class ReceiptManager: ReceiptDatabaseAPI {
     func fetchReceipt(by id: UUID) throws -> Receipt? {
         try fetchAllReceipts().first(where: { $0.id == id })
     }
-    #warning("асинхронно потрібно")
+
+    func fetchLastReceipts(limit: Int = 10) throws -> [Receipt] {
+        try database.fetchLastReceipts(limit: limit)
+    }
+
+    func fetchAllReceipts() async throws -> [Receipt] {
+        try await database.fetchAllReceipts()
+    }
+
     func fetchAllReceipts() throws -> [Receipt] {
-        try database.fetchAllReceipts()
+        try fetchLastReceipts(limit: 10)
     }
 
     func clearAllReceipts() throws {

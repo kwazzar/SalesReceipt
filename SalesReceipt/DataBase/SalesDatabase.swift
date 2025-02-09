@@ -9,7 +9,8 @@ import CoreData
 
 protocol SalesDatabaseProtocol {
     func saveReceiptToDatabase(_ receipt: Receipt)
-    func fetchAllReceipts() throws -> [Receipt]
+    func fetchLastReceipts(limit: Int) throws -> [Receipt]
+    func fetchAllReceipts() async throws -> [Receipt]
     func clearAllReceipts() throws
     func updatePdfPath(for receiptId: UUID, pdfPath: String) throws
     func deleteReceipt(_ receiptId: UUID) throws
@@ -42,8 +43,11 @@ final class SalesDatabase: SalesDatabaseProtocol {
         CoreDataStack.shared.saveContext()
     }
 
-    func fetchAllReceipts() throws -> [Receipt] {
+    func fetchLastReceipts(limit: Int) throws -> [Receipt] {
         let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
+        request.fetchLimit = limit
+        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        
         do {
             let results = try context.fetch(request)
             return results.map { mapReceipt(from: $0) }
@@ -52,29 +56,43 @@ final class SalesDatabase: SalesDatabaseProtocol {
         }
     }
 
-        func clearAllReceipts() throws {
-            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ReceiptEntity.fetchRequest()
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-            do {
-                try context.execute(deleteRequest)
-                CoreDataStack.shared.saveContext()
-            } catch {
-                throw DatabaseError.clearReceiptsFailed(underlyingError: error)
-            }
-        }
-
-        func updatePdfPath(for receiptId: UUID, pdfPath: String) throws {
+    func fetchAllReceipts() async throws -> [Receipt] {
+        return try await Task.detached(priority: .background) {
             let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
-            request.predicate = NSPredicate(format: "id == %@", receiptId as CVarArg)
-
-            guard let entity = try context.fetch(request).first else {
-                throw DatabaseError.updatePDFPathFailed(reason: .receiptNotFound)
+            request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+            
+            do {
+                let results = try self.context.fetch(request)
+                return results.map { self.mapReceipt(from: $0) }
+            } catch {
+                throw DatabaseError.fetchReceiptsFailed(underlyingError: error)
             }
+        }.value
+    }
 
-            entity.pdfPath = pdfPath
+    func clearAllReceipts() throws {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ReceiptEntity.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try context.execute(deleteRequest)
             CoreDataStack.shared.saveContext()
+        } catch {
+            throw DatabaseError.clearReceiptsFailed(underlyingError: error)
         }
+    }
+
+    func updatePdfPath(for receiptId: UUID, pdfPath: String) throws {
+        let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")
+        request.predicate = NSPredicate(format: "id == %@", receiptId as CVarArg)
+
+        guard let entity = try context.fetch(request).first else {
+            throw DatabaseError.updatePDFPathFailed(reason: .receiptNotFound)
+        }
+
+        entity.pdfPath = pdfPath
+        CoreDataStack.shared.saveContext()
+    }
 
     func deleteReceipt(_ receiptId: UUID) throws {
         let request = NSFetchRequest<ReceiptEntity>(entityName: "ReceiptEntity")

@@ -12,6 +12,8 @@ protocol ReceiptDatabaseAPI {
     func saveReceipt(customerName: CustomerName, items: [Item])
     func updatePDFPath(for receiptID: UUID, path: String) throws
     func fetchReceipt(by id: UUID) throws -> Receipt?
+    func fetchLastReceipts(limit: Int) throws -> [Receipt]
+    func fetchAllReceipts() async throws -> [Receipt]
     func fetchAllReceipts() throws -> [Receipt]
     func clearAllReceipts() throws
     func filterReceipts(startDate: Date, endDate: Date, searchText: String) -> [Receipt]

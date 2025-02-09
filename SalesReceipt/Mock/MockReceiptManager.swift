@@ -69,4 +69,14 @@ final class MockReceiptManager: ReceiptDatabaseAPI {
         }
         storedReceipts.remove(at: index)
     }
+
+    func fetchLastReceipts(limit: Int) throws -> [Receipt] {
+        Array(storedReceipts.sorted { $0.date > $1.date }.prefix(limit))
+    }
+    
+    func fetchAllReceipts() async throws -> [Receipt] {
+        // Симулюємо асинхронну затримку для реалістичності
+        try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds delay
+        return storedReceipts.sorted { $0.date > $1.date }
+    }
 }
