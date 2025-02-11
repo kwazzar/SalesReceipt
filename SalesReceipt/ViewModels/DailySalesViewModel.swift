@@ -15,7 +15,6 @@ struct DailySalesUIState: Equatable {
     var currentState: BottomSheetState = .closed
 }
 
-#warning("viewModel is Overloaded")
 final class DailySalesViewModel: ObservableObject {
     @Published var uiState = DailySalesUIState()
     @Published var startDate: Date
@@ -24,13 +23,13 @@ final class DailySalesViewModel: ObservableObject {
     @Published private(set) var visibleReceipts: [Receipt] = []
     @Published var selectedReceipt: Receipt?
     @Published private(set) var isLoadingMore = false
-    
+
     private let receiptManager: ReceiptDatabaseAPI
     let statisticsService: StatisticsAPI
     private var allReceipts: [Receipt] = []
     let bottomSheetHeight: CGFloat
     private var cancellables = Set<AnyCancellable>()
-    
+
     init(
         receiptManager: ReceiptDatabaseAPI,
         statisticsService: StatisticsAPI,
@@ -41,12 +40,12 @@ final class DailySalesViewModel: ObservableObject {
         self.bottomSheetHeight = screenHeight * 0.9
         self.startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
         self.endDate = Date()
-        
+
         setupPublishers()
         loadAllReceipts()
         updateVisibleReceipts()
     }
-    
+
     private func setupPublishers() {
         Publishers.CombineLatest3($startDate, $endDate, $searchText)
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
@@ -54,13 +53,13 @@ final class DailySalesViewModel: ObservableObject {
                 self?.updateVisibleReceipts()
             }
             .store(in: &cancellables)
-        
+
         $uiState
             .map(\.currentState)
             .debounce(for: .milliseconds(100), scheduler: DispatchQueue.main)
             .sink { [weak self] newState in
                 guard let self = self else { return }
-                
+
                 if newState == .expanded && self.uiState.areFiltersApplied {
                     DispatchQueue.main.async {
                         withAnimation {
@@ -71,14 +70,14 @@ final class DailySalesViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     // MARK: - Public Interface
     func closeStatistics() {
         withAnimation {
             uiState.currentState = .closed
         }
     }
-    
+
     // MARK: - Receipt Management
     func clearAllReceipts() {
         do {
@@ -89,7 +88,7 @@ final class DailySalesViewModel: ObservableObject {
             print("Error clearing receipts: \(error)")
         }
     }
-    
+
     func deleteReceipt(_ receipt: Receipt) {
         do {
             try receiptManager.deleteReceipt(receipt)
@@ -99,15 +98,13 @@ final class DailySalesViewModel: ObservableObject {
             print("Error deleting receipt: \(error)")
         }
     }
-    
+
     // MARK: - Private Methods
     private func loadAllReceipts() {
         do {
-            // First load last 10 receipts
             allReceipts = try receiptManager.fetchLastReceipts(limit: 10)
             updateVisibleReceipts()
-            
-            // Then load all receipts asynchronously
+
             isLoadingMore = true
             Task {
                 do {
@@ -128,7 +125,7 @@ final class DailySalesViewModel: ObservableObject {
             print("Error loading initial receipts: \(error)")
         }
     }
-    
+
     private func updateVisibleReceipts() {
         visibleReceipts = receiptManager.filter(
             receipts: allReceipts,
@@ -148,11 +145,11 @@ extension DailySalesViewModel {
             }
         }
     }
-    
+
     func toggleFilters() {
         withAnimation(.easeInOut(duration: 0.3)) {
             uiState.areFiltersApplied.toggle()
-            
+
             if uiState.areFiltersApplied && uiState.currentState == .expanded {
                 uiState.currentState = .withFilters
             } else if !uiState.areFiltersApplied && uiState.currentState == .withFilters {

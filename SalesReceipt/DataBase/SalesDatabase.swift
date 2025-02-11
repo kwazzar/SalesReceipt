@@ -115,7 +115,7 @@ final class SalesDatabase: SalesDatabaseProtocol {
 //MARK: - extension
 extension SalesDatabase {
     private func mapItems(from entity: ReceiptEntity) -> [Item] {
-        (entity.items as? Set<ItemEntity>)?.compactMap { itemEntity in
+       return (entity.items as? Set<ItemEntity>)?.compactMap { itemEntity in
             mapItemEntityToModel(itemEntity)
         } ?? []
     }
@@ -130,7 +130,8 @@ extension SalesDatabase {
     }
 
     private func mapItemEntityToModel(_ entity: ItemEntity) -> Item {
-        Item(
+//        print("Entity Price: \(entity.price)")
+        return Item(
             id: entity.id,
             description: Description(entity.desc),
             price: Price(entity.price),

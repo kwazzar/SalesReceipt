@@ -22,16 +22,33 @@ struct ReceiptList: View {
     
     var body: some View {
         ScrollView {
-            ForEach(receipts, id: \.id) { receipt in
-                CustomerCard(id: receipt.id,
-                             name: receipt.customerName.value,
-                             date: receipt.date,
-                             total: receipt.total,
-                             items: receipt.items.reduce(0) { $0 + $1.quantity },
-                             infoAction: { onReceiptTap(receipt) },
-                             deleteAction: { onReceiptDelete(receipt) })
-                .padding(.horizontal, 5)
-                .padding(.vertical, 5)
+            if receipts.isEmpty {
+                VStack {
+                    Spacer()
+                    Image(systemName: "doc.text")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.gray)
+                    Text("No receipt in recent days")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .padding()
+                    Spacer()
+                }
+                .frame(maxHeight: .infinity)
+            } else {
+                ForEach(receipts, id: \.id) { receipt in
+                    CustomerCard(id: receipt.id,
+                                 name: receipt.customerName.value,
+                                 date: receipt.date,
+                                 total: receipt.total,
+                                 items: receipt.items.reduce(0) { $0 + $1.quantity },
+                                 infoAction: { onReceiptTap(receipt) },
+                                 deleteAction: { onReceiptDelete(receipt) })
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 5)
+                }
             }
         }
         .introspect(.scrollView, on: .iOS(.v15), .iOS(.v16), .iOS(.v17), .iOS(.v18), customize: { scroll in
@@ -44,8 +61,8 @@ struct ReceiptList: View {
     }
 }
 
-//struct ReceiptList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ReceiptList()
-//    }
-//}
+struct ReceiptList_Previews: PreviewProvider {
+    static var previews: some View {
+        ReceiptList(testReceipts, onReceiptTap: {_ in  }, onReceiptDelete: {_ in })
+    }
+}
