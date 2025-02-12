@@ -31,7 +31,6 @@
 		E369E3052D52CEBE0099C126 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3042D52CEBE0099C126 /* Route.swift */; };
 		E369E3072D52D1DE0099C126 /* CoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3062D52D1DE0099C126 /* CoordinatorFactory.swift */; };
 		E36DB9A52D4ACF620058E690 /* DailySalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36DB9A42D4ACF620058E690 /* DailySalesFactory.swift */; };
-		E36DB9A72D4ACF950058E690 /* DefaultDailySalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36DB9A62D4ACF950058E690 /* DefaultDailySalesFactory.swift */; };
 		E376E97C2CFB88390065892D /* ReceiptDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */; };
 		E376E97F2CFBA92D0065892D /* DetailSalesReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */; };
 		E38A43822CDE436B007BEC2B /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A43812CDE436B007BEC2B /* ReceiptView.swift */; };
@@ -55,10 +54,8 @@
 		E3A892512D03A05D00574218 /* PDFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A892502D03A05D00574218 /* PDFError.swift */; };
 		E3A892532D03A0AD00574218 /* DatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A892522D03A0AD00574218 /* DatabaseError.swift */; };
 		E3AE5E122D52C76900B6623D /* ReceiptDetailFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE5E112D52C76900B6623D /* ReceiptDetailFactory.swift */; };
-		E3AE5E142D52C8ED00B6623D /* DefaultReceiptDetailFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE5E132D52C8ED00B6623D /* DefaultReceiptDetailFactory.swift */; };
 		E3AE5E162D52C91700B6623D /* MockReceiptDetailFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE5E152D52C91700B6623D /* MockReceiptDetailFactory.swift */; };
 		E3B6CAED2D4AD7900034400E /* SalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B6CAEC2D4AD7900034400E /* SalesFactory.swift */; };
-		E3B6CAEF2D4AD8000034400E /* DefaultSalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B6CAEE2D4AD8000034400E /* DefaultSalesFactory.swift */; };
 		E3BD97662D3B081900CF2949 /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BD97652D3B081900CF2949 /* FiltersView.swift */; };
 		E3BD976A2D3B0B7500CF2949 /* DeleteConfirmationPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BD97692D3B0B7500CF2949 /* DeleteConfirmationPopup.swift */; };
 		E3BD976C2D3B10FF00CF2949 /* DateRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BD976B2D3B10FF00CF2949 /* DateRangePicker.swift */; };
@@ -106,7 +103,6 @@
 		E369E3042D52CEBE0099C126 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		E369E3062D52D1DE0099C126 /* CoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFactory.swift; sourceTree = "<group>"; };
 		E36DB9A42D4ACF620058E690 /* DailySalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesFactory.swift; sourceTree = "<group>"; };
-		E36DB9A62D4ACF950058E690 /* DefaultDailySalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDailySalesFactory.swift; sourceTree = "<group>"; };
 		E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailViewModel.swift; sourceTree = "<group>"; };
 		E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSalesReceipt.swift; sourceTree = "<group>"; };
 		E38A43812CDE436B007BEC2B /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
@@ -129,10 +125,8 @@
 		E3A892502D03A05D00574218 /* PDFError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFError.swift; sourceTree = "<group>"; };
 		E3A892522D03A0AD00574218 /* DatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseError.swift; sourceTree = "<group>"; };
 		E3AE5E112D52C76900B6623D /* ReceiptDetailFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailFactory.swift; sourceTree = "<group>"; };
-		E3AE5E132D52C8ED00B6623D /* DefaultReceiptDetailFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReceiptDetailFactory.swift; sourceTree = "<group>"; };
 		E3AE5E152D52C91700B6623D /* MockReceiptDetailFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReceiptDetailFactory.swift; sourceTree = "<group>"; };
 		E3B6CAEC2D4AD7900034400E /* SalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesFactory.swift; sourceTree = "<group>"; };
-		E3B6CAEE2D4AD8000034400E /* DefaultSalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSalesFactory.swift; sourceTree = "<group>"; };
 		E3BD97652D3B081900CF2949 /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
 		E3BD97692D3B0B7500CF2949 /* DeleteConfirmationPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationPopup.swift; sourceTree = "<group>"; };
 		E3BD976B2D3B10FF00CF2949 /* DateRangePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangePicker.swift; sourceTree = "<group>"; };
@@ -226,7 +220,6 @@
 			isa = PBXGroup;
 			children = (
 				E36DB9A42D4ACF620058E690 /* DailySalesFactory.swift */,
-				E36DB9A62D4ACF950058E690 /* DefaultDailySalesFactory.swift */,
 				E311C8FC2D50555300CCAC2A /* MockDailySalesFactory.swift */,
 			);
 			path = DailySales;
@@ -294,6 +287,7 @@
 		E39B91DB2D023B1600150545 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
+				E36DB9A32D4ACF330058E690 /* Factories */,
 				E39B91DC2D023B4100150545 /* MockItems.swift */,
 				E39B97C62D0B3A780095E384 /* MockReceipt.swift */,
 				E39B97C82D0B3B0F0095E384 /* MockSalesDatabase.swift */,
@@ -334,7 +328,6 @@
 			isa = PBXGroup;
 			children = (
 				E3AE5E112D52C76900B6623D /* ReceiptDetailFactory.swift */,
-				E3AE5E132D52C8ED00B6623D /* DefaultReceiptDetailFactory.swift */,
 				E3AE5E152D52C91700B6623D /* MockReceiptDetailFactory.swift */,
 			);
 			path = ReceiptDetail;
@@ -344,7 +337,6 @@
 			isa = PBXGroup;
 			children = (
 				E3B6CAEC2D4AD7900034400E /* SalesFactory.swift */,
-				E3B6CAEE2D4AD8000034400E /* DefaultSalesFactory.swift */,
 				E311C8FE2D50557E00CCAC2A /* MockSalesFactory.swift */,
 			);
 			path = Sales;
@@ -427,7 +419,6 @@
 			isa = PBXGroup;
 			children = (
 				E369E3012D52CD800099C126 /* Navigation */,
-				E36DB9A32D4ACF330058E690 /* Factories */,
 				E3D394B62D3733B400D943ED /* APIs */,
 				E367B8A32D00D94F00AC7B81 /* Managers */,
 				E3A8924F2D03A03100574218 /* Errors */,
@@ -546,7 +537,6 @@
 				E3307DEE2D218E810044ECB1 /* ItemManager.swift in Sources */,
 				E3D394B82D3733D600D943ED /* ReceiptDatabaseAPI.swift in Sources */,
 				E3A2BD062CD5A2A000555B49 /* SalesViewModel.swift in Sources */,
-				E36DB9A72D4ACF950058E690 /* DefaultDailySalesFactory.swift in Sources */,
 				E3A2BD022CD5597700555B49 /* CoreDataStack.swift in Sources */,
 				E3D394BA2D37341200D943ED /* ItemAPI.swift in Sources */,
 				E3A11C9B2CFFB7D000C0A55C /* DailySalesHeader.swift in Sources */,
@@ -579,10 +569,8 @@
 				E39B91DD2D023B4100150545 /* MockItems.swift in Sources */,
 				E3A11C9F2CFFBF9C00C0A55C /* ReceiptDetailBar.swift in Sources */,
 				E369E3032D52CE580099C126 /* MainCoordinator.swift in Sources */,
-				E3B6CAEF2D4AD8000034400E /* DefaultSalesFactory.swift in Sources */,
 				E399FFBA2CE50EA200BE0F31 /* ReceiptDetailView.swift in Sources */,
 				E39B97C72D0B3A780095E384 /* MockReceipt.swift in Sources */,
-				E3AE5E142D52C8ED00B6623D /* DefaultReceiptDetailFactory.swift in Sources */,
 				E3AE5E162D52C91700B6623D /* MockReceiptDetailFactory.swift in Sources */,
 				E311C8FF2D50557E00CCAC2A /* MockSalesFactory.swift in Sources */,
 				E311C8FD2D50555300CCAC2A /* MockDailySalesFactory.swift in Sources */,

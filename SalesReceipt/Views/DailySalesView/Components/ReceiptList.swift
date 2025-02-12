@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ReceiptList: View {
-   private var receipts: [Receipt]
-   private var onReceiptTap: (Receipt) -> Void
-   private var onReceiptDelete: (Receipt) -> Void
+    private var receipts: [Receipt]
+    private var onReceiptTap: (Receipt) -> Void
+    private var onReceiptDelete: (Receipt) -> Void
     
     init(_ receipts: [Receipt],
          onReceiptTap: @escaping (Receipt) -> Void,
