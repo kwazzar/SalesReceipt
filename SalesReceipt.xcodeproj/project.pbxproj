@@ -19,6 +19,8 @@
 		E34AFF482D087BB10032D9BF /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AFF472D087BB10032D9BF /* StatisticsView.swift */; };
 		E34AFF4A2D087BE70032D9BF /* StatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AFF492D087BE70032D9BF /* StatCard.swift */; };
 		E34AFF502D089B1F0032D9BF /* SalesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */; };
+		E3558BDF2D5FA624009611BB /* SalesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3558BDE2D5FA624009611BB /* SalesViewModelTests.swift */; };
+		E3558BE12D5FA6B5009611BB /* MockItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3558BE02D5FA6B5009611BB /* MockItemManager.swift */; };
 		E35656952D0F69FE00B7E78D /* MockReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */; };
 		E35787162D09E5C00088098E /* TopSalesStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35787152D09E5C00088098E /* TopSalesStatView.swift */; };
 		E35D3F522D53D29C003B3267 /* MainContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35D3F512D53D29C003B3267 /* MainContainer.swift */; };
@@ -78,6 +80,16 @@
 		E3FE02652CD554FE00779E5B /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02642CD554FE00779E5B /* Receipt.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E3F66A6B2D5EA307003BF25B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3FE02482CD5546300779E5B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E3FE024F2CD5546300779E5B;
+			remoteInfo = SalesReceipt;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		E311C8FC2D50555300CCAC2A /* MockDailySalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailySalesFactory.swift; sourceTree = "<group>"; };
 		E311C8FE2D50557E00CCAC2A /* MockSalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSalesFactory.swift; sourceTree = "<group>"; };
@@ -91,6 +103,8 @@
 		E34AFF472D087BB10032D9BF /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		E34AFF492D087BE70032D9BF /* StatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCard.swift; sourceTree = "<group>"; };
 		E34AFF4F2D089B1F0032D9BF /* SalesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesChartView.swift; sourceTree = "<group>"; };
+		E3558BDE2D5FA624009611BB /* SalesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesViewModelTests.swift; sourceTree = "<group>"; };
+		E3558BE02D5FA6B5009611BB /* MockItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockItemManager.swift; sourceTree = "<group>"; };
 		E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReceiptManager.swift; sourceTree = "<group>"; };
 		E35787152D09E5C00088098E /* TopSalesStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSalesStatView.swift; sourceTree = "<group>"; };
 		E35D3F512D53D29C003B3267 /* MainContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainer.swift; sourceTree = "<group>"; };
@@ -141,6 +155,7 @@
 		E3DFA2122D07665400A7B17A /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesViewModel.swift; sourceTree = "<group>"; };
 		E3E9077B2D46A4D4009F7439 /* CustomErrorAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorAlertView.swift; sourceTree = "<group>"; };
+		E3F66A672D5EA307003BF25B /* SalesReceiptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesReceiptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FE02502CD5546300779E5B /* SalesReceipt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesReceipt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FE02532CD5546300779E5B /* SalesReceiptApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesReceiptApp.swift; sourceTree = "<group>"; };
 		E3FE02552CD5546300779E5B /* SalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesView.swift; sourceTree = "<group>"; };
@@ -151,6 +166,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E3F66A642D5EA307003BF25B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E3FE024D2CD5546300779E5B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -292,6 +314,7 @@
 				E39B97C62D0B3A780095E384 /* MockReceipt.swift */,
 				E39B97C82D0B3B0F0095E384 /* MockSalesDatabase.swift */,
 				E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */,
+				E3558BE02D5FA6B5009611BB /* MockItemManager.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -399,10 +422,19 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		E3F66A682D5EA307003BF25B /* SalesReceiptTests */ = {
+			isa = PBXGroup;
+			children = (
+				E3558BDE2D5FA624009611BB /* SalesViewModelTests.swift */,
+			);
+			path = SalesReceiptTests;
+			sourceTree = "<group>";
+		};
 		E3FE02472CD5546300779E5B = {
 			isa = PBXGroup;
 			children = (
 				E3FE02522CD5546300779E5B /* SalesReceipt */,
+				E3F66A682D5EA307003BF25B /* SalesReceiptTests */,
 				E3FE02512CD5546300779E5B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -411,6 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				E3FE02502CD5546300779E5B /* SalesReceipt.app */,
+				E3F66A672D5EA307003BF25B /* SalesReceiptTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -457,6 +490,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E3F66A662D5EA307003BF25B /* SalesReceiptTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3F66A6F2D5EA307003BF25B /* Build configuration list for PBXNativeTarget "SalesReceiptTests" */;
+			buildPhases = (
+				E3F66A632D5EA307003BF25B /* Sources */,
+				E3F66A642D5EA307003BF25B /* Frameworks */,
+				E3F66A652D5EA307003BF25B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E3F66A6C2D5EA307003BF25B /* PBXTargetDependency */,
+			);
+			name = SalesReceiptTests;
+			productName = SalesReceiptTests;
+			productReference = E3F66A672D5EA307003BF25B /* SalesReceiptTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		E3FE024F2CD5546300779E5B /* SalesReceipt */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E3FE025E2CD5546900779E5B /* Build configuration list for PBXNativeTarget "SalesReceipt" */;
@@ -488,6 +539,10 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					E3F66A662D5EA307003BF25B = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = E3FE024F2CD5546300779E5B;
+					};
 					E3FE024F2CD5546300779E5B = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -511,11 +566,19 @@
 			projectRoot = "";
 			targets = (
 				E3FE024F2CD5546300779E5B /* SalesReceipt */,
+				E3F66A662D5EA307003BF25B /* SalesReceiptTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E3F66A652D5EA307003BF25B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E3FE024E2CD5546300779E5B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -528,6 +591,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E3F66A632D5EA307003BF25B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3558BDF2D5FA624009611BB /* SalesViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E3FE024C2CD5546300779E5B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -566,6 +637,7 @@
 				E35656952D0F69FE00B7E78D /* MockReceiptManager.swift in Sources */,
 				E35D3F522D53D29C003B3267 /* MainContainer.swift in Sources */,
 				E3E9077C2D46A4D4009F7439 /* CustomErrorAlertView.swift in Sources */,
+				E3558BE12D5FA6B5009611BB /* MockItemManager.swift in Sources */,
 				E39B91DD2D023B4100150545 /* MockItems.swift in Sources */,
 				E3A11C9F2CFFBF9C00C0A55C /* ReceiptDetailBar.swift in Sources */,
 				E369E3032D52CE580099C126 /* MainCoordinator.swift in Sources */,
@@ -602,7 +674,59 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		E3F66A6C2D5EA307003BF25B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E3FE024F2CD5546300779E5B /* SalesReceipt */;
+			targetProxy = E3F66A6B2D5EA307003BF25B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		E3F66A6D2D5EA307003BF25B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6XK3NFM9Y7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = nazar.SalesReceiptTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesReceipt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SalesReceipt";
+			};
+			name = Debug;
+		};
+		E3F66A6E2D5EA307003BF25B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6XK3NFM9Y7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = nazar.SalesReceiptTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesReceipt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SalesReceipt";
+			};
+			name = Release;
+		};
 		E3FE025C2CD5546900779E5B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -780,6 +904,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E3F66A6F2D5EA307003BF25B /* Build configuration list for PBXNativeTarget "SalesReceiptTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3F66A6D2D5EA307003BF25B /* Debug */,
+				E3F66A6E2D5EA307003BF25B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E3FE024B2CD5546300779E5B /* Build configuration list for PBXProject "SalesReceipt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

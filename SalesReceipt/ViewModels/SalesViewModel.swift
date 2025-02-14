@@ -53,7 +53,7 @@ final class SalesViewModel: ObservableObject {
     
     func clearAll() {
         itemManager.clearAll()
-        customerName = CustomerName("")
+        customerName = CustomerName(nil)
         updateTotal()
     }
     
@@ -65,12 +65,14 @@ final class SalesViewModel: ObservableObject {
         uiState.isPopupVisible = true
     }
     
-    func finalizeCheckout(with name: CustomerName) {
-        if checkoutManager.finalizeCheckout(customerName: name) {
+    func finalizeCheckout(with name: CustomerName) -> Bool {
+        let success = checkoutManager.finalizeCheckout(customerName: name)
+        if success {
             customerName = CustomerName("")
             updateTotal()
             uiState.isPopupVisible = false
         }
+        return success 
     }
 }
 

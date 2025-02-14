@@ -74,12 +74,12 @@ extension SalesView {
                 
                 CustomerNamePopup(inputName: $viewModel.popupInputName,
                                   anonymousButton: {
-                    viewModel.finalizeCheckout(with: CustomerName(nil))
-                    viewModel.uiState.isPopupVisible = false
-                }, saveNameButton: {
-                    viewModel.finalizeCheckout(with: CustomerName(viewModel.popupInputName))
-                    viewModel.uiState.isPopupVisible = false
-                }, onBack: { viewModel.uiState.isPopupVisible = false
+                    _ = viewModel.finalizeCheckout(with: CustomerName(nil))
+                    viewModel.uiState.isPopupVisible = false },
+                                  saveNameButton: {
+                    _ = viewModel.finalizeCheckout(with: CustomerName(viewModel.popupInputName))
+                    viewModel.uiState.isPopupVisible = false },
+                                  onBack: { viewModel.uiState.isPopupVisible = false
                     viewModel.popupInputName = ""
                 })
                 .transition(.scale)

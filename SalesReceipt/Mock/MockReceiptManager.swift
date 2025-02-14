@@ -9,8 +9,8 @@ import Foundation
 
 final class MockReceiptManager: ReceiptDatabaseAPI {
 
-    var availableItems: [Item] = testItems1 + testItems2
-    private var storedReceipts: [Receipt] = testReceipts
+    var availableItems: [Item] = mockItems
+    var storedReceipts: [Receipt] = testReceipts
     
     func saveReceipt(customerName: CustomerName, items: [Item]) {
         let newReceipt = Receipt(
