@@ -287,9 +287,9 @@
 		E396E9F82CD6515400930B47 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E376E97D2CFBA9060065892D /* ReceiptDetailView */,
-				E38A43802CDE42CF007BEC2B /* DailySalesView */,
 				E38A437F2CDE4256007BEC2B /* MainView */,
+				E38A43802CDE42CF007BEC2B /* DailySalesView */,
+				E376E97D2CFBA9060065892D /* ReceiptDetailView */,
 				E38A437E2CDE422B007BEC2B /* Reusable */,
 			);
 			path = Views;
@@ -298,10 +298,10 @@
 		E396E9FB2CD6539D00930B47 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */,
 				E3A2BD052CD5A2A000555B49 /* SalesViewModel.swift */,
-				E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */,
+				E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */,
 				E3CB1A812D14557C00EE6286 /* StatisticsViewModel.swift */,
+				E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
