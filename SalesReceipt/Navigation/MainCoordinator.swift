@@ -23,36 +23,15 @@ final class MainCoordinator: ObservableObject {
            case .sales:
                container.createSalesView()
                    .environmentObject(self)
-                   .transition(.asymmetric(
-                       insertion: .move(edge: .leading)
-                           .combined(with: .opacity)
-                           .animation(.easeInOut(duration: 0.4)),
-                       removal: .move(edge: .leading)
-                           .combined(with: .opacity)
-                           .animation(.easeInOut(duration: 0.4))
-                   ))
+                   .customTransition(direction: .leading)
            case .dailySales:
                container.createDailySalesView()
                    .environmentObject(self)
-                   .transition(.asymmetric(
-                       insertion: .move(edge: .trailing)
-                           .combined(with: .opacity)
-                           .animation(.easeInOut(duration: 0.4)),
-                       removal: .move(edge: .trailing)
-                           .combined(with: .opacity)
-                           .animation(.easeInOut(duration: 0.4))
-                   ))
+                   .customTransition(direction: .trailing)
            case .receiptDetail(let receipt):
                container.createReceiptDetailView(receipt: receipt)
                    .environmentObject(self)
-                   .transition(.asymmetric(
-                       insertion: .move(edge: .bottom)
-                           .combined(with: .opacity)
-                           .animation(.easeInOut(duration: 0.4)),
-                       removal: .move(edge: .bottom)
-                           .combined(with: .opacity)
-                           .animation(.easeInOut(duration: 0.4))
-                   ))
+                   .customTransition(direction: .bottom)
            }
        }
        .animation(

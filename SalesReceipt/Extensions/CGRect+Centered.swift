@@ -1,5 +1,5 @@
 //
-//  Extension + CGRect.swift
+//  CGRect+Centered.swift
 //  SalesReceipt
 //
 //  Created by Quasar on 25.01.2025.
