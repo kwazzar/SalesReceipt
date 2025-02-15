@@ -17,24 +17,24 @@ final class StatisticsViewModel: ObservableObject {
     // MARK: - Input Properties
     @Published var receipts: [Receipt] {
         didSet {
-            if receipts != oldValue {
-                calculateStatistics()
-            }
+            handleInputChange()
         }
     }
 
     @Published var searchText: String? {
         didSet {
-            if searchText != oldValue {
-                calculateStatistics()
-            }
+            handleInputChange()
         }
     }
 
     // MARK: - Dependencies
     private let statisticsService: StatisticsAPI
     private let topSalesLimit: Int
+
+    // MARK: - Private State
     private var calculationTask: Task<Void, Never>?
+    private var isCalculating = false
+    private var previousFilteredReceipts: [Receipt] = []
 
     // MARK: - Initialization
     init(
@@ -49,96 +49,81 @@ final class StatisticsViewModel: ObservableObject {
         self.topSalesLimit = topSalesLimit
 
         Task { @MainActor in
-            await preloadStatistics()
+            loadStatistics()
         }
     }
 
+    deinit {
+        calculationTask?.cancel()
+    }
+
     // MARK: - Public Methods
-    private var isCalculating = false
-    private var previousFilteredReceipts: [Receipt] = []
-    
-    func calculateStatistics() {
+
+    /// Refreshes all statistics data
+    func refreshStatistics() {
+        loadStatistics()
+    }
+
+    // MARK: - Private Methods
+    private func handleInputChange() {
         guard !isCalculating else { return }
-        
+
         let newFilteredReceipts = filteredReceipts
         guard newFilteredReceipts != previousFilteredReceipts else { return }
+
         previousFilteredReceipts = newFilteredReceipts
-        
+        loadStatistics()
+    }
+
+    private func loadStatistics() {
+        guard !isCalculating else { return }
+
         isCalculating = true
         calculationTask?.cancel()
+
         calculationTask = Task { @MainActor in
             defer { isCalculating = false }
             guard !Task.isCancelled else { return }
 
-            let currentTotalStats = self.totalSalesStats
-            let currentDailySales = self.dailySalesStats
-            let currentTopSales = self.topItemSales
-            
-            async let totalStats = statisticsService.fetchTotalStats(receipts: newFilteredReceipts)
-            async let dailySales = statisticsService.fetchDailySales(receipts: newFilteredReceipts)
-            async let topSales = statisticsService.fetchTopItemSales(
+            let filteredReceipts = self.filteredReceipts
+
+            async let totalStatsTask = statisticsService.fetchTotalStats(receipts: filteredReceipts)
+            async let dailySalesTask = statisticsService.fetchDailySales(receipts: filteredReceipts)
+            async let topSalesTask = statisticsService.fetchTopItemSales(
                 receipts: receipts,
                 searchText: searchText,
                 limit: topSalesLimit
             )
-            
-            let (newStats, newSales, newTop) = await (totalStats, dailySales, topSales)
-            
+
+            let (newTotalStats, newDailySales, newTopSales) = await (totalStatsTask, dailySalesTask, topSalesTask)
+
             guard !Task.isCancelled else { return }
-            
-            if newStats != nil || currentTotalStats == nil {
-                self.totalSalesStats = newStats.map { TotalStats(total: $0.total, itemsSold: $0.itemsSold, averageCheck: $0.averageCheck.amount) }
+
+            // Update total stats if we have new data or don't have any current data
+            if let newStats = newTotalStats {
+                self.totalSalesStats = TotalStats(
+                    total: newStats.total,
+                    itemsSold: newStats.itemsSold,
+                    averageCheck: newStats.averageCheck.amount
+                )
             }
-            if let newSales = newSales {
+
+            // Always update daily sales when we get new data, even if it's nil
+            if let newSales = newDailySales {
                 self.dailySalesStats = newSales
             }
-            if !newTop.isEmpty || currentTopSales.isEmpty {
-                self.topItemSales = newTop.map { TopItemStat(item: $0.item, count: Quantity($0.count).value) }
+
+            // Update top sales if we have new data or don't have any current data
+            if !newTopSales.isEmpty || self.topItemSales.isEmpty {
+                self.topItemSales = newTopSales.map {
+                    TopItemStat(item: $0.item, count: Quantity($0.count).value)
+                }
+            }
+
+            if !self.isDataLoaded {
+                self.isDataLoaded = true
             }
         }
-    }
-
-    private func preloadStatistics() async {
-        guard !isCalculating else { return }
-        
-        isCalculating = true
-        defer { isCalculating = false }
-        
-        async let totalStats = statisticsService.fetchTotalStats(receipts: filteredReceipts)
-        async let dailySales = statisticsService.fetchDailySales(receipts: filteredReceipts)
-        async let topSales = statisticsService.fetchTopItemSales(
-            receipts: receipts,
-            searchText: searchText,
-            limit: topSalesLimit
-        )
-        
-        let (stats, sales, top) = await (totalStats, dailySales, topSales)
-        
-        await MainActor.run {
-            self.totalSalesStats = stats.map { TotalStats(total: $0.total, itemsSold: $0.itemsSold, averageCheck: $0.averageCheck.amount) }
-            self.dailySalesStats = sales ?? []
-            self.topItemSales = top.map { TopItemStat(item: $0.item, count: Quantity($0.count).value) }
-            self.isDataLoaded = true
-        }
-    }
-}
-
-// MARK: - Private Methods
-extension StatisticsViewModel {
-    private var calculatedTotalStats: TotalStats? {
-        statisticsService.fetchTotalStats(receipts: filteredReceipts)
-    }
-
-    private var calculatedDailySales: [DailySales] {
-        statisticsService.fetchDailySales(receipts: filteredReceipts) ?? []
-    }
-
-    private var calculatedTopSales: [TopItemStat] {
-        statisticsService.fetchTopItemSales(
-            receipts: receipts,
-            searchText: searchText,
-            limit: topSalesLimit
-        )
     }
 
     private var filteredReceipts: [Receipt] {

@@ -28,6 +28,8 @@
 		E35E58262D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */; };
 		E3661F672D61261400E76317 /* View+ConfigurePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3661F662D61261400E76317 /* View+ConfigurePopup.swift */; };
 		E3661F692D61269D00E76317 /* View+Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3661F682D61269D00E76317 /* View+Translation.swift */; };
+		E3661F6B2D612C2400E76317 /* StatisticsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3661F6A2D612C2400E76317 /* StatisticsViewModelTests.swift */; };
+		E3661F6D2D612C8C00E76317 /* MockStatisticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3661F6C2D612C8C00E76317 /* MockStatisticsService.swift */; };
 		E367B8A52D00D96800AC7B81 /* ReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367B8A42D00D96800AC7B81 /* ReceiptManager.swift */; };
 		E367B8A72D00E1CC00AC7B81 /* PDFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367B8A62D00E1CC00AC7B81 /* PDFManager.swift */; };
 		E36870C22D457DF700AC6CC7 /* CGRect+Centered.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36870C12D457DF700AC6CC7 /* CGRect+Centered.swift */; };
@@ -114,6 +116,8 @@
 		E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsClosedButton.swift; sourceTree = "<group>"; };
 		E3661F662D61261400E76317 /* View+ConfigurePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConfigurePopup.swift"; sourceTree = "<group>"; };
 		E3661F682D61269D00E76317 /* View+Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Translation.swift"; sourceTree = "<group>"; };
+		E3661F6A2D612C2400E76317 /* StatisticsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModelTests.swift; sourceTree = "<group>"; };
+		E3661F6C2D612C8C00E76317 /* MockStatisticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStatisticsService.swift; sourceTree = "<group>"; };
 		E367B8A42D00D96800AC7B81 /* ReceiptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptManager.swift; sourceTree = "<group>"; };
 		E367B8A62D00E1CC00AC7B81 /* PDFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFManager.swift; sourceTree = "<group>"; };
 		E36870C12D457DF700AC6CC7 /* CGRect+Centered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Centered.swift"; sourceTree = "<group>"; };
@@ -321,6 +325,7 @@
 				E39B97C82D0B3B0F0095E384 /* MockSalesDatabase.swift */,
 				E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */,
 				E3558BE02D5FA6B5009611BB /* MockItemManager.swift */,
+				E3661F6C2D612C8C00E76317 /* MockStatisticsService.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -431,6 +436,7 @@
 		E3F66A682D5EA307003BF25B /* SalesReceiptTests */ = {
 			isa = PBXGroup;
 			children = (
+				E3661F6A2D612C2400E76317 /* StatisticsViewModelTests.swift */,
 				E3558BDE2D5FA624009611BB /* SalesViewModelTests.swift */,
 			);
 			path = SalesReceiptTests;
@@ -602,6 +608,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3558BDF2D5FA624009611BB /* SalesViewModelTests.swift in Sources */,
+				E3661F6B2D612C2400E76317 /* StatisticsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -628,6 +635,7 @@
 				E330C3242CD99693001CA7A5 /* View+InnerStroke.swift in Sources */,
 				E3FE02652CD554FE00779E5B /* Receipt.swift in Sources */,
 				E3FE02562CD5546300779E5B /* SalesView.swift in Sources */,
+				E3661F6D2D612C8C00E76317 /* MockStatisticsService.swift in Sources */,
 				E330C31D2CD91B2C001CA7A5 /* SearchBar.swift in Sources */,
 				E34AFF482D087BB10032D9BF /* StatisticsView.swift in Sources */,
 				E3CB1A822D14557C00EE6286 /* StatisticsViewModel.swift in Sources */,
