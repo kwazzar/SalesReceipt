@@ -30,7 +30,7 @@ struct StatisticsView: View {
                 .zIndex(100)
             if !viewModel.isDataLoaded {
                 loadingView
-            } else if isDataEmpty {
+            } else if viewModel.isDataEmpty {
                 noDataView
             } else {
                 statisticsScrollView
@@ -38,9 +38,15 @@ struct StatisticsView: View {
         }
         .background(Color.white)
         .ignoresSafeArea(edges: .top)
+        .onChange(of: viewModel.isDataLoaded) { newValue in
+            if newValue {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    viewModel.isAnimating = true
+                }
+            }
+        }
     }
 }
-
 // MARK: - Content Views
 private extension StatisticsView {    
     var statisticsHeader: some View {
@@ -88,23 +94,39 @@ private extension StatisticsView {
                 .padding(.vertical, 16)
                 .id("top")
             }
-            .onChange(of: bottomSheetState) { handleBottomSheetStateChange($0, proxy: proxy) }
+            .onChange(of: bottomSheetState) {
+                viewModel.handleBottomSheetStateChange($0, proxy: proxy) }
             .introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18)) { scroll in
                 scroll.bounces = false
             }
             .scrollIndicators(.hidden)
         }
     }
-    
+
     var statisticsContent: some View {
         VStack(spacing: 20) {
             totalStatsSection
+                .transition(.asymmetric(
+                    insertion: .scale.combined(with: .opacity),
+                    removal: .opacity
+                ))
+
             dailySalesSection
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .scale.combined(with: .opacity)
+                ))
+
             topSalesSection
+                .transition(.asymmetric(
+                    insertion: .move(edge: .bottom).combined(with: .opacity),
+                    removal: .move(edge: .bottom).combined(with: .opacity)
+                ))
         }
-        .animation(.easeInOut, value: viewModel.totalSalesStats)
-        .animation(.easeInOut, value: viewModel.dailySalesStats)
-        .animation(.easeInOut, value: viewModel.topItemSales)
+        .opacity(viewModel.isAnimating ? 1 : 0)
+        .animation(.easeInOut(duration: 0.4).delay(0.1), value: viewModel.totalSalesStats)
+        .animation(.easeInOut(duration: 0.4).delay(0.2), value: viewModel.dailySalesStats)
+        .animation(.easeInOut(duration: 0.4).delay(0.3), value: viewModel.topItemSales)
     }
 }
 
@@ -150,23 +172,7 @@ private extension StatisticsView {
     }
 }
 
-// MARK: - Helper Methods
-private extension StatisticsView {
-    var isDataEmpty: Bool {
-        viewModel.totalSalesStats == nil &&
-        viewModel.dailySalesStats.isEmpty &&
-        viewModel.topItemSales.isEmpty
-    }
-    
-    func handleBottomSheetStateChange(_ newState: BottomSheetState, proxy: ScrollViewProxy) {
-        if newState == .closed {
-            withAnimation {
-                proxy.scrollTo("top", anchor: .top)
-            }
-        }
-    }
-}
-
+//MARK: - Previews
 struct Statistics_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = StatisticsViewModel(

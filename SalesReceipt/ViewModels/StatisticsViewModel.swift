@@ -7,12 +7,14 @@
 
 import SwiftUI
 
+#warning("потрібна більш плавна зміна результатів після зміни статистики UI")
 final class StatisticsViewModel: ObservableObject {
     // MARK: - Published Properties (Output)
     @Published private(set) var totalSalesStats: TotalStats?
     @Published private(set) var dailySalesStats: [DailySales] = []
     @Published private(set) var topItemSales: [TopItemStat] = []
-    @Published private(set) var isDataLoaded = false
+    @Published private(set) var isDataLoaded: Bool = false
+    @Published var isAnimating: Bool = false
 
     // MARK: - Input Properties
     @Published var receipts: [Receipt] {
@@ -87,6 +89,8 @@ final class StatisticsViewModel: ObservableObject {
 
             let filteredReceipts = self.filteredReceipts
 
+            try? await Task.sleep(nanoseconds: 100_000_000)
+
             async let totalStatsTask = statisticsService.fetchTotalStats(receipts: filteredReceipts)
             async let dailySalesTask = statisticsService.fetchDailySales(receipts: filteredReceipts)
             async let topSalesTask = statisticsService.fetchTopItemSales(
@@ -135,6 +139,23 @@ final class StatisticsViewModel: ObservableObject {
             receipt.customerName.value.lowercased().contains(searchText.lowercased()) ||
             receipt.items.contains {
                 $0.description.value.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
+}
+
+// MARK: - Helper Methods
+extension StatisticsViewModel {
+    var isDataEmpty: Bool {
+        totalSalesStats == nil &&
+        dailySalesStats.isEmpty &&
+        topItemSales.isEmpty
+    }
+
+    func handleBottomSheetStateChange(_ newState: BottomSheetState, proxy: ScrollViewProxy) {
+        if newState == .closed {
+            withAnimation {
+                proxy.scrollTo("top", anchor: .top)
             }
         }
     }
