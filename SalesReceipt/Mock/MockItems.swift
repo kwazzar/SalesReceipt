@@ -7,6 +7,8 @@
 
 import Foundation
 
+let mockItemOne: Item = Item(description: Description("T-Shirt"), price: Price(999.0), image: ImageItem("tshirt"))
+
 let mockItems: [Item] = [
     Item(description: Description("T-Shirt"), price: Price(999.0), image: ImageItem("tshirt")),
     Item(description: Description("Jeans"), price: Price(2999.0), image: ImageItem("jeans")),

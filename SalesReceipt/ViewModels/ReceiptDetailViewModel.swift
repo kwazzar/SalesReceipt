@@ -17,7 +17,7 @@ final class ReceiptDetailViewModel: ObservableObject {
     let receipt: Receipt
     private let pdfManager: PDFAPI
     private let receiptManager: ReceiptDatabaseAPI
-    private var lastAction: PDFAction?
+    var lastAction: PDFAction?
 
     init(receipt: Receipt, pdfManager: PDFAPI, receiptManager: ReceiptDatabaseAPI) {
         self.receipt = receipt

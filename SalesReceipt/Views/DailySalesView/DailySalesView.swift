@@ -20,7 +20,7 @@ struct DailySalesView: View {
                 }
                 ReceiptList(viewModel.visibleReceipts,
                             onReceiptTap: { receipt in
-                    coordinator.showReceiptDetail(receipt: receipt)
+                    coordinator.navigateTo(.receiptDetail(receipt))
                 },
                             onReceiptDelete: viewModel.deleteReceipt
                 )

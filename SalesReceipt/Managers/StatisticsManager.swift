@@ -18,7 +18,7 @@ final class StatisticsManager: StatisticsAPI {
         return TotalStats(total: totalAmount, itemsSold: totalItems, averageCheck: averageCheck)
     }
     
-    internal func fetchDailySales(receipts: [Receipt]) -> [DailySales]? {
+    internal func fetchDailySales(receipts: [Receipt]) -> [DailySalesStat]? {
         guard !receipts.isEmpty else { return nil }
         
         let calendar = Calendar.current
@@ -32,7 +32,7 @@ final class StatisticsManager: StatisticsAPI {
                 total + receipt.items.reduce(0) { $0 + $1.quantity }
             }
             
-            return DailySales(date: date, totalAmount: totalAmount, itemCount: itemCount)
+            return DailySalesStat(date: date, totalAmount: totalAmount, itemCount: itemCount)
         }.sorted { $0.date < $1.date }
     }
     

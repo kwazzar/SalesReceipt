@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-#warning("потрібна більш плавна зміна результатів після зміни статистики UI")
 final class StatisticsViewModel: ObservableObject {
     // MARK: - Published Properties (Output)
     @Published private(set) var totalSalesStats: TotalStats?
-    @Published private(set) var dailySalesStats: [DailySales] = []
+    @Published private(set) var dailySalesStats: [DailySalesStat] = []
     @Published private(set) var topItemSales: [TopItemStat] = []
     @Published private(set) var isDataLoaded: Bool = false
     @Published var isAnimating: Bool = false
@@ -102,6 +101,10 @@ final class StatisticsViewModel: ObservableObject {
             let (newTotalStats, newDailySales, newTopSales) = await (totalStatsTask, dailySalesTask, topSalesTask)
 
             guard !Task.isCancelled else { return }
+
+            print("Fetched total stats: \(String(describing: newTotalStats))")
+            print("Fetched daily sales: \(String(describing: newDailySales))")
+            print("Fetched top sales: \(newTopSales)")
 
             // Update total stats if we have new data or don't have any current data
             if let newStats = newTotalStats {

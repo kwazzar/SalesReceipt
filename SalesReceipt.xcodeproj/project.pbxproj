@@ -26,9 +26,10 @@
 		E35D3F522D53D29C003B3267 /* MainContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35D3F512D53D29C003B3267 /* MainContainer.swift */; };
 		E35E58242D0CC76400F3F0E4 /* CustomTopRoundedShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35E58232D0CC76400F3F0E4 /* CustomTopRoundedShape.swift */; };
 		E35E58262D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */; };
+		E3627F0C2D63E653002D2535 /* ReceiptDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3627F0B2D63E653002D2535 /* ReceiptDetailViewModelTests.swift */; };
+		E3627F0E2D63E840002D2535 /* MockPDFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3627F0D2D63E840002D2535 /* MockPDFManager.swift */; };
 		E3661F672D61261400E76317 /* View+ConfigurePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3661F662D61261400E76317 /* View+ConfigurePopup.swift */; };
 		E3661F692D61269D00E76317 /* View+Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3661F682D61269D00E76317 /* View+Translation.swift */; };
-		E3661F6B2D612C2400E76317 /* StatisticsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3661F6A2D612C2400E76317 /* StatisticsViewModelTests.swift */; };
 		E3661F6D2D612C8C00E76317 /* MockStatisticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3661F6C2D612C8C00E76317 /* MockStatisticsService.swift */; };
 		E367B8A52D00D96800AC7B81 /* ReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367B8A42D00D96800AC7B81 /* ReceiptManager.swift */; };
 		E367B8A72D00E1CC00AC7B81 /* PDFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E367B8A62D00E1CC00AC7B81 /* PDFManager.swift */; };
@@ -114,9 +115,10 @@
 		E35D3F512D53D29C003B3267 /* MainContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainer.swift; sourceTree = "<group>"; };
 		E35E58232D0CC76400F3F0E4 /* CustomTopRoundedShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTopRoundedShape.swift; sourceTree = "<group>"; };
 		E35E58252D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsClosedButton.swift; sourceTree = "<group>"; };
+		E3627F0B2D63E653002D2535 /* ReceiptDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailViewModelTests.swift; sourceTree = "<group>"; };
+		E3627F0D2D63E840002D2535 /* MockPDFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPDFManager.swift; sourceTree = "<group>"; };
 		E3661F662D61261400E76317 /* View+ConfigurePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConfigurePopup.swift"; sourceTree = "<group>"; };
 		E3661F682D61269D00E76317 /* View+Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Translation.swift"; sourceTree = "<group>"; };
-		E3661F6A2D612C2400E76317 /* StatisticsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModelTests.swift; sourceTree = "<group>"; };
 		E3661F6C2D612C8C00E76317 /* MockStatisticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStatisticsService.swift; sourceTree = "<group>"; };
 		E367B8A42D00D96800AC7B81 /* ReceiptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptManager.swift; sourceTree = "<group>"; };
 		E367B8A62D00E1CC00AC7B81 /* PDFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFManager.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				E35656942D0F69FE00B7E78D /* MockReceiptManager.swift */,
 				E3558BE02D5FA6B5009611BB /* MockItemManager.swift */,
 				E3661F6C2D612C8C00E76317 /* MockStatisticsService.swift */,
+				E3627F0D2D63E840002D2535 /* MockPDFManager.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -436,8 +439,8 @@
 		E3F66A682D5EA307003BF25B /* SalesReceiptTests */ = {
 			isa = PBXGroup;
 			children = (
-				E3661F6A2D612C2400E76317 /* StatisticsViewModelTests.swift */,
 				E3558BDE2D5FA624009611BB /* SalesViewModelTests.swift */,
+				E3627F0B2D63E653002D2535 /* ReceiptDetailViewModelTests.swift */,
 			);
 			path = SalesReceiptTests;
 			sourceTree = "<group>";
@@ -607,8 +610,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3627F0C2D63E653002D2535 /* ReceiptDetailViewModelTests.swift in Sources */,
 				E3558BDF2D5FA624009611BB /* SalesViewModelTests.swift in Sources */,
-				E3661F6B2D612C2400E76317 /* StatisticsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,6 +677,7 @@
 				E36DB9A52D4ACF620058E690 /* DailySalesFactory.swift in Sources */,
 				E3FE02632CD554BA00779E5B /* Item.swift in Sources */,
 				E376E97F2CFBA92D0065892D /* DetailSalesReceipt.swift in Sources */,
+				E3627F0E2D63E840002D2535 /* MockPDFManager.swift in Sources */,
 				E369E3052D52CEBE0099C126 /* Route.swift in Sources */,
 				E35E58262D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift in Sources */,
 				E3A11C972CFFB65900C0A55C /* CustomerNamePopup.swift in Sources */,

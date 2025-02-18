@@ -93,7 +93,7 @@ extension SalesView {
             set: { newValue in
                 uiState.showingDailySales = newValue
                 if newValue {
-                    coordinator.showDailySales()
+                    coordinator.navigateTo(.dailySales)
                 }
             }
         ),

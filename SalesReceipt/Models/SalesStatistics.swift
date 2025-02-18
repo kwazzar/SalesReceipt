@@ -7,8 +7,8 @@
 
 import Foundation
 
-// MARK: - Daily Sales
-struct DailySales: Identifiable, Equatable {
+// MARK: - DailySalesStat
+struct DailySalesStat: Identifiable, Equatable {
     let id = UUID()
     let date: Date
     let sales: Sales
