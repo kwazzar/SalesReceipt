@@ -16,7 +16,7 @@ struct DailySalesUIState: Equatable {
 }
 
 final class DailySalesViewModel: ObservableObject {
-    @Published var uiState = DailySalesUIState()
+    @Published var uiState: DailySalesUIState
     @Published var startDate: Date
     @Published var endDate: Date
     @Published var searchText: String = ""
@@ -40,6 +40,7 @@ final class DailySalesViewModel: ObservableObject {
         self.bottomSheetHeight = screenHeight * 0.9
         self.startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
         self.endDate = Date()
+        self.uiState = DailySalesUIState(showDeletePopup: false, areFiltersApplied: false, currentState: .closed)
 
         setupPublishers()
         loadAllReceipts()

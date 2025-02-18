@@ -36,7 +36,7 @@
 		E36870C22D457DF700AC6CC7 /* CGRect+Centered.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36870C12D457DF700AC6CC7 /* CGRect+Centered.swift */; };
 		E369E3032D52CE580099C126 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3022D52CE580099C126 /* MainCoordinator.swift */; };
 		E369E3052D52CEBE0099C126 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3042D52CEBE0099C126 /* Route.swift */; };
-		E369E3072D52D1DE0099C126 /* CoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3062D52D1DE0099C126 /* CoordinatorFactory.swift */; };
+		E369E3072D52D1DE0099C126 /* CoordinatorContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E369E3062D52D1DE0099C126 /* CoordinatorContainer.swift */; };
 		E36DB9A52D4ACF620058E690 /* DailySalesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36DB9A42D4ACF620058E690 /* DailySalesFactory.swift */; };
 		E376E97C2CFB88390065892D /* ReceiptDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */; };
 		E376E97F2CFBA92D0065892D /* DetailSalesReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */; };
@@ -76,6 +76,7 @@
 		E3DFA2132D07665400A7B17A /* StatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA2122D07665400A7B17A /* StatisticsManager.swift */; };
 		E3E089012CE38CC500DB0DF3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = E3E089002CE38CC500DB0DF3 /* PopupView */; };
 		E3E089032CE39A3400DB0DF3 /* DailySalesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */; };
+		E3E905DA2D64C7B20074F407 /* DailySalesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E905D92D64C7B20074F407 /* DailySalesViewModelTests.swift */; };
 		E3E9077C2D46A4D4009F7439 /* CustomErrorAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E9077B2D46A4D4009F7439 /* CustomErrorAlertView.swift */; };
 		E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02532CD5546300779E5B /* SalesReceiptApp.swift */; };
 		E3FE02562CD5546300779E5B /* SalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE02552CD5546300779E5B /* SalesView.swift */; };
@@ -125,7 +126,7 @@
 		E36870C12D457DF700AC6CC7 /* CGRect+Centered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Centered.swift"; sourceTree = "<group>"; };
 		E369E3022D52CE580099C126 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		E369E3042D52CEBE0099C126 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
-		E369E3062D52D1DE0099C126 /* CoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFactory.swift; sourceTree = "<group>"; };
+		E369E3062D52D1DE0099C126 /* CoordinatorContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorContainer.swift; sourceTree = "<group>"; };
 		E36DB9A42D4ACF620058E690 /* DailySalesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesFactory.swift; sourceTree = "<group>"; };
 		E376E97B2CFB88390065892D /* ReceiptDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailViewModel.swift; sourceTree = "<group>"; };
 		E376E97E2CFBA92D0065892D /* DetailSalesReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSalesReceipt.swift; sourceTree = "<group>"; };
@@ -164,6 +165,7 @@
 		E3DFA2102D0764BD00A7B17A /* SalesStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesStatistics.swift; sourceTree = "<group>"; };
 		E3DFA2122D07665400A7B17A /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		E3E089022CE39A3400DB0DF3 /* DailySalesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesViewModel.swift; sourceTree = "<group>"; };
+		E3E905D92D64C7B20074F407 /* DailySalesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySalesViewModelTests.swift; sourceTree = "<group>"; };
 		E3E9077B2D46A4D4009F7439 /* CustomErrorAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorAlertView.swift; sourceTree = "<group>"; };
 		E3F66A672D5EA307003BF25B /* SalesReceiptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesReceiptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FE02502CD5546300779E5B /* SalesReceipt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesReceipt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,7 +234,7 @@
 		E369E3012D52CD800099C126 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				E369E3062D52D1DE0099C126 /* CoordinatorFactory.swift */,
+				E369E3062D52D1DE0099C126 /* CoordinatorContainer.swift */,
 				E35D3F512D53D29C003B3267 /* MainContainer.swift */,
 				E369E3022D52CE580099C126 /* MainCoordinator.swift */,
 				E369E3042D52CEBE0099C126 /* Route.swift */,
@@ -440,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				E3558BDE2D5FA624009611BB /* SalesViewModelTests.swift */,
+				E3E905D92D64C7B20074F407 /* DailySalesViewModelTests.swift */,
 				E3627F0B2D63E653002D2535 /* ReceiptDetailViewModelTests.swift */,
 			);
 			path = SalesReceiptTests;
@@ -610,6 +613,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3E905DA2D64C7B20074F407 /* DailySalesViewModelTests.swift in Sources */,
 				E3627F0C2D63E653002D2535 /* ReceiptDetailViewModelTests.swift in Sources */,
 				E3558BDF2D5FA624009611BB /* SalesViewModelTests.swift in Sources */,
 			);
@@ -682,7 +686,7 @@
 				E35E58262D0CD3CA00F3F0E4 /* StatisticsClosedButton.swift in Sources */,
 				E3A11C972CFFB65900C0A55C /* CustomerNamePopup.swift in Sources */,
 				E35E58242D0CC76400F3F0E4 /* CustomTopRoundedShape.swift in Sources */,
-				E369E3072D52D1DE0099C126 /* CoordinatorFactory.swift in Sources */,
+				E369E3072D52D1DE0099C126 /* CoordinatorContainer.swift in Sources */,
 				E3FE02542CD5546300779E5B /* SalesReceiptApp.swift in Sources */,
 				E3DFA2112D0764BD00A7B17A /* SalesStatistics.swift in Sources */,
 				E3A11C9D2CFFB80A00C0A55C /* CustomDatePickerView.swift in Sources */,

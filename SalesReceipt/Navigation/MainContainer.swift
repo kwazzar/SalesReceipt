@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class MainContainer: CoordinatorFactory {
+final class MainContainer: CoordinatorContainer {
     static let shared = MainContainer()
 
     private let database: SalesDatabaseProtocol

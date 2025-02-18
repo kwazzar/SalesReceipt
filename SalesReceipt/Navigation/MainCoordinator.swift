@@ -10,9 +10,9 @@ import SwiftUI
 final class MainCoordinator: ObservableObject {
     @Published private(set) var navigationState: Route = .sales
     @Published private var screenStack: [Route] = [.sales]
-    private let container: CoordinatorFactory
+    private let container: CoordinatorContainer
 
-    init(container: CoordinatorFactory) {
+    init(container: CoordinatorContainer) {
         self.container = container
     }
 
