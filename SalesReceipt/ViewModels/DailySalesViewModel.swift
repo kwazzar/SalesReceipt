@@ -28,8 +28,10 @@ final class DailySalesViewModel: ObservableObject {
     let statisticsService: StatisticsAPI
     private var allReceipts: [Receipt] = []
     let bottomSheetHeight: CGFloat
+    private var loadingTask: Task<Void, Never>?
     private var cancellables = Set<AnyCancellable>()
 
+    //MARK: - initialization
     init(
         receiptManager: ReceiptDatabaseAPI,
         statisticsService: StatisticsAPI,
@@ -43,10 +45,17 @@ final class DailySalesViewModel: ObservableObject {
         self.uiState = DailySalesUIState(showDeletePopup: false, areFiltersApplied: false, currentState: .closed)
 
         setupPublishers()
-        loadAllReceipts()
+        loadingTask = Task {
+          await loadAllReceipts()
+        }
         updateVisibleReceipts()
     }
 
+    deinit {
+        loadingTask?.cancel()
+    }
+
+//MARK: - Publishers
     private func setupPublishers() {
         Publishers.CombineLatest3($startDate, $endDate, $searchText)
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
@@ -101,39 +110,37 @@ final class DailySalesViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
-    private func loadAllReceipts() {
+    private func loadAllReceipts() async {
         do {
             allReceipts = try receiptManager.fetchLastReceipts(limit: 10)
-            updateVisibleReceipts()
+            await MainActor.run {
+                self.updateVisibleReceipts()
+                self.isLoadingMore = true
+            }
 
-            isLoadingMore = true
-            Task {
-                do {
-                    let allLoadedReceipts = try await receiptManager.fetchAllReceipts()
-                    await MainActor.run {
-                        self.allReceipts = allLoadedReceipts
-                        self.updateVisibleReceipts()
-                        self.isLoadingMore = false
-                    }
-                } catch {
-                    print("Error loading all receipts: \(error)")
-                    await MainActor.run {
-                        self.isLoadingMore = false
-                    }
-                }
+            let allLoadedReceipts = try await receiptManager.fetchAllReceipts()
+            await MainActor.run {
+                self.allReceipts = allLoadedReceipts
+                self.updateVisibleReceipts()
+                self.isLoadingMore = false
             }
         } catch {
-            print("Error loading initial receipts: \(error)")
+            print("Error loading all receipts: \(error)")
+            await MainActor.run {
+                self.isLoadingMore = false
+            }
         }
     }
 
     private func updateVisibleReceipts() {
-        visibleReceipts = receiptManager.filter(
-            receipts: allReceipts,
-            startDate: startDate,
-            endDate: endDate,
-            searchText: searchText
-        )
+        DispatchQueue.main.async { [unowned self] in
+            self.visibleReceipts = self.receiptManager.filter(
+                receipts: self.allReceipts,
+                startDate: self.startDate,
+                endDate: self.endDate,
+                searchText: self.searchText
+            )
+        }
     }
 }
 
