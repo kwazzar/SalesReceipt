@@ -10,10 +10,19 @@ import SwiftUI
 final class MainCoordinator: ObservableObject {
     @Published private(set) var navigationState: Route = .sales
     @Published private var screenStack: [Route] = [.sales]
-    private let container: CoordinatorContainer
 
-    init(container: CoordinatorContainer) {
-        self.container = container
+    let makeSalesView: () -> SalesView
+    let makeDailySalesView: () -> DailySalesView
+    let makeReceiptDetailView: (Receipt) -> ReceiptDetailView
+
+    init(
+        makeSalesView: @escaping () -> SalesView,
+        makeDailySalesView: @escaping () -> DailySalesView,
+        makeReceiptDetailView: @escaping (Receipt) -> ReceiptDetailView
+    ) {
+        self.makeSalesView = makeSalesView
+        self.makeDailySalesView = makeDailySalesView
+        self.makeReceiptDetailView = makeReceiptDetailView
     }
 
     @ViewBuilder
@@ -21,25 +30,21 @@ final class MainCoordinator: ObservableObject {
         ZStack {
             switch navigationState {
             case .sales:
-                container.createSalesView()
+                makeSalesView()
                     .environmentObject(self)
                     .customTransition(direction: .leading)
             case .dailySales:
-                container.createDailySalesView()
+                makeDailySalesView()
                     .environmentObject(self)
                     .customTransition(direction: .trailing)
             case .receiptDetail(let receipt):
-                container.createReceiptDetailView(receipt: receipt)
+                makeReceiptDetailView(receipt)
                     .environmentObject(self)
                     .customTransition(direction: .bottom)
             }
         }
         .animation(
-            .spring(
-                response: 0.4,
-                dampingFraction: 0.85,
-                blendDuration: 0.3
-            ),
+            .spring(response: 0.4, dampingFraction: 0.85, blendDuration: 0.3),
             value: navigationState
         )
     }
@@ -48,7 +53,7 @@ final class MainCoordinator: ObservableObject {
         screenStack.append(route)
         navigationState = route
     }
-    
+
     func dismiss() {
         screenStack.removeLast()
         navigationState = screenStack.last ?? .sales

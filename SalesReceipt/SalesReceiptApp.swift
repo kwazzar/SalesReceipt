@@ -10,11 +10,19 @@ import SwiftUI
 @main
 struct SalesReceiptApp: App {
     @StateObject private var coordinator: MainCoordinator
-    
+
     init() {
-        _coordinator = StateObject(wrappedValue: MainCoordinator(container: MainContainer.shared))
+        let container = MainContainer.shared
+
+        _coordinator = StateObject(wrappedValue: MainCoordinator(
+            makeSalesView: { container.createSalesView() },
+            makeDailySalesView: { container.createDailySalesView() },
+            makeReceiptDetailView: { receipt in
+                container.createReceiptDetailView(receipt: receipt)
+            }
+        ))
     }
-    
+
     var body: some Scene {
         WindowGroup {
             coordinator.view()
