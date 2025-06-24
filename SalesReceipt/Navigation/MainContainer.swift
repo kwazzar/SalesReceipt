@@ -11,12 +11,23 @@ final class MainContainer: CoordinatorContainer {
     static let shared = MainContainer()
 
     private let database: SalesDatabaseProtocol
-    private lazy var receiptManager = ReceiptManager(database: database)
+    private let receiptManager: ReceiptManager
     private lazy var itemManager = ItemManager()
     private lazy var statisticsManager = StatisticsManager()
 
-    init(database: SalesDatabaseProtocol = SalesDatabase.shared) {
-        self.database = database
+    private init() {
+
+        func makeDatabase() -> SalesDatabaseProtocol {
+            return SalesDatabase.shared
+        }
+
+        func makeReceiptManager(database: SalesDatabaseProtocol) -> ReceiptManager {
+            return ReceiptManager(database: database)
+        }
+
+        let db = makeDatabase()
+        self.database = db
+        self.receiptManager = makeReceiptManager(database: db)
     }
 
     func createSalesView() -> SalesView {
